@@ -1,0 +1,50 @@
+.table-dashboard-utm tr td a{
+    color: white !important;
+}
+
+.table-dashboard-utm tr td a div h2:hover {
+    color: #ed5565;
+    font-weight: bold;
+}
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+#img-upload{
+    width: 100%;
+}
+
+/*Data Table Laporan Transaksi */
+
+.datatransaksi tbody tr{
+    font-size: 12px;
+}
+
+/*Data Table Manajemen User*/
+
+.dataUser tbody tr{
+    font-size: 12px;
+}
+
+/*Data Table Mutasi Deposit*/
+
+.datamutasideposit tbody tr{
+    font-size: 12px;
+}
