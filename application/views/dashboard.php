@@ -14,7 +14,7 @@ if (sizeof($data_lembaga)>0) {
         <h2>&nbsp;</h2>
         <ol class="breadcrumb">
             <li class="active">
-                <a href="#">Selamat Datang, di Aplikasi KLIK MPAY <?php echo $nama_lembaga; ?></a>
+                <a href="#">Selamat Datang dan selamat bertransaksi, di Aplikasi KLIK MPAY <?php echo $nama_lembaga; ?></a>
             </li>
         </ol>
     </div>
