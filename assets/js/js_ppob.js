@@ -79,6 +79,15 @@ $(document).ready(function(){
         }
     });
 
+    $.ajax({
+        url: "EMoney/open_form_emoney",
+        type: "GET",
+        data : {warnalembaga: warnalembaga,},
+        success: function (ajaxData){
+            $("#formEMoney").html(ajaxData);
+        }
+    });
+
 });
 
 function pilihkartukredit() {
@@ -117,6 +126,7 @@ function pilihkartukredit() {
 
     document.getElementById('formKartuKredit').style.display = 'block';
     document.getElementById('formZakat').style.display = 'none';
+    document.getElementById('formEMoney').style.display = 'none';
 
 
 }
@@ -157,6 +167,46 @@ function pilihzakat() {
 
     document.getElementById('formZakat').style.display = 'block';
     document.getElementById('formKartuKredit').style.display = 'none';
+    document.getElementById('formEMoney').style.display = 'none';
 
+}
+
+function pilihemoney() {
+
+    var divicontabakhir = document.getElementById('iconTabakhir');
+    var litabakhir = document.getElementById('liTabakhir');
+    var divtabakhir = document.getElementById('tab-9');
+    var classicontabakhir = divicontabakhir.className;
+
+    $(divicontabakhir).removeClass(classicontabakhir);
+
+    var spans = $('#textTabakhir');
+
+    var newclassname = "fa fa-road fa-3x";
+    var newtextname = "E-Money";
+    $(divicontabakhir).addClass(newclassname);
+
+    for (i = 1; i <= 8; i++) {
+        var nameliid = 'liTab'+i;
+        var liTab = document.getElementById(nameliid);
+
+        var divid = 'tab-'+i;
+        var divTab = document.getElementById(divid);
+
+        $(liTab).removeClass("active");
+        $(divTab).removeClass("active");
+    }
+
+    $(litabakhir).addClass("active");
+    $(divtabakhir).addClass("active");
+
+    spans.text(newtextname);
+
+    $('.h3Tabakhir').text("Bayar E-Money");
+    $('#modal-lainnya').modal('hide');
+
+    document.getElementById('formEMoney').style.display = 'block';
+    document.getElementById('formZakat').style.display = 'none';
+    document.getElementById('formKartuKredit').style.display = 'none';
 
 }

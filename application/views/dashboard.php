@@ -31,7 +31,7 @@ if (sizeof($data_lembaga)>0) {
 
             <div class="carousel slide" id="carousel2">
                 <ol class="carousel-indicators">
-                    <li data-slide-to="0" data-target="#carousel2"  class="active"></li>
+                    <li data-slide-to="0" data-target="#carousel2" class="active"></li>
                     <li data-slide-to="1" data-target="#carousel2"></li>
                     <li data-slide-to="2" data-target="#carousel2" class=""></li>
                 </ol>
@@ -265,6 +265,14 @@ if (sizeof($data_lembaga)>0) {
                             </td>
                         </tr>
                         <tr class="no-borders">
+                            <td class="no-borders no-padding no-margins">
+
+                                <button type="submit" name="tab" value="12" class="btn btn-outline btn-danger" style="width: 100%; text-align: left;">
+                                    <i class="fa fa-road fa-2x col-lg-1 col-xs-1" style="padding-left: 0px;"> </i>
+                                    <text class="col-lg-10 col-xs-10" style="margin-top: 3px; padding-left: 20px;">E-Money</text>
+                                </button>
+
+                            </td>
                             <td class="no-borders no-padding no-margins">
 
                                 <button type="submit" name="tab" value="9" class="btn btn-outline btn-danger" style="width: 100%; text-align: left;">

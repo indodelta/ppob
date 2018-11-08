@@ -143,12 +143,20 @@ if (sizeof($data_lembaga)>0) {
                                             </span>
                                             <?php
                                         }
-                                        else{
+                                        else if($tab =="9"){
                                             ?>
                                             <i class="fa fa-cc fa-3x" id="iconTabakhir" style="color: <?php echo $warna_lembaga; ?>;"></i>
                                             <br/>
                                             <span id="textTabakhir" class="textTabakhir" style="color: <?php echo $warna_lembaga; ?>">
                                                 Kartu Kredit
+                                            </span>
+                                            <?php
+                                        }else{
+                                            ?>
+                                            <i class="fa fa-road fa-3x" id="iconTabakhir" style="color: <?php echo $warna_lembaga; ?>;"></i>
+                                            <br/>
+                                            <span id="textTabakhir" class="textTabakhir" style="color: <?php echo $warna_lembaga; ?>">
+                                                E-Money
                                             </span>
                                             <?php
                                         }
@@ -181,6 +189,13 @@ if (sizeof($data_lembaga)>0) {
 
                                                     <tr class="no-borders no-padding no-margins">
                                                         <td class="no-borders no-padding no-margins" >
+                                                            <button type="button" id="btnzakat" class="btn btn-outline btn-danger" style="width: 100px;" onclick="pilihemoney()">
+                                                                <i class="fa fa-road fa-3x"></i>
+                                                                <br/>
+                                                                <span>
+                                                                E-Money
+                                                            </span>
+                                                            </button>
                                                             <button type="button" id="btnkartukredit" class="btn btn-outline btn-danger" style="width: 100px;" onclick="pilihkartukredit()">
                                                                 <i class="fa fa-cc fa-3x"></i>
                                                                 <br/>
@@ -292,9 +307,13 @@ if (sizeof($data_lembaga)>0) {
                                             Bayar Zakat
                                             <?php
                                         }
-                                        else{
+                                        elseif($tab =="9"){
                                             ?>
                                             Bayar Kartu Kredit
+                                            <?php
+                                        }else{
+                                            ?>
+                                            Bayar E-Money
                                             <?php
                                         }
                                         ?>
@@ -304,22 +323,23 @@ if (sizeof($data_lembaga)>0) {
                                     <?php
                                     if($tab =="10"){
                                         ?>
-                                        <div id="formZakat">
-                                            formzakat
-                                        </div>
-                                        <div id="formKartuKredit" style="display: none;">
-                                            formkartukredit
-                                        </div>
+                                        <div id="formZakat">formzakat</div>
+                                        <div id="formKartuKredit" style="display: none;">formkartukredit</div>
+                                        <div id="formEMoney" style="display: none;"></div>
+                                        <?php
+                                    }
+                                    else if($tab =="9"){
+                                        ?>
+                                        <div id="formKartuKredit">formkartukredit</div>
+                                        <div id="formZakat" style="display: none;">formzakat</div>
+                                        <div id="formEMoney" style="display: none;"></div>
                                         <?php
                                     }
                                     else{
                                         ?>
-                                        <div id="formKartuKredit">
-                                            formkartukredit
-                                        </div>
-                                        <div id="formZakat" style="display: none;">
-                                            formzakat
-                                        </div>
+                                        <div id="formEMoney"></div>
+                                        <div id="formZakat" style="display: none;">formzakat</div>
+                                        <div id="formKartuKredit" style="display: none;">formkartukredit</div>
                                         <?php
                                     }
                                     ?>
