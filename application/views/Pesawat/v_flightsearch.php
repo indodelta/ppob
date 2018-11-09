@@ -17,7 +17,7 @@ if (sizeof($data_lembaga)>0) {
                 <a href="<?php echo base_url('dashboard')?>">Home</a>
             </li>
             <li>
-                <a href="<?php echo base_url('flight')?>">Pesan Tiket</a>
+                <a href="<?php echo base_url('pesawat')?>">Pesan Tiket</a>
             </li>
             <li class="active">
                 <strong>Info Jadwal Penerbangan</strong>

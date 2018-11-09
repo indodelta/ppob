@@ -277,6 +277,8 @@ if (sizeof($data_lembaga)>0) {
                                 <div class="panel-body">
                                     <h3 style="color: <?php echo $warna_lembaga;?>">Bayar Tagihan GAS</h3>
                                     <hr>
+                                    <div id="formPGN">
+                                    </div>
 
                                 </div>
                             </div>

@@ -97,8 +97,7 @@ class Pesawat extends CI_Controller {
 
         if($jumlahairline > 0){
 
-//            $data['config'] = $this->getflightconfiguration();
-            $data['config'] = '';
+            $data['config'] = $this->getflightconfiguration();
 
             $id = $this->session->userdata('iduser');
             $level = $this->session->userdata('user_level');
@@ -476,6 +475,8 @@ class Pesawat extends CI_Controller {
             $data['trans_id'] = $this->get_transid();
 
             //api booking
+            $data['databooking'] = $this->getflightbook();
+
         }
 
         $this->load->view('layout/v_header',$data);
@@ -512,6 +513,8 @@ class Pesawat extends CI_Controller {
         $jumlahpesawatpergi = $this->input->post('jumlahpesawatpergi',true);
 
         $token = $this->session->userdata('tokenft');
+
+        $arraypenumpang = array();
 
         $arraypenumpangdewasa = array();
 
@@ -550,18 +553,82 @@ class Pesawat extends CI_Controller {
                 $titel = 'MISS';
             }
 
-            $penumpang = 'ADT;'.$titel.';'.$namadepandewasa.';'.$namabelakangdewasa.';'.$tgllahirdewasa.';'.$noidentitydewasa.';::'.$notelepondewasa.';::'.$nohandphonedewasa.';;;;;'.$jenisidcardewasa.';'.strtoupper($kewarganegaraan);
+            $penumpang = 'ADT;'.$titel.';'.$namadepandewasa.';'.$namabelakangdewasa.';'.$tgllahirdewasa.';'.$noidentitydewasa.';::'.$notelepondewasa.';::'.$nohandphonedewasa.';;;;'.$emaildewasa.';'.$jenisidcardewasa.';'.strtoupper($kewarganegaraan);
 
             array_push($arraypenumpangdewasa,$penumpang);
 
         }
 
-        $arraypenumpang= array("adults"=>$arraypenumpangdewasa);
+        $arraypenumpang['adults'] = $arraypenumpangdewasa;
 
-        $API_url = "https://api-dev.fastravel.co.id/flight/book";
-//        $API_url = $this->config->item('api2_flightbook');
 
-        $data = array();
+        if($child > 0){
+            $arraypenumpanganak = array();
+
+            for ($a = 1; $a <= $child; $a++) {
+
+                $txbtitelanak = 'txbtitelanak' . $a;
+                $txbnamadepananak = 'txbnamadepananak' . $a;
+                $txbnamabelakanganak = 'txbnamabelakanganak' . $a;
+                $txbtgllahiranak = 'txbtgllahiranak'.$a;
+                
+                $titelanak = $this->input->post($txbtitelanak, true);
+                $namadepananak = $this->input->post($txbnamadepananak, true);
+                $namabelakanganak = $this->input->post($txbnamabelakanganak, true);
+                $tgllahiranak = $this->input->post($txbtgllahiranak,true);
+                $exptgllahiranak = explode('/', $tgllahiranak);
+                $tgllahiranak = $exptgllahiranak[1].'/'.$exptgllahiranak[0].'/'.$exptgllahiranak[2];
+
+                if($titelanak == 'Tuan'){
+                    $titel = 'MR';
+                }elseif ($titelanak == 'Nona'){
+                    $titel = 'MISS';
+                }
+
+                $penumpanganak = 'CHD;'.$titel.';'.$namadepananak.';'.$namabelakanganak.';'.$tgllahiranak.';;::;::;;;;;;';
+
+                array_push($arraypenumpanganak,$penumpanganak);
+
+            }
+
+            $arraypenumpang['children'] = $arraypenumpanganak;
+        }
+
+        if($infant > 0){
+            $arraypenumpangbayi = array();
+
+            for ($a = 1; $a <= $child; $a++) {
+
+                $txbtitelbayi = 'txbtitelbayi' . $a;
+                $txbnamadepanbayi = 'txbnamadepanbayi' . $a;
+                $txbnamabelakangbayi = 'txbnamabelakangbayi' . $a;
+                $txbtgllahirbayi = 'txbtgllahirbayi'.$a;
+
+                $titelbayi = $this->input->post($txbtitelbayi, true);
+                $namadepanbayi = $this->input->post($txbnamadepanbayi, true);
+                $namabelakangbayi = $this->input->post($txbnamabelakangbayi, true);
+                $tgllahirbayi = $this->input->post($txbtgllahirbayi,true);
+                $exptgllahirbayi = explode('/', $tgllahirbayi);
+                $tgllahirbayi = $exptgllahirbayi[1].'/'.$exptgllahirbayi[0].'/'.$exptgllahirbayi[2];
+
+                if($titelbayi == 'Tuan'){
+                    $titel = 'MR';
+                }elseif ($titelbayi == 'Nona'){
+                    $titel = 'MISS';
+                }
+
+                $penumpanganak = 'INF;'.$titel.';'.$namadepanbayi.';'.$namabelakangbayi.';'.$tgllahirbayi.';;::;::;;;;;;';
+
+                array_push($arraypenumpanganak,$penumpanganak);
+
+            }
+
+            $arraypenumpang['infants'] = $arraypenumpangbayi;
+        }
+
+        $API_url = $this->config->item('api2_flightbook');
+
+        $arraydata = array();
 
         for ($a = 0; $a < $jumlahpesawatpergi; $a++) {
 
@@ -584,10 +651,10 @@ class Pesawat extends CI_Controller {
             $seattransitpergi = $this->input->post($txbseatperginame,true);
             $arrseat = array($seattransitpergi);
 
-            $txbflightcodepergi = 'flightcodepergi'.$a;
-            $flightcodepergi = $this->input->post($txbflightcodepergi,true);
-            $flightcodepergi = str_replace(" ","_",$flightcodepergi);
-            $arrflight = array($flightcodepergi);
+//            $txbflightcodepergi = 'flightcodepergi'.$a;
+//            $flightcodepergi = $this->input->post($txbflightcodepergi,true);
+//            $flightcodepergi = str_replace(" ","_",$flightcodepergi);
+//            $arrflight = array($flightcodepergi);
 
             $param = array(
                 "airline" => $airlinecodepergi,
@@ -603,18 +670,16 @@ class Pesawat extends CI_Controller {
                 "passengers" => $arraypenumpang,
                 "token" => $token);
 
-//            $params = json_encode($param);
-//
-//            $hasil = $this->curl->simple_post($API_url, $params, array(CURLOPT_BUFFERSIZE => 10));
-//
-//            $data = json_decode($hasil);
-//
-//            echo $data;
+            $hasil = $this->curl->simple_post($API_url, $param, array(CURLOPT_BUFFERSIZE => 10));
 
-            echo json_encode($param);
+            $data = json_decode($hasil);
 
+            $arraydata[$a] = $data;
+//            $arraydata[$a] = $param;
 
         }
+
+        return $arraydata;
 
 
     }

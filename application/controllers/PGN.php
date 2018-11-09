@@ -2,7 +2,7 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class EMoney extends CI_Controller
+class PGN extends CI_Controller
 {
 
     function __construct(){
@@ -17,22 +17,24 @@ class EMoney extends CI_Controller
             $this->session->set_flashdata('belumlogin','Anda belum login');
             redirect(base_url());
         }else{
-            $this->load->view('EMoney/form_emoney');
+
+            $this->load->view('PGN/form_pgn');
+
         }
 
     }
 
-    public function open_form_emoney()
+    public function open_form_pgn()
     {
         $data['dataproduk'] = $this->getdatadenomproduk();
-        $this->load->view('EMoney/form_emoney',$data);
+        $this->load->view('PGN/form_pgn',$data);
     }
 
     public function getdatadenomproduk()
     {
 
         $parampln = Array(
-            'kategori[]' => 13,
+            'kategori[]' => 14,
         );
 
         $APIurl = $this->config->item('api_produk');
@@ -41,15 +43,5 @@ class EMoney extends CI_Controller
         return $dataproduk;
 
     }
-
-    public function getdataemoneyproduk()
-    {
-
-        $data = json_encode($this->getdatadenomproduk());
-
-        echo $data;
-
-    }
-
 
 }

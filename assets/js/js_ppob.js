@@ -88,6 +88,15 @@ $(document).ready(function(){
         }
     });
 
+    $.ajax({
+        url: "PGN/open_form_pgn",
+        type: "GET",
+        data : {warnalembaga: warnalembaga,},
+        success: function (ajaxData){
+            $("#formPGN").html(ajaxData);
+        }
+    });
+
 });
 
 function pilihkartukredit() {

@@ -96,7 +96,7 @@ $disabledbuttonsubmit = '';
 
 ?>
 
-<form id="formbookpesawat" class="form-horizontal" method="post" action="getflightbook" autocomplete="off" onsubmit="return confirm('Apakah data sudah terisi dengan benar?');">
+<form id="formbookpesawat" class="form-horizontal" method="post" action="booking" autocomplete="off" onsubmit="return confirm('Apakah data sudah terisi dengan benar?');">
 
 <div class="wrapper wrapper-content animated fadeInRight article" style="margin-top: 80px;">
 
@@ -905,8 +905,9 @@ $disabledbuttonsubmit = '';
                                 <span class="help-block m-b-none">Isi sesuai KTP/Paspor/SIM (tanpa tanda baca dan gelar)</span>
                             </div>
                             <div class="col-lg-3">
-                                <label class="control-label" style="margin-bottom: 10px;">Email </label>
-                                <input type="email" name="txbemaildewasa<?php echo $d;?>" class="form-control" placeholder="Contoh. youremail@example.com">
+                                <label class="control-label" style="margin-bottom: 10px;">Email <span style="color:#ed5565">*</span></label>
+                                <input type="email" name="txbemaildewasa<?php echo $d;?>" class="form-control" placeholder="Contoh. youremail@example.com" required>
+                                <span class="help-block m-b-none">Jika tidak mempunyai email, isi dengan alamat email kontak yang dapat dihubungi </span>
                             </div>
 
                         </div>
@@ -1091,7 +1092,7 @@ $disabledbuttonsubmit = '';
                             $bagasipergi = $fare['pergi'][$a]->data->baggage;
                         }else{
                             $bagasipergi = 20;
-                            $disabledbuttonsubmit = 'disabled';
+//                            $disabledbuttonsubmit = 'disabled';
                         }
 
                         $txbseatperginame = 'seatspergi'.$a;
@@ -1159,7 +1160,7 @@ $disabledbuttonsubmit = '';
                                 $bagasipulang = $fare['pulang'][$a]->data->baggage;
                             }else{
                                 $bagasipulang = 20;
-                                $disabledbuttonsubmit = 'disabled';
+//                                $disabledbuttonsubmit = 'disabled';
                             }
 
                             ?>

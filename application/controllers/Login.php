@@ -72,22 +72,22 @@ class Login extends CI_Controller {
 
                 $dataapi = $this->login_api_mobipay();
 
-//                $dataapift = $this->login_api_mobipay_fastravel();
+                $dataapift = $this->login_api_mobipay_fastravel();
 
                 $errcode = $dataapi->errorCode;
                 $errmsg = $dataapi->errorMsg;
 
-//                $errcode2 = $dataapift->rc;
-//                $errmsg2 = $dataapift->rd;
+                $errcode2 = $dataapift->rc;
+                $errmsg2 = $dataapift->rd;
 
                 if($errcode != 0){
                     $this->session->set_flashdata('apigagallogin',$errmsg);
                     redirect(base_url());
                 }
-//                elseif($errcode2 != 0){
-//                    $this->session->set_flashdata('api2gagallogin',$errmsg2);
-//                    redirect(base_url());
-//                }
+                elseif($errcode2 != 0){
+                    $this->session->set_flashdata('api2gagallogin',$errmsg2);
+                    redirect(base_url());
+                }
                 else{
 
 //                    $whereid = array('id' => $data[0]->id);
@@ -97,8 +97,8 @@ class Login extends CI_Controller {
 
                     $certcode = $dataapi->data->certcode;
 
-                    $tokenft = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImp0aSI6IjhkNzNtbmc4OWVkIn0.eyJpc3MiOiJodHRwOlwvXC9hcGkuZmFzdHJhdmVsLmNvLmlkIiwiYXVkIjoiRmFzdHJhdmVsQjJCIENsaWVudCIsImp0aSI6IjhkNzNtbmc4OWVkIiwiaWF0IjoxNTM2MDMyODk2LCJuYmYiOjE1MzYwMzI5NTYsImV4cCI6MTUzNjAzNjQ5Niwib3V0bGV0SWQiOiJTUDExMDgxNiIsInBpbiI6Ijc0MjM3NyIsImtleSI6IkZBU1RQQVkifQ.RrRhSwgH27HuLmjmkYjdBPRrjpFVC7trRnuGXhky5tA';
-//                    $tokenft = $dataapift->token;
+//                    $tokenft = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImp0aSI6IjhkNzNtbmc4OWVkIn0.eyJpc3MiOiJodHRwOlwvXC9hcGkuZmFzdHJhdmVsLmNvLmlkIiwiYXVkIjoiRmFzdHJhdmVsQjJCIENsaWVudCIsImp0aSI6IjhkNzNtbmc4OWVkIiwiaWF0IjoxNTM2MDMyODk2LCJuYmYiOjE1MzYwMzI5NTYsImV4cCI6MTUzNjAzNjQ5Niwib3V0bGV0SWQiOiJTUDExMDgxNiIsInBpbiI6Ijc0MjM3NyIsImtleSI6IkZBU1RQQVkifQ.RrRhSwgH27HuLmjmkYjdBPRrjpFVC7trRnuGXhky5tA';
+                    $tokenft = $dataapift->token;
 
                     if($tokenft == ''){
                         $this->session->set_flashdata('api2gagallogin','Api 2 not found');

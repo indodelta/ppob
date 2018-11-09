@@ -31,11 +31,19 @@ $jmldataopemoney = count($dataopemoney);
     <div class="form-group">
         <label class="col-lg-3 control-label" style="color: <?php echo $warna_lembaga ?>">Pilih Produk Operator :</label>
         <div class="col-lg-9">
-            <select class="selectprdoukoperator form-control" id="pilihanprodukoperator" name="pilihanprodukoperator" style="width: 100%;" required>
+            <select class="form-control" id="pilihanprodukemoney" name="pilihanprodukemoney" style="width: 100%;" required>
                 <option>- Pilih Produk Operator -</option>
                 <option> Anda belum memilih Operator</option>
             </select>
         </div>
     </div>
 
+    <div class="form-group">
+        <div class="col-lg-12">
+            <button class="btn btn-danger" type="submit" style="float: right;" name="tombol">LANJUTKAN</button>
+        </div>
+    </div>
+
 </form>
+
+<script src="<?php echo base_url();?>assets/js/js_emoney.js"></script>
