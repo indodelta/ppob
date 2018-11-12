@@ -51,6 +51,9 @@ $(document).ready(function(){
 
     $(".select-country").select2();
 
+    // Bind submit buttons
+    Ladda.bind( '.ladda-button');
+
     $("#formbookpesawat").validate({});
 
 })
@@ -80,7 +83,7 @@ function submittransflight() {
             confirmButtonText: "Ya",
             closeOnConfirm: false
         }, function () {
-            document.getElementById("formtransflight").action = "booking";
+            document.getElementById("formtransflight").action = "payment";
             document.getElementById("formtransflight").submit();
         });
 

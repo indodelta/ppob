@@ -74,7 +74,9 @@ if($jumlahairline == 0){
                 JADWAL PENERBANGAN TIDAK DITEMUKAN
             </h1><br/>
             <h2>Lakukan Pencarian Jadwal Pesawat Kembali</h2><br/>
-            <button class="btn btn-danger" onclick="closeWin()">Kembali ke form pencarian</button>
+            <a href="<?php echo base_url('pesawat')?>">
+                <button class="btn btn-danger">Kembali ke form pencarian</button>
+            </a>
 
         </div>
 
@@ -112,8 +114,9 @@ if($jumlahairline == 0){
                     JADWAL PENERBANGAN TIDAK DITEMUKAN
                 </h1><br/>
                 <h2>Lakukan Pencarian Jadwal Pesawat Kembali</h2><br/>
-                <button class="btn btn-danger" onclick="closeWin()">Kembali ke form pencarian</button>
-
+                <a href="<?php echo base_url('pesawat')?>">
+                    <button class="btn btn-danger">Kembali ke form pencarian</button>
+                </a>
             </div>
 
         </div>

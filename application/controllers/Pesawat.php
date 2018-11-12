@@ -465,19 +465,9 @@ class Pesawat extends CI_Controller {
         $data['jspesawat_to_load']= 'js_infopesawat.js';
         $data['data_lembaga'] = $this->M_login->get_datadomain($this->domain);
 
-        $transid = $this->input->post('transid',true);
-        if(isset($transid)){
-
-            $data['trans_id'] = $this->simpan_data();
-            $this->session->set_flashdata('simpanberhasil', 'Berhasil');
-
-        }else{
-            $data['trans_id'] = $this->get_transid();
-
-            //api booking
-            $data['databooking'] = $this->getflightbook();
-
-        }
+        $data['trans_id'] = $this->get_transid();
+        //api booking
+        $data['databooking'] = $this->getflightbook();
 
         $this->load->view('layout/v_header',$data);
         $this->load->view('pesawat/v_flightbook',$data);
@@ -488,7 +478,13 @@ class Pesawat extends CI_Controller {
     public function getflightbook()
     {
 
+        $data = array();
+
+        $API_url = $this->config->item('api2_flightbook');
+
         $airlinecodepergi = $this->input->post('airlinecodepergi',true);
+
+        $noteleponkontak = $this->input->post('txbnoteleponkontak',true);
 
         $airfrom = $this->input->post('air_from',true);
         $expairfrom = explode('-', $airfrom);
@@ -539,6 +535,9 @@ class Pesawat extends CI_Controller {
             $notelepondewasa = 62 . substr($notelepondewasa, 1);
             $nohandphonedewasa = $this->input->post($txbnohandphonedewasa,true);
             $nohandphonedewasa = 62 . substr($nohandphonedewasa, 1);
+            if($nohandphonedewasa == 62){
+                $nohandphonedewasa = 62 . substr($noteleponkontak, 1);
+            }
             $tgllahirdewasa = $this->input->post($txbtgllahirdewasa,true);
             $exptgllahirdewasa = explode('/', $tgllahirdewasa);
             $tgllahirdewasa = $exptgllahirdewasa[1].'/'.$exptgllahirdewasa[0].'/'.$exptgllahirdewasa[2];
@@ -626,9 +625,7 @@ class Pesawat extends CI_Controller {
             $arraypenumpang['infants'] = $arraypenumpangbayi;
         }
 
-        $API_url = $this->config->item('api2_flightbook');
-
-        $arraydata = array();
+        $arraydatapergi = array();
 
         for ($a = 0; $a < $jumlahpesawatpergi; $a++) {
 
@@ -651,11 +648,6 @@ class Pesawat extends CI_Controller {
             $seattransitpergi = $this->input->post($txbseatperginame,true);
             $arrseat = array($seattransitpergi);
 
-//            $txbflightcodepergi = 'flightcodepergi'.$a;
-//            $flightcodepergi = $this->input->post($txbflightcodepergi,true);
-//            $flightcodepergi = str_replace(" ","_",$flightcodepergi);
-//            $arrflight = array($flightcodepergi);
-
             $param = array(
                 "airline" => $airlinecodepergi,
                 "departure" => $departure,
@@ -672,14 +664,72 @@ class Pesawat extends CI_Controller {
 
             $hasil = $this->curl->simple_post($API_url, $param, array(CURLOPT_BUFFERSIZE => 10));
 
-            $data = json_decode($hasil);
+            $datajson = json_decode($hasil);
 
-            $arraydata[$a] = $data;
-//            $arraydata[$a] = $param;
+            $arraydatapergi[$a] = $datajson;
 
         }
 
-        return $arraydata;
+        $data['pergi'] = $arraydatapergi;
+
+        $pulangpergi = $this->input->post('pulangpergi',true);
+
+        if($pulangpergi == 'on'){
+
+            $arraydatapulang = array();
+
+            $jumlahpesawatpulang = $this->input->post('jumlahpesawatpulang',true);
+
+            $airlinecodepulang = $this->input->post('airlinecodepulang',true);
+
+            for ($a = 0; $a < $jumlahpesawatpulang; $a++) {
+
+                $txbtransitname1pulangname = 'transitname1pulang'.$a;
+                $txbtransitname2pulangname = 'transitname2pulang'.$a;
+
+                $airfrom = $this->input->post($txbtransitname1pulangname,true);
+                $expairfrom = explode('(', $airfrom);
+                $departure = $expairfrom[1];
+                $departure = str_replace(")","",$departure);
+                $departure = str_replace(" ","",$departure);
+
+                $airto = $this->input->post($txbtransitname2pulangname,true);
+                $expairto = explode('(', $airto);
+                $arrival = $expairto[1];
+                $arrival = str_replace(")","",$arrival);
+                $arrival = str_replace(" ","",$arrival);
+
+                $txbseatpulangname = 'seatspulang'.$a;
+                $seattransitpulang = $this->input->post($txbseatpulangname,true);
+                $arrseat = array($seattransitpulang);
+
+                $parampulang = array(
+                    "airline" => $airlinecodepulang,
+                    "departure" => $departure,
+                    "arrival" => $arrival,
+                    "departureDate" => $returnDatedb,
+                    "returnDate" => $returnDatedb,
+                    "adult" => $adult,
+                    "child" => $child,
+                    "infant" => $infant,
+                    "flights" => $arrseat,
+                    "buyer" => '',
+                    "passengers" => $arraypenumpang,
+                    "token" => $token);
+
+                $hasil = $this->curl->simple_post($API_url, $parampulang, array(CURLOPT_BUFFERSIZE => 10));
+
+                $datajson = json_decode($hasil);
+
+                $arraydatapulang[$a] = $datajson;
+
+            }
+
+            $data['pulang'] = $arraydatapulang;
+
+        }
+
+        return $data;
 
 
     }
@@ -709,6 +759,28 @@ class Pesawat extends CI_Controller {
         }
 
         return $transid;
+
+    }
+
+    public function payment()
+    {
+        $id = $this->session->userdata('iduser');
+
+        $level = $this->session->userdata('user_level');
+        if($level == 0){
+            $data['datasaldo'] = $this->cek_saldo_mobipay();
+        }else{
+            $data['datasaldo'] = $this->M_user->load_data_user_whereid($id);
+        }
+        $data['jspesawat_to_load']= 'js_infopesawat.js';
+        $data['data_lembaga'] = $this->M_login->get_datadomain($this->domain);
+
+        //api payment
+//        $data['datapayment'] = $this->getflightpayment();
+
+        $this->load->view('layout/v_header',$data);
+        $this->load->view('pesawat/v_flightpayment',$data);
+        $this->load->view('layout/v_footer',$data);
 
     }
 
