@@ -570,6 +570,7 @@ $config['api2_flightsearch2'] = "http://mpay.umrohnesia.id/index.php/ApiFT/fligh
 $config['api2_flightsearchsingle'] = "http://mpay.umrohnesia.id/index.php/ApiFT/flight_search_single";
 $config['api2_flightfare'] = "http://mpay.umrohnesia.id/index.php/ApiFT/flight_fare";
 $config['api2_flightbook'] = "http://mpay.umrohnesia.id/index.php/ApiFT/flight_book";
+$config['api2_flightpayment'] = "http://mpay.umrohnesia.id/index.php/ApiFT/flight_payment";
 
 //hotel
 $config['api2_hoteldestination'] = "http://mpay.umrohnesia.id/index.php/ApiFT/hotel_destination";

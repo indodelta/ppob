@@ -142,6 +142,91 @@ if($pulangpergi == 'on'){
                     <h1>
                         TERJADI KESALAHAN PADA PROSES BOOKING,
                     </h1><br/>
+
+                    <?php
+                    if($pulangpergi == 'on'){
+                        ?>
+                        <h3>Perjalanan Pergi : </h3><br/>
+                        <?php
+                    }
+                    ?>
+
+                    <?php
+                    for ($x = 0; $x < $jumlahbookingpergi; $x++) {
+
+                        $txbtransitname1perginame = 'transitname1pergi'.$x;
+                        $txbtransitname2perginame = 'transitname2pergi'.$x;
+                        $transitName1pergi = $this->input->post($txbtransitname1perginame,true);
+                        $exptransitName1pergi = explode('(', $transitName1pergi);
+                        $transitName1pergi = $exptransitName1pergi[1];
+                        $transitName1pergi = str_replace(")","",$transitName1pergi);
+
+                        $transitName2pergi = $this->input->post($txbtransitname2perginame,true);
+                        $exptransitName2pergi = explode('(', $transitName2pergi);
+                        $transitName2pergi = $exptransitName2pergi[1];
+                        $transitName2pergi = str_replace(")","",$transitName2pergi);
+
+                        $rd = $databooking['pergi'][$x]->rd;
+
+                        $no = $x + 1;
+
+                        ?>
+
+                        <div class="form-group">
+                            <div class="col-xs-2">
+                                <label><?php echo $no; ?></label>.
+                                <?php echo $transitName1pergi; ?> <i class="fa fa-arrow-right"></i>  <?php echo $transitName2pergi; ?>
+                            </div>
+                            <div class="col-xs-10">
+                                <?php echo $rd; ?>
+                            </div>
+                        </div><br/><br/>
+
+                        <?php
+                    }
+                    ?>
+
+                    <?php
+                    if($pulangpergi == 'on'){
+                        ?>
+                        <h3>Perjalanan Pulang : </h3><br/>
+                        <?php
+                        for ($x = 0; $x < $jumlahbookingpulang; $x++) {
+
+                            $txbtransitname1pulangname = 'transitname1pulang'.$x;
+                            $txbtransitname2pulangname = 'transitname2pulang'.$x;
+                            $transitName1pulang = $this->input->post($txbtransitname1pulangname,true);
+                            $exptransitName1pulang = explode('(', $transitName1pulang);
+                            $transitName1pulang = $exptransitName1pulang[1];
+                            $transitName1pulang = str_replace(")","",$transitName1pulang);
+
+                            $transitName2pulang = $this->input->post($txbtransitname2pulangname,true);
+                            $exptransitName2pulang = explode('(', $transitName2pulang);
+                            $transitName2pulang = $exptransitName2pulang[1];
+                            $transitName2pulang = str_replace(")","",$transitName2pulang);
+
+                            $rd = $databooking['pulang'][$x]->rd;
+
+                            $no = $x + 1;
+
+                            ?>
+
+                            <div class="form-group">
+                                <div class="col-xs-2">
+                                    <label><?php echo $no; ?></label>.
+                                    <?php echo $transitName1pulang; ?> <i class="fa fa-arrow-right"></i>  <?php echo $transitName2pulang; ?>
+                                </div>
+                                <div class="col-xs-10">
+                                    <?php echo $rd; ?>
+                                </div>
+                            </div><br/><br/>
+
+                            <?php
+                        }
+
+                    }
+                    ?>
+
                     <h2>Lakukan Pencarian Jadwal Pesawat Kembali</h2><br/>
                     <a href="<?php echo base_url('pesawat')?>">
                     <button class="btn btn-danger">Kembali ke form pencarian</button>
@@ -1029,9 +1114,9 @@ if($pulangpergi == 'on'){
                             ?>
 
 
-                            <input type="text" name="<?php echo $txbtransactionidperginame;?>" value="<?php echo $transactionid;?>">
-                            <input type="text" name="<?php echo $txbbookingcodeperginame;?>" value="<?php echo $bookingcode;?>">
-                            <input type="text" name="<?php echo $txbpaymentcodeperginame;?>" value="<?php echo $paymentcode;?>">
+                            <input type="hidden" name="<?php echo $txbtransactionidperginame;?>" value="<?php echo $transactionid;?>">
+                            <input type="hidden" name="<?php echo $txbbookingcodeperginame;?>" value="<?php echo $bookingcode;?>">
+                            <input type="hidden" name="<?php echo $txbpaymentcodeperginame;?>" value="<?php echo $paymentcode;?>">
 
                             <input type="hidden" name="<?php echo $txbtransittimeperginame;?>" value="<?php echo $transittimepergi;?>">
                             <input type="hidden" name="<?php echo $txbflightcodetransitperginame;?>" value="<?php echo $flightcodetransitpergi;?>">
@@ -1045,11 +1130,11 @@ if($pulangpergi == 'on'){
                             <input type="hidden" name="<?php echo $txbflightclasstransitperginame;?>" value="<?php echo $flightclasstransitpergi;?>">
                             <input type="hidden" name="<?php echo $txbbagasiperginame;?>" value="<?php echo $bagasipergi;?>">
 
-                            <input type="text" name="<?php echo $txbtimelimitperginame;?>" value="<?php echo $timelimitpergi;?>">
+                            <input type="hidden" name="<?php echo $txbtimelimitperginame;?>" value="<?php echo $timelimitpergi;?>">
 
-                            <input type="text" name="<?php echo $txbflightfareperginame;?>" value="<?php echo $nominal;?>">
-                            <input type="text" name="<?php echo $txbflightadminperginame;?>" value="<?php echo $nominaladmin;?>">
-                            <input type="text" name="<?php echo $txbcommisionperginame;?>" value="<?php echo $commision;?>">
+                            <input type="hidden" name="<?php echo $txbflightfareperginame;?>" value="<?php echo $nominal;?>">
+                            <input type="hidden" name="<?php echo $txbflightadminperginame;?>" value="<?php echo $nominaladmin;?>">
+                            <input type="hidden" name="<?php echo $txbcommisionperginame;?>" value="<?php echo $commision;?>">
 
                             <?php
                         }
@@ -1114,11 +1199,11 @@ if($pulangpergi == 'on'){
                                 ?>
 
 
-                                <input type="text" name="<?php echo $txbtransactionidpulangname; ?>"
+                                <input type="hidden" name="<?php echo $txbtransactionidpulangname; ?>"
                                        value="<?php echo $transactionid; ?>">
-                                <input type="text" name="<?php echo $txbbookingcodepulangname; ?>"
+                                <input type="hidden" name="<?php echo $txbbookingcodepulangname; ?>"
                                        value="<?php echo $bookingcode; ?>">
-                                <input type="text" name="<?php echo $txbpaymentcodepulangname; ?>"
+                                <input type="hidden" name="<?php echo $txbpaymentcodepulangname; ?>"
                                        value="<?php echo $paymentcode; ?>">
 
                                 <input type="hidden" name="<?php echo $txbtransittimepulangname; ?>"
@@ -1144,14 +1229,14 @@ if($pulangpergi == 'on'){
                                 <input type="hidden" name="<?php echo $txbbagasipulangname; ?>"
                                        value="<?php echo $bagasipulang; ?>">
 
-                                <input type="text" name="<?php echo $txbtimelimitpulangname; ?>"
+                                <input type="hidden" name="<?php echo $txbtimelimitpulangname; ?>"
                                        value="<?php echo $timelimitpulang; ?>">
 
-                                <input type="text" name="<?php echo $txbflightfarepulangname; ?>"
+                                <input type="hidden" name="<?php echo $txbflightfarepulangname; ?>"
                                        value="<?php echo $nominal; ?>">
-                                <input type="text" name="<?php echo $txbflightadminpulangname; ?>"
+                                <input type="hidden" name="<?php echo $txbflightadminpulangname; ?>"
                                        value="<?php echo $nominaladmin; ?>">
-                                <input type="text" name="<?php echo $txbcommisionpulangname; ?>"
+                                <input type="hidden" name="<?php echo $txbcommisionpulangname; ?>"
                                        value="<?php echo $commision; ?>">
                                 <?php
 

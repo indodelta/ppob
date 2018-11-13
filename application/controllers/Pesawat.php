@@ -10,6 +10,9 @@ class Pesawat extends CI_Controller {
         $this->load->model('M_login');
         $this->load->model('M_user');
         $this->load->model('M_pesawat');
+        $this->load->model('M_transaksi');
+        $this->load->model('M_transdetail');
+        $this->load->model('M_user_deposit');
         $this->domain = $_SERVER['HTTP_HOST'];
     }
 
@@ -776,7 +779,7 @@ class Pesawat extends CI_Controller {
         $data['data_lembaga'] = $this->M_login->get_datadomain($this->domain);
 
         //api payment
-//        $data['datapayment'] = $this->getflightpayment();
+        $data['datapayment'] = $this->getflightpayment();
 
         $this->load->view('layout/v_header',$data);
         $this->load->view('pesawat/v_flightpayment',$data);
@@ -784,7 +787,174 @@ class Pesawat extends CI_Controller {
 
     }
 
-    public function simpan_data(){
+    public function getflightpayment()
+    {
+        
+        $data = array();
+
+        $certcode = $this->session->userdata('certcode');
+        $token = $this->session->userdata('tokenft');
+        $API_url = $this->config->item('api2_flightpayment');
+
+        $pulangpergi = $this->input->post('pulangpergi', true);
+
+        $airlinecodepergi = $this->input->post('airlinecodepergi',true);
+
+        $jumlahpesawatpergi = $this->input->post('jumlahpesawatpergi',true);
+
+        $totalbayar = 0;
+        $errorcode00 = 0;
+        
+        $arraydatapergi = array();
+
+        for ($a = 0; $a < $jumlahpesawatpergi; $a++) {
+
+            $txbtransactionidperginame = 'transactionidpergi'.$a;
+            $txbbookingcodeperginame = 'bookingcodepergi'.$a;
+            $txbpaymentcodeperginame = 'paymentcodepergi'.$a;
+
+            $txbflightfareperginame = 'flightfarepergi' . $a;
+            $txbflightadminperginame = 'flightbiayaadminpergi' . $a;
+            $txbcommisionperginame = 'commisionpergi' . $a;
+            
+            $transactionidpergi = $this->input->post($txbtransactionidperginame,true);
+            $bookingcodepergi = $this->input->post($txbbookingcodeperginame,true);
+            $paymentcodepergi = $this->input->post($txbpaymentcodeperginame,true);
+            $flightfarepergi = $this->input->post($txbflightfareperginame,true);
+            $flightadminpergi = $this->input->post($txbflightadminperginame,true);
+            $commisionpergi = $this->input->post($txbcommisionperginame,true);
+
+            $param = array(
+                "certcode" => $certcode,
+                "nominal" => $flightfarepergi,
+                "nominaladmin" => $flightadminpergi,
+                "komisi" => $commisionpergi,
+                "airline" => $airlinecodepergi,
+                "transactionId" => $transactionidpergi,
+                "bookingCode" => $bookingcodepergi,
+                "paymentCode" => $paymentcodepergi,
+                "token" => $token);
+
+//            $hasil = $this->curl->simple_post($API_url, $param, array(CURLOPT_BUFFERSIZE => 10));
+
+//            $datajson = json_decode($hasil);
+            
+//            $arraydatapergi[$a] = $datajson;
+
+            //contoh hasil
+
+            $datadatafastravel = array(
+                "transaction_id"=> "796636956",
+                "url_etiket"=> "http://api.fastravel.co.id/app/generate_etiket?id_transaksi=796636956",
+                "url_struk"=> "http://api.fastravel.co.id/app/generate_struk?id_transaksi=796636956"
+            );
+
+            $datafastravel = array(
+                "data"=> $datadatafastravel,
+                "rc"=> "00",
+                "rd"=> "Pembayaran Berhasil",
+                "invoking"=> "Payment Flight"
+            );
+
+            $tagihans = array(
+                "errorCode"=>"00",
+                "errorMsg"=>'Pembayaran Berhasil',
+                "reqid"=>'1805240000007',
+                "tgl"=>'13 November 2018 - 09:12:26',
+                "nilai"=>'2269500',
+                "data"=>$datafastravel
+            );
+            $hasil = json_encode($tagihans);
+
+            $datajson = json_decode($hasil);
+
+            $nilai = $datajson->nilai;
+            $errorcode = $datajson->errorCode;
+
+            if($errorcode == 00){
+                $errorcode00 = $errorcode00 + 1;
+            }
+
+            $totalbayar = $totalbayar + $nilai;
+
+            $arraydatapergi[$a] = $datajson;
+
+        }
+        
+        $data['pergi'] = $arraydatapergi;
+
+        $arraydatapulang = array();
+
+        if ($pulangpergi == 'on') {
+
+            $airlinecodepulang = $this->input->post('airlinecodepulang',true);
+
+            $jumlahpesawatpulang = $this->input->post('jumlahpesawatpulang',true);
+
+            for ($a = 0; $a < $jumlahpesawatpulang; $a++) {
+
+                $txbtransactionidpulangname = 'transactionidpulang'.$a;
+                $txbbookingcodepulangname = 'bookingcodepulang'.$a;
+                $txbpaymentcodepulangname = 'paymentcodepulang'.$a;
+                $txbflightfarepulangname = 'flightfarepulang' . $a;
+                $txbflightadminpulangname = 'flightbiayaadminpulang' . $a;
+                $txbcommisionpulangname = 'commisionpulang' . $a;
+
+                $transactionidpulang = $this->input->post($txbtransactionidpulangname,true);
+                $bookingcodepulang = $this->input->post($txbbookingcodepulangname,true);
+                $paymentcodepulang = $this->input->post($txbpaymentcodepulangname,true);
+                $flightfarepulang = $this->input->post($txbflightfarepulangname,true);
+                $flightadminpulang = $this->input->post($txbflightadminpulangname,true);
+                $commisionpulang = $this->input->post($txbcommisionpulangname,true);
+
+                $token = $this->session->userdata('tokenft');
+
+                $parampulang = array(
+                    "certcode" => $certcode,
+                    "nominal" => $flightfarepulang,
+                    "nominaladmin" => $flightadminpulang,
+                    "komisi" => $commisionpulang,
+                    "airline" => $airlinecodepulang,
+                    "transactionId" => $transactionidpulang,
+                    "bookingCode" => $bookingcodepulang,
+                    "paymentCode" => $paymentcodepulang,
+                    "token" => $token);
+
+//                $hasil = $this->curl->simple_post($API_url, $parampulang, array(CURLOPT_BUFFERSIZE => 10));
+//
+//                $datajson = json_decode($hasil);
+//
+//                $arraydatapulang[$a] = $datajson;
+
+//                $nilai = $datajson->nilai;
+
+//                $errorcode = $datajson->errorCode;
+
+//                $totalbayar = $totalbayar + $nilai;
+
+//                if($errorcode == 00){
+//                    $errorcode00 = $errorcode00 + 1;
+//                }
+
+                $arraydatapulang[$a] = $parampulang;
+
+            }
+
+            $data['pulang'] = $arraydatapulang;
+
+        }
+
+        $data['totalbayar'] = $totalbayar;
+        
+        if($errorcode00 > 0){
+            $data['transid'] = $this->simpan_data($totalbayar, $arraydatapergi, $arraydatapulang);
+        }
+
+        return $data;
+
+    }
+
+    public function simpan_data($totalbayar, $arraydatapergi, $arraydatapulang){
 
         //save to trans_flight table
 
@@ -793,19 +963,6 @@ class Pesawat extends CI_Controller {
         $pulangpergi = $this->input->post('pulangpergi',true);
 
         if($pulangpergi == 'on'){$pp = '1';}else{$pp='0';}
-
-        //api payment pergi
-        $urleticketpergi = 'http://api.fastravel.co.id/app/generate_etiket?id_transaksi=795763739';
-        $urlstrukpergi = 'http://api.fastravel.co.id/app/generate_etiket?id_transaksi=795763739';
-        $komisipergi = null;
-
-        if($pulangpergi == 'on'){
-
-            //api payment pulang
-            $urleticketpulang = 'http://api.fastravel.co.id/app/generate_etiket?id_transaksi=795763739';
-            $urlstrukpulang = 'http://api.fastravel.co.id/app/generate_etiket?id_transaksi=795763739';
-            $komisipergi = null;
-        }
 
         $adult = $this->input->post('adult',true);
         $child = $this->input->post('child',true);
@@ -816,13 +973,16 @@ class Pesawat extends CI_Controller {
         $returndate = $this->input->post('returndate',true);
         $expreturnDate = explode('/', $returndate);
         $returndate = $expreturnDate[2].'-'.$expreturnDate[1].'-'.$expreturnDate[0];
-        $totalharga = $this->input->post('totalharga',true);
         $contacttitle = $this->input->post('contacttitle',true);
         $contactname = $this->input->post('contactname',true);
         $contacttelp = $this->input->post('contacttelp',true);
         $contactemail = $this->input->post('contactemail',true);
         $datecreated = date("Y-m-d H:i:s");
         $usercreated = $this->session->userdata('username');
+        $iduser = $this->session->userdata('iduser');
+        $level = $this->session->userdata('user_level');
+        $saldo = $this->input->post("txbsaldosekarang",true);
+        $datetimenow = date("Y-m-d H:i:s");
 
         $datatransflight = array(
             'id' => $transid,
@@ -833,7 +993,7 @@ class Pesawat extends CI_Controller {
             'infant' => $infant,
             'depart_date' => $departdate,
             'return_date' => $returndate,
-            'total_harga' => $totalharga,
+            'total_harga' => $totalbayar,
             'contact_title' => $contacttitle,
             'contact_name' => $contactname,
             'contact_telp' => $contacttelp,
@@ -854,7 +1014,13 @@ class Pesawat extends CI_Controller {
         $arrivaltimepergi = $this->input->post('jamtibapergi',true);
         $istransitpergi = $this->input->post('istransitpergi',true);
 
+        $bookingcode = '';
+        $komisi = 0;
+
         for ($a = 0; $a < $jumlahpesawatpergi; $a++) {
+
+            $urleticketpergi = $arraydatapergi[$a]->data->data->url_etiket;
+            $urlstrukpergi = $arraydatapergi[$a]->data->data->url_struk;
 
             $txbtransactionidperginame = 'transactionidpergi'.$a;
             $txbbookingcodeperginame = 'bookingcodepergi'.$a;
@@ -917,6 +1083,8 @@ class Pesawat extends CI_Controller {
 
             $transflightdetailpergi = $this->M_pesawat->simpandata("trans_flight_detail",$datatransflightdetailpergi);
 
+            $bookingcode = $bookingcode.'<br/>'.$bookingcodepergi;
+
             //input harga
 
             $txbflightfareperginame = 'flightfarepergi'.$a;
@@ -927,16 +1095,23 @@ class Pesawat extends CI_Controller {
             $nominaladmin = $this->input->post($txbflightadminperginame,true);
             $commision = $this->input->post($txbcommisionperginame,true);
 
+            $paymentstatus = 1;
+            if($urleticketpergi == ''){
+                $paymentstatus = 0;
+            }
+
             $datatransflightdetailhargapergi = array(
                 'trans_id' => $transid,
                 'transactionId' => $transactionidpergi,
                 'nominal' => $nominal,
                 'commision' => $commision,
                 'nominalAdmin' => $nominaladmin,
+                'paymentStatus' => $paymentstatus,
             );
 
             $transflightdetailhargapergi = $this->M_pesawat->simpandata("trans_flight_detail_harga",$datatransflightdetailhargapergi);
 
+            $komisi = $komisi + $commision;
         }
 
         if($pulangpergi == 'on'){
@@ -949,6 +1124,9 @@ class Pesawat extends CI_Controller {
             $istransitpulang = $this->input->post('istransitpulang',true);
 
             for ($a = 0; $a < $jumlahpesawatpulang; $a++) {
+
+                $urleticketpulang = $arraydatapulang[$a]->data->data->url_etiket;
+                $urlstrukpulang = $arraydatapulang[$a]->data->data->url_struk;
 
                 $txbtransactionidpulangname = 'transactionidpulang'.$a;
                 $txbbookingcodepulangname = 'bookingcodepulang'.$a;
@@ -1011,6 +1189,7 @@ class Pesawat extends CI_Controller {
 
                 $transflightdetailpulang = $this->M_pesawat->simpandata("trans_flight_detail",$datatransflightdetailpulang);
 
+                $bookingcode = $bookingcode.'<br/>'.$bookingcodepulang;
 
                 //input harga
 
@@ -1022,16 +1201,23 @@ class Pesawat extends CI_Controller {
                 $nominaladmin = $this->input->post($txbflightadminpulangname,true);
                 $commision = $this->input->post($txbcommisionpulangname,true);
 
+                $paymentstatus = 1;
+                if($urleticketpulang == ''){
+                    $paymentstatus = 0;
+                }
+
                 $datatransflightdetailhargapergi = array(
                     'trans_id' => $transid,
                     'transactionId' => $transactionidpulang,
                     'nominal' => $nominal,
                     'commision' => $commision,
                     'nominalAdmin' => $nominaladmin,
+                    'paymentStatus' => $paymentstatus,
                 );
 
-                $transflightdetailhargapergi = $this->M_pesawat->simpandata("trans_flight_detail_harga",$datatransflightdetailhargapergi);
+                $transflightdetailhargapulang = $this->M_pesawat->simpandata("trans_flight_detail_harga",$datatransflightdetailhargapergi);
 
+                $komisi = $komisi + $commision;
 
             }
 
@@ -1148,6 +1334,57 @@ class Pesawat extends CI_Controller {
             }
 
         }
+
+        //save to t_user_deposit table
+
+        $saldoskrng = $saldo - $totalbayar;
+        $datauserdeposit = array(
+            'lembaga_id' => $lembaga_id,
+            'id_user' => $iduser,
+            'id_depo' => $iduser,
+            'tanggal' => $datecreated,
+            'case' => 'FLIGHT',
+            'id_transaksi' => $transid,
+            'ket_transaksi' => 'BOOKING FLIGHT',
+            'debet' => $totalbayar,
+            'sisa_saldo' => $saldoskrng,
+            'komisi' => $komisi
+        );
+
+        $iddepo = $this->M_user_deposit->simpan_data($datauserdeposit);
+
+        //kurang saldo agen
+
+        if($level == 1){
+            $whereuser = array(
+                'id' => $iduser
+            );
+            $saldo = array(
+                'saldo' => $saldoskrng,
+            );
+            $update = $this->M_user->update_data($whereuser,$saldo);
+        }
+
+        $datadetail = array(
+            'namaproduk' => 'TIKET PESAWAT',
+            'nopelanggan' => $bookingcode,
+            'namapelanggan' => $this->input->post('txbnamekontak'),
+            'nominal' => $totalbayar,
+        );
+
+        $iddetail = $this->M_transdetail->simpan_data($datadetail);
+
+        $datatransaksi = array(
+            'lembaga_id' => $lembaga_id,
+            'trans_code' => 'FLIGHT',
+            'trans_detail_code' => $iddetail,
+            'date_created' => $datetimenow,
+            'user_created' => $iduser,
+            'ref' => $transid,
+            'status' => 1,
+        );
+
+        $idtrans = $this->M_transaksi->simpan_data($datatransaksi);
 
         return $transid;
 
