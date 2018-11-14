@@ -331,130 +331,6 @@ class Pesawat extends CI_Controller {
 
     }
 
-    public function getflightfare2()
-    {
-        $data = array();
-
-        $pulangpergi = $this->input->post('pulangpergi',true);
-
-        $departureDate = $this->input->post('departuredate',true);
-        $expdepartureDate = explode('/', $departureDate);
-        $departureDate = $expdepartureDate[2] . '-' . $expdepartureDate[1] . '-' .$expdepartureDate[0];
-
-        $returnDate = $this->input->post('returndate',true);
-        $expreturnDate = explode('/', $returnDate);
-        $returnDate = $expreturnDate[2].'-'.$expreturnDate[1].'-'.$expreturnDate[0];
-
-        $adult = $this->input->post('adult',true);
-        $child = $this->input->post('child',true);
-        $infant = $this->input->post('infant',true);
-
-        $token = $this->session->userdata('tokenft');
-        $APIurl = $this->config->item('api2_flightfare');
-
-        $jumlahpesawatpergi = $this->input->post('jumlahpesawatpergi',true);
-
-        $airlinecodepergi = $this->input->post('airlinecodepergi',true);
-
-        $arrdatapergi=array();
-
-        for ($i = 0; $i < $jumlahpesawatpergi; $i++) {
-
-            $txbtransitname1perginame = 'transitname1pergi'.$i;
-            $txbtransitname2perginame = 'transitname2pergi'.$i;
-
-            $airfrom = $this->input->post($txbtransitname1perginame,true);
-            $expairfrom = explode('(', $airfrom);
-            $departure = $expairfrom[1];
-            $departure = str_replace(")","",$departure);
-            $departure = str_replace(" ","",$departure);
-            $airto = $this->input->post($txbtransitname2perginame,true);
-
-            $expairto = explode('(', $airto);
-            $arrival = $expairto[1];
-            $arrival = str_replace(")","",$arrival);
-            $arrival = str_replace(" ","",$arrival);
-
-            $txbseatsperginame = 'seatspergi'.$i;
-            $seats = $this->input->post($txbseatsperginame,true);
-
-            $arrseats = array($seats);
-
-            $paramspergi = array(
-                "airline"=>$airlinecodepergi,
-                "departure"=>$departure,
-                "arrival"=>$arrival,
-                "departureDate"=>$departureDate,
-                "returnDate"=>$departureDate,
-                "adult"=>(int)$adult,
-                "child"=>(int)$child,
-                "infant"=>(int)$infant,
-                "seats"=>$arrseats,
-                "token"=>$token);
-
-            $jsonpergi = json_decode($this->curl->simple_post($APIurl, $paramspergi, array(CURLOPT_BUFFERSIZE => 10)));
-
-            array_push($arrdatapergi,$jsonpergi);
-
-        }
-
-        $data['pergi'] = $arrdatapergi;
-
-        if($pulangpergi == true){
-
-            $jumlahpesawatpulang = $this->input->post('jumlahpesawatpulang',true);
-
-            $airlinecodepulang = $this->input->post('airlinecodepulang',true);
-
-            $arrdatapulang=array();
-
-            for ($i = 0; $i < $jumlahpesawatpulang; $i++) {
-
-                $txbtransitname1pulangname = 'transitname1pulang'.$i;
-                $txbtransitname2pulangname = 'transitname2pulang'.$i;
-
-                $airfrom = $this->input->post($txbtransitname1pulangname,true);
-                $expairfrom = explode('(', $airfrom);
-                $departure = $expairfrom[1];
-                $departure = str_replace(")","",$departure);
-                $departure = str_replace(" ","",$departure);
-                $airto = $this->input->post($txbtransitname2pulangname,true);
-                $expairto = explode('(', $airto);
-                $arrival = $expairto[1];
-                $arrival = str_replace(")","",$arrival);
-                $arrival = str_replace(" ","",$arrival);
-
-                $txbseatspulangname = 'seatspulang'.$i;
-                $seats = $this->input->post($txbseatspulangname,true);
-
-                $arrseats = array($seats);
-
-                $paramspulang = array(
-                    "airline"=>$airlinecodepulang,
-                    "departure"=>$departure,
-                    "arrival"=>$arrival,
-                    "departureDate"=>$returnDate,
-                    "returnDate"=>$returnDate,
-                    "adult"=>$adult,
-                    "child"=>$child,
-                    "infant"=>$infant,
-                    "seats"=>$arrseats,
-                    "token"=>$token);
-
-                $jsonpulang = json_decode($this->curl->simple_post($APIurl, $paramspulang, array(CURLOPT_BUFFERSIZE => 10)));
-
-                array_push($arrdatapulang,$jsonpulang);
-
-            }
-
-            $data['pulang'] = $arrdatapulang;
-
-        }
-
-        echo $data;
-
-    }
-
     public function booking()
     {
         $id = $this->session->userdata('iduser');
@@ -837,10 +713,6 @@ class Pesawat extends CI_Controller {
 
 //            $hasil = $this->curl->simple_post($API_url, $param, array(CURLOPT_BUFFERSIZE => 10));
 
-//            $datajson = json_decode($hasil);
-            
-//            $arraydatapergi[$a] = $datajson;
-
             //contoh hasil
 
             $datadatafastravel = array(
@@ -860,7 +732,7 @@ class Pesawat extends CI_Controller {
                 "errorCode"=>"00",
                 "errorMsg"=>'Pembayaran Berhasil',
                 "reqid"=>'1805240000007',
-                "tgl"=>'13 November 2018 - 09:12:26',
+                "tgl"=>'14 November 2018 - 09:12:26',
                 "nilai"=>'2269500',
                 "data"=>$datafastravel
             );
@@ -921,22 +793,44 @@ class Pesawat extends CI_Controller {
                     "token" => $token);
 
 //                $hasil = $this->curl->simple_post($API_url, $parampulang, array(CURLOPT_BUFFERSIZE => 10));
-//
-//                $datajson = json_decode($hasil);
-//
-//                $arraydatapulang[$a] = $datajson;
 
-//                $nilai = $datajson->nilai;
+                //contoh hasil
 
-//                $errorcode = $datajson->errorCode;
+                $datadatafastravel = array(
+                    "transaction_id"=> "796636956",
+                    "url_etiket"=> "http://api.fastravel.co.id/app/generate_etiket?id_transaksi=796636956",
+                    "url_struk"=> "http://api.fastravel.co.id/app/generate_struk?id_transaksi=796636956"
+                );
 
-//                $totalbayar = $totalbayar + $nilai;
+                $datafastravel = array(
+                    "data"=> $datadatafastravel,
+                    "rc"=> "00",
+                    "rd"=> "Pembayaran Berhasil",
+                    "invoking"=> "Payment Flight"
+                );
 
-//                if($errorcode == 00){
-//                    $errorcode00 = $errorcode00 + 1;
-//                }
+                $tagihans = array(
+                    "errorCode"=>"00",
+                    "errorMsg"=>'Pembayaran Berhasil',
+                    "reqid"=>'1805240000007',
+                    "tgl"=>'14 November 2018 - 09:12:26',
+                    "nilai"=>'2269500',
+                    "data"=>$datafastravel
+                );
+                $hasil = json_encode($tagihans);
 
-                $arraydatapulang[$a] = $parampulang;
+                $datajson = json_decode($hasil);
+
+                $nilai = $datajson->nilai;
+                $errorcode = $datajson->errorCode;
+
+                $totalbayar = $totalbayar + $nilai;
+
+                if($errorcode == 00){
+                    $errorcode00 = $errorcode00 + 1;
+                }
+
+                $arraydatapulang[$a] = $datajson;
 
             }
 
@@ -946,9 +840,9 @@ class Pesawat extends CI_Controller {
 
         $data['totalbayar'] = $totalbayar;
         
-        if($errorcode00 > 0){
-            $data['transid'] = $this->simpan_data($totalbayar, $arraydatapergi, $arraydatapulang);
-        }
+//        if($errorcode00 > 0){
+//            $data['transid'] = $this->simpan_data($totalbayar, $arraydatapergi, $arraydatapulang);
+//        }
 
         return $data;
 
@@ -1335,23 +1229,7 @@ class Pesawat extends CI_Controller {
 
         }
 
-        //save to t_user_deposit table
-
         $saldoskrng = $saldo - $totalbayar;
-        $datauserdeposit = array(
-            'lembaga_id' => $lembaga_id,
-            'id_user' => $iduser,
-            'id_depo' => $iduser,
-            'tanggal' => $datecreated,
-            'case' => 'FLIGHT',
-            'id_transaksi' => $transid,
-            'ket_transaksi' => 'BOOKING FLIGHT',
-            'debet' => $totalbayar,
-            'sisa_saldo' => $saldoskrng,
-            'komisi' => $komisi
-        );
-
-        $iddepo = $this->M_user_deposit->simpan_data($datauserdeposit);
 
         //kurang saldo agen
 
@@ -1385,6 +1263,21 @@ class Pesawat extends CI_Controller {
         );
 
         $idtrans = $this->M_transaksi->simpan_data($datatransaksi);
+
+        $datauserdeposit = array(
+            'lembaga_id' => $lembaga_id,
+            'id_user' => $iduser,
+            'id_depo' => $iduser,
+            'tanggal' => $datecreated,
+            'case' => 'FLIGHT',
+            'id_transaksi' => $idtrans,
+            'ket_transaksi' => 'BOOKING FLIGHT',
+            'debet' => $totalbayar,
+            'sisa_saldo' => $saldoskrng,
+            'komisi' => $komisi
+        );
+
+        $iddepo = $this->M_user_deposit->simpan_data($datauserdeposit);
 
         return $transid;
 

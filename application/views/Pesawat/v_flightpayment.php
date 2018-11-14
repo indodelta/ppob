@@ -186,7 +186,7 @@ if($pulangpergi == 'on'){
                                 <div class="col-xs-8">
                                     <a href="<?php echo $urletiket; ?>"><?php echo $urletiket; ?></a>
                                 </div>
-                            </div>
+                            </div><br/>
 
                             <?php
                         }else{
@@ -208,9 +208,9 @@ if($pulangpergi == 'on'){
                     
                     if($pulangpergi == 'on'){
 
-                        echo '<h3>Perjalanan Pulang : </h3><br/>';
+                        echo '<br/><h3>Perjalanan Pulang : </h3><br/>';
 
-                        for ($a = 0; $a < $jumlahpesawatpergi; $a++) {
+                        for ($a = 0; $a < $jumlahpesawatpulang; $a++) {
 
                             $errorCodepulang = $datapayment['pulang'][$a]->errorCode;
                             $errorMsgpulang = $datapayment['pulang'][$a]->errorMsg;
@@ -283,7 +283,7 @@ if($pulangpergi == 'on'){
                                     <div class="col-xs-8">
                                         <a href="<?php echo $urletiket; ?>"><?php echo $urletiket; ?></a>
                                     </div>
-                                </div>
+                                </div><br/>
 
                                 <?php
 

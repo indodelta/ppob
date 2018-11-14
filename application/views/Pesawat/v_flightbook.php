@@ -74,6 +74,8 @@ $jamtibapergi = $this->input->post('jamtibapergi',true);
 
 $istransitpergi = $this->input->post('istransitpergi',true);
 
+$disabled = '';
+
 if($pulangpergi == 'on'){
 
     $jumlahpesawatpulang = $this->input->post('jumlahpesawatpulang',true);
@@ -99,7 +101,7 @@ if($pulangpergi == 'on'){
 
         <?php
 
-        var_dump($databooking);
+//        var_dump($databooking);
 
         $rc00 = 0;
 
@@ -107,10 +109,14 @@ if($pulangpergi == 'on'){
 
         for ($x = 0; $x < $jumlahbookingpergi; $x++) {
 
-            $rc = $databooking['pergi'][$x]->rc;
+            if($databooking['pergi'][$x] != null) {
 
-            if($rc == '00'){
-                $rc00 += 1;
+                $rc = $databooking['pergi'][$x]->rc;
+
+                if ($rc == '00') {
+                    $rc00 += 1;
+                }
+
             }
 
         }
@@ -121,10 +127,14 @@ if($pulangpergi == 'on'){
 
             for ($x = 0; $x < $jumlahbookingpulang; $x++) {
 
-                $rc = $databooking['pulang'][$x]->rc;
+                if($databooking['pulang'][$x] != null) {
 
-                if($rc == '00'){
-                    $rc00 += 1;
+                    $rc = $databooking['pulang'][$x]->rc;
+
+                    if ($rc == '00') {
+                        $rc00 += 1;
+                    }
+
                 }
 
             }
@@ -166,7 +176,11 @@ if($pulangpergi == 'on'){
                         $transitName2pergi = $exptransitName2pergi[1];
                         $transitName2pergi = str_replace(")","",$transitName2pergi);
 
-                        $rd = $databooking['pergi'][$x]->rd;
+                        if($databooking['pergi'][$x] != null) {
+                            $rd = $databooking['pergi'][$x]->rd;
+                        }else{
+                            $rd = 'API Booking gagal terkoneksi';
+                        }
 
                         $no = $x + 1;
 
@@ -205,7 +219,11 @@ if($pulangpergi == 'on'){
                             $transitName2pulang = $exptransitName2pulang[1];
                             $transitName2pulang = str_replace(")","",$transitName2pulang);
 
-                            $rd = $databooking['pulang'][$x]->rd;
+                            if($databooking['pulang'][$x] != null) {
+                                $rd = $databooking['pulang'][$x]->rd;
+                            }else{
+                                $rd = 'API Booking gagal terkoneksi';
+                            }
 
                             $no = $x + 1;
 
@@ -304,9 +322,6 @@ if($pulangpergi == 'on'){
                                             <td colspan="2" class="no-borders">
                                                 <text style="font-size: 16px;"> Transaction ID: <span style="font-weight: bold"><?php echo $trans_id ?></span></text>
                                             </td>
-                                            <td colspan="2" class="no-borders text-right">
-                                                <text style="font-size: 14px;"> Time Limit: <span style="font-weight: bold; color: #ED5565;"><?php echo $databooking['pergi'][0]->data->timeLimit ?></span></text>
-                                            </td>
                                         </tr>
 
                                         <!-- table pergi-->
@@ -334,16 +349,51 @@ if($pulangpergi == 'on'){
                                                 if($istransitpergi == 'true'){
                                                     ?>
                                                     <a data-toggle="collapse" data-target="#trtransitpergi">
-                                                        <text style="font-size: 12px; color:#ED5565;"> <?php echo $jumlahpesawatpergi - 1;?> Transit</text>
+                                                        <text style="font-size: 12px; color:#ED5565;">Lihat Status Booking</text>
+                                                        <br/>
+                                                        <text style="font-size: 12px; color:#ED5565;">
+                                                            <?php echo $jumlahpesawatpergi - 1;?> Transit
+                                                        </text>
                                                         <i class="fa fa-eye" style="color:#ED5565;"></i>
                                                     </a>
                                                     <?php
                                                 }else{
+
+                                                    if($databooking['pergi'][0] != null) {
+                                                        $rcpergi0 = $databooking['pergi'][0]->rc;
+                                                    }else{
+                                                        $rcpergi0 = '99';
+                                                    }
+
+                                                    if($rcpergi0 == '00'){
+                                                        ?>
+                                                        <span class="label label-primary">Booked</span>
+                                                        <?php
+                                                    }else{
+                                                        ?>
+                                                            <a data-toggle="collapse" data-target="#trrdfailedpergi">
+                                                                <span class="label label-danger">Failed</span>
+                                                            </a>
+                                                        <?php
+                                                    }
                                                     ?>
+                                                    <br/>
                                                     <text style="font-size: 12px; color:#ED5565;">Langsung</text>
                                                     <?php
                                                 }
                                                 ?>
+                                            </td>
+                                        </tr>
+                                        <?php
+                                        if($databooking['pergi'][0] != null) {
+                                            $rdpergi0 = $databooking['pergi'][0]->rd;
+                                        }else{
+                                            $rdpergi0 = 'API Booking gagal terkoneksi';
+                                        }
+                                        ?>
+                                        <tr id="trrdfailedpergi" class="collapse no-borders">
+                                            <td class="no-borders text-center" colspan="4">
+                                                <text style="font-size: 12px;"><?php echo $rdpergi0;?></text>
                                             </td>
                                         </tr>
                                         <tr id="trtransitpergi" class="collapse">
@@ -399,6 +449,13 @@ if($pulangpergi == 'on'){
                                                         $txbbagasiperginame = 'bagasipergi'.$a;
                                                         $bagasitransitpergi = $this->input->post($txbbagasiperginame,true);
 
+                                                        if($databooking['pergi'][$a] != null) {
+                                                            $rcpergi = $databooking['pergi'][$a]->rc;
+                                                            $rdpergi = $databooking['pergi'][$a]->rd;
+                                                        }else{
+                                                            $rcpergi = '99';
+                                                            $rdpergi = 'API Booking gagal terkoneksi';
+                                                        }
 
                                                         ?>
                                                         <tr class="no-borders" style="background-color: #F4F4F5;">
@@ -425,11 +482,32 @@ if($pulangpergi == 'on'){
                                                             </td>
                                                             <td class="no-borders" style="vertical-align: middle;">
                                                                 <input type="hidden" name="<?php echo $txbbagasiperginame;?>" value="<?php echo $bagasitransitpergi;?>">
+                                                                <?php
+                                                                if($rcpergi == '00'){
+                                                                    ?>
+                                                                        <span class="label label-primary">Booked</span>
+                                                                    <?php
+                                                                }else{
+                                                                    ?>
+                                                                        <span class="label label-danger">Failed</span>
+                                                                    <?php
+                                                                }
+                                                                ?>
+                                                                <br/><br/>
                                                                 <i class="fa fa-suitcase"></i><text style="font-size: 10px;"> Bagasi <?php echo $bagasitransitpergi;?> Kg</text>
                                                             </td>
                                                         </tr>
-
                                                         <?php
+                                                        if($rcpergi != '00'){
+                                                            ?>
+                                                                <tr class=" text-center no-borders" style="background-color: #F4F4F5;">
+                                                                    <td class="text-center" colspan="4">
+                                                                        <text style="font-size: 12px;"><?php echo $rdpergi;?></text>
+                                                                    </td>
+                                                                </tr>
+                                                            <?php
+                                                        }
+
                                                     }
                                                     ?>
 
@@ -466,16 +544,48 @@ if($pulangpergi == 'on'){
                                                     if($istransitpulang == 'true'){
                                                         ?>
                                                         <a data-toggle="collapse" data-target="#trtransitpulang">
+                                                            <text style="font-size: 12px; color:#ED5565;">Lihat Status Booking</text>
+                                                            <br/>
                                                             <text style="font-size: 12px; color:#ED5565;"> <?php echo $jumlahpesawatpulang - 1;?> Transit</text>
                                                             <i class="fa fa-eye" style="color:#ED5565;"></i>
                                                         </a>
                                                         <?php
                                                     }else{
+                                                        if($databooking['pulang'][0] != null) {
+                                                            $rcpulang0 = $databooking['pulang'][0]->rc;
+                                                        }else{
+                                                            $rcpulang0 = '99';
+                                                        }
+
+                                                        if($rcpulang0 == '00'){
+                                                            ?>
+                                                            <span class="label label-primary">Booked</span>
+                                                            <?php
+                                                        }else{
+                                                            ?>
+                                                            <a data-toggle="collapse" data-target="#trrdfailedpulang">
+                                                                <span class="label label-danger">Failed</span>
+                                                            </a>
+                                                            <?php
+                                                        }
                                                         ?>
+                                                        <br/>
                                                         <text style="font-size: 12px; color:#ED5565;">Langsung</text>
                                                         <?php
                                                     }
                                                     ?>
+                                                </td>
+                                            </tr>
+                                            <?php
+                                            if($databooking['pulang'][0] != null) {
+                                                $rdpulang0 = $databooking['pulang'][0]->rd;
+                                            }else{
+                                                $rdpulang0 = 'API Booking gagal terkoneksi';
+                                            }
+                                            ?>
+                                            <tr id="trrdfailedpulang" class="collapse no-borders">
+                                                <td class="no-borders text-center" colspan="4">
+                                                    <text style="font-size: 12px;"><?php echo $rdpulang0;?></text>
                                                 </td>
                                             </tr>
                                             <tr id="trtransitpulang" class="collapse">
@@ -529,6 +639,14 @@ if($pulangpergi == 'on'){
                                                             $txbbagasipulangname = 'bagasipulang'.$a;
                                                             $bagasitransitpulang = $this->input->post($txbbagasipulangname,true);
 
+                                                            if($databooking['pulang'][$a] != null) {
+                                                                $rcpulang = $databooking['pulang'][$a]->rc;
+                                                                $rdpulang = $databooking['pulang'][$a]->rd;
+                                                            }else{
+                                                                $rcpulang = '99';
+                                                                $rdpulang = 'API Booking gagal terkoneksi';
+                                                            }
+
                                                             ?>
                                                             <tr class="no-borders" style="background-color: #F4F4F5;">
                                                                 <td class="no-borders">
@@ -554,11 +672,32 @@ if($pulangpergi == 'on'){
                                                                 </td>
                                                                 <td class="no-borders" style="vertical-align: middle;">
                                                                     <input type="hidden" name="<?php echo $txbbagasipulangname;?>" value="<?php echo $bagasitransitpulang;?>">
+                                                                    <?php
+                                                                    if($rcpulang == '00'){
+                                                                        ?>
+                                                                        <span class="label label-primary">Booked</span>
+                                                                        <?php
+                                                                    }else{
+                                                                        ?>
+                                                                        <span class="label label-danger">Failed</span>
+                                                                        <?php
+                                                                    }
+                                                                    ?>
+                                                                    <br/><br/>
                                                                     <i class="fa fa-suitcase"></i><text style="font-size: 10px;"> Bagasi <?php echo $bagasitransitpulang;?> Kg</text>
                                                                 </td>
                                                             </tr>
-
                                                             <?php
+                                                            if($rcpulang != '00'){
+                                                                ?>
+                                                                <tr class=" text-center no-borders" style="background-color: #F4F4F5;">
+                                                                    <td class="text-center" colspan="4">
+                                                                        <text style="font-size: 12px;"><?php echo $rdpulang;?></text>
+                                                                    </td>
+                                                                </tr>
+                                                                <?php
+                                                            }
+
                                                         }
                                                         ?>
 
@@ -636,8 +775,19 @@ if($pulangpergi == 'on'){
 
                                     $class= 'rowpergi'.$b;
 
-                                    $harga = $databooking['pergi'][$b]->data->nominal;
-                                    $customadmin = $databooking['pergi'][$b]->data->nominalAdmin;
+                                    $harga=0;
+                                    $customadmin=0;
+
+                                    if($databooking['pergi'][$b] != null) {
+
+                                        $rc = $databooking['pergi'][$b]->rc;
+
+                                        if ($rc == '00') {
+                                            $harga = $databooking['pergi'][$b]->data->nominal;
+                                            $customadmin = $databooking['pergi'][$b]->data->nominalAdmin;
+                                        }
+
+                                    }
 
                                     $hargaindo = rupiah($harga);
                                     $customadminindo = rupiah($customadmin);
@@ -746,8 +896,19 @@ if($pulangpergi == 'on'){
 
                                         $class= 'rowpulang'.$c;
 
-                                        $harga = $databooking['pulang'][$c]->data->nominal;
-                                        $customadmin = $databooking['pulang'][$c]->data->nominalAdmin;
+                                        $harga=0;
+                                        $customadmin=0;
+
+                                        if($databooking['pulang'][$c] != null) {
+
+                                            $rc = $databooking['pulang'][$c]->rc;
+
+                                            if ($rc == '00') {
+                                                $harga = $databooking['pulang'][$c]->data->nominal;
+                                                $customadmin = $databooking['pulang'][$c]->data->nominalAdmin;
+                                            }
+
+                                        }
 
                                         $hargaindo = rupiah($harga);
                                         $customadminindo = rupiah($customadmin);
@@ -1097,19 +1258,42 @@ if($pulangpergi == 'on'){
                             $flightclasstransitpergi = $this->input->post($txbflightclasstransitperginame,true);
                             $bagasipergi = $this->input->post($txbbagasiperginame,true);
 
-                            $transactionid = $databooking['pergi'][$a]->data->transactionId;
-                            $bookingcode = $databooking['pergi'][$a]->data->bookingCode;
-                            $paymentcode = $databooking['pergi'][$a]->data->paymentCode;
+                            $transactionid = '';
+                            $bookingcode = '';
+                            $paymentcode = '';
 
-                            $timelimitpergi = $databooking['pergi'][$a]->data->timeLimit;
+                            $timelimitpergi = '';
 
-                            $txbflightfareperginame = 'flightfarepergi'.$a;
-                            $txbflightadminperginame = 'flightbiayaadminpergi'.$a;
-                            $txbcommisionperginame = 'commisionpergi'.$a;
+                            $nominal = 0;
+                            $nominaladmin = 0;
+                            $commision = 0;
 
-                            $nominal = $databooking['pergi'][$a]->data->nominal;
-                            $nominaladmin = $databooking['pergi'][$a]->data->nominalAdmin;
-                            $commision = $databooking['pergi'][$a]->data->comission;
+                            if($databooking['pergi'][$a] != null) {
+
+                                $rc = $databooking['pergi'][$a]->rc;
+
+                                if ($rc == '00') {
+                                    $transactionid = $databooking['pergi'][$a]->data->transactionId;
+                                    $bookingcode = $databooking['pergi'][$a]->data->bookingCode;
+                                    $paymentcode = $databooking['pergi'][$a]->data->paymentCode;
+
+                                    $timelimitpergi = $databooking['pergi'][$a]->data->timeLimit;
+
+                                    $nominal = $databooking['pergi'][$a]->data->nominal;
+                                    $nominaladmin = $databooking['pergi'][$a]->data->nominalAdmin;
+                                    $commision = $databooking['pergi'][$a]->data->comission;
+                                }else {
+                                    $disabled = 'disabled';
+                                }
+
+                            }else {
+                                $disabled = 'disabled';
+                            }
+
+                            $txbflightfareperginame = 'flightfarepergi' . $a;
+                            $txbflightadminperginame = 'flightbiayaadminpergi' . $a;
+                            $txbcommisionperginame = 'commisionpergi' . $a;
+
 
                             ?>
 
@@ -1182,19 +1366,44 @@ if($pulangpergi == 'on'){
                                 $flightclasstransitpulang = $this->input->post($txbflightclasstransitpulangname, true);
                                 $bagasipulang = $this->input->post($txbbagasipulangname, true);
 
-                                $transactionid = $databooking['pulang'][$a]->data->transactionId;
-                                $bookingcode = $databooking['pulang'][$a]->data->bookingCode;
-                                $paymentcode = $databooking['pulang'][$a]->data->paymentCode;
+                                $transactionid = '';
+                                $bookingcode = '';
+                                $paymentcode = '';
 
-                                $timelimitpulang = $databooking['pulang'][$a]->data->timeLimit;
+                                $timelimitpergi = '';
+
+                                $nominal = 0;
+                                $nominaladmin = 0;
+                                $commision = 0;
+
+
+                                if($databooking['pulang'][$a] != null) {
+
+                                    $rc = $databooking['pulang'][$a]->rc;
+
+                                    if ($rc == '00') {
+
+                                        $transactionid = $databooking['pulang'][$a]->data->transactionId;
+                                        $bookingcode = $databooking['pulang'][$a]->data->bookingCode;
+                                        $paymentcode = $databooking['pulang'][$a]->data->paymentCode;
+
+                                        $timelimitpulang = $databooking['pulang'][$a]->data->timeLimit;
+
+                                        $nominal = $databooking['pulang'][$a]->data->nominal;
+                                        $nominaladmin = $databooking['pulang'][$a]->data->nominalAdmin;
+                                        $commision = $databooking['pulang'][$a]->data->comission;
+
+                                    } else {
+                                        $disabled = 'disabled';
+                                    }
+
+                                }else {
+                                    $disabled = 'disabled';
+                                }
 
                                 $txbflightfarepulangname = 'flightfarepulang' . $a;
                                 $txbflightadminpulangname = 'flightbiayaadminpulang' . $a;
                                 $txbcommisionpulangname = 'commisionpulang' . $a;
-
-                                $nominal = $databooking['pulang'][$a]->data->nominal;
-                                $nominaladmin = $databooking['pulang'][$a]->data->nominalAdmin;
-                                $commision = $databooking['pulang'][$a]->data->comission;
 
                                 ?>
 
@@ -1338,7 +1547,7 @@ if($pulangpergi == 'on'){
 
                     </div>
                     <div class="col-lg-3 col-xs-4 text-center">
-                        <button type="button" class="btn btn-danger" style="width: 80%;" onclick="submittransflight()">Book Now !</button>
+                        <button type="button" class="btn btn-danger" style="width: 80%;" onclick="submittransflight()" <?php echo $disabled;?>>Book Now !</button>
                     </div>
                     <div class="col-lg-1"></div>
 
