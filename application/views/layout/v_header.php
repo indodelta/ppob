@@ -230,7 +230,9 @@ if (sizeof($data_lembaga)>0) {
 
                     <li
                     <?php
-                    if(current_url() == base_url('Deposit/topup')){
+                    if(current_url() == base_url('Topup')){
+                        echo ' class="active"';
+                    }else if(current_url() == base_url('Deposit/topup')){
                         echo ' class="active"';
                     }else if(current_url() == base_url('Deposit/deposit')){
                         echo ' class="active"';
@@ -238,6 +240,9 @@ if (sizeof($data_lembaga)>0) {
                     ?>>
                         <a href="#"><i class="fa fa-credit-card"></i> <span class="nav-label">DEPOSIT</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
+                            <li<?php if(current_url() == base_url('Topup')) { echo ' class="active"'; } ?>>
+                                <a href="<?php echo base_url('Topup')?>"><i class="fa fa-download"></i>Isi Saldo / TOPUP</a>
+                            </li>
                             <li<?php if(current_url() == base_url('Deposit/topup')) { echo ' class="active"'; } ?>>
                                 <a href="<?php echo base_url('Deposit/topup')?>"><i class="fa fa-money"></i>TOP UP</a>
                             </li>
