@@ -1,16 +1,18 @@
 $(document).ready(function(){
 
-    $("#formtopupcc").validate({});
+    Ladda.bind( '.ladda-button');
+
+    $("#formtopup").validate({});
 
 });
 
 function formatangka() {
-    var a = formtopupcc.txbnominaltopup.value.replace(/[^\d]/g, "");
+    var a = formtopup.txbnominaltopup.value.replace(/[^\d]/g, "");
 
     var a = +a;
 
-    formtopupcc.txbnominaltopup.value = formatNum(a);
-    formtopupcc.txbnominal.value = a;
+    formtopup.txbnominaltopup.value = formatNum(a);
+    formtopup.txbnominal.value = a;
 }
 
 function formatNum(rawNum) {

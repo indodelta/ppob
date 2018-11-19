@@ -449,6 +449,7 @@ CREATE TABLE `user` (
   `kota` varchar(100) DEFAULT NULL,
   `provinsi` varchar(100) DEFAULT NULL,
   `kodepos` varchar(10) DEFAULT NULL,
+  `negara` varchar(20) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
   `telepon` varchar(100) DEFAULT NULL,
   `saldo` double DEFAULT '0',
@@ -458,7 +459,7 @@ CREATE TABLE `user` (
 
 /*Data for the table `user` */
 
-insert  into `user`(`id`,`username`,`password`,`nama`,`user_level`,`klasifikasi`,`user_status`,`lembaga_id`,`alamat`,`kota`,`provinsi`,`kodepos`,`email`,`telepon`,`saldo`,`status_login`) values (1,'admin','21232f297a57a5a743894a0e4a801fc3','Administrasi',0,NULL,1,1,'Bandung','Bandung','Jawa Barat','40134','admin@gmail.com','085323778786',0,0),(2,'arie','db76becac4ca1a766a3d61a35ac47149','Arie Lesmana Hidayat',1,'G',1,1,'Bandung',NULL,NULL,NULL,'arie@gmail.com','085323778786',0,0),(3,'agen01','b0583fede16f57a4fe14fc2ec9ce0900','Agen01',1,'G',1,1,'Bandung',NULL,NULL,NULL,'agen1@gmail.com','085323778786',5763323,0),(4,'agen02','940a7501ace3f5175e5fab2709477b95','agen02',1,'A',1,1,'Bandung',NULL,NULL,NULL,'agen02@gmail.com','085323778786',500000,0),(5,'arie','4900D0A19B6894A4A514E9FF3AFCC2C0','Arie',1,'G',1,2,'Bandung AJA',NULL,NULL,NULL,'ariel@gmail.com','085323778786',0,0),(7,'agen04','9bfdf6bb1b9468e494ca1112520a3c16','agen04',1,'G',1,2,'Bandung',NULL,NULL,NULL,'agen04@gmail.com','085323778786',0,0);
+insert  into `user`(`id`,`username`,`password`,`nama`,`user_level`,`klasifikasi`,`user_status`,`lembaga_id`,`alamat`,`kota`,`provinsi`,`kodepos`,`negara`,`email`,`telepon`,`saldo`,`status_login`) values (1,'admin','21232f297a57a5a743894a0e4a801fc3','Administrasi',0,NULL,1,1,'Jl Dipatiukur No.1','Bandung','Jawa Barat','40134','Indonesia','admin@gmail.com','085323778786',0,0),(2,'arie','db76becac4ca1a766a3d61a35ac47149','Arie Lesmana Hidayat',1,'G',1,1,'Bandung',NULL,NULL,NULL,NULL,'arie@gmail.com','085323778786',0,0),(3,'agen01','b0583fede16f57a4fe14fc2ec9ce0900','Agen01',1,'G',1,1,'Bandung',NULL,NULL,NULL,NULL,'agen1@gmail.com','085323778786',5763323,0),(4,'agen02','940a7501ace3f5175e5fab2709477b95','agen02',1,'A',1,1,'Bandung',NULL,NULL,NULL,NULL,'agen02@gmail.com','085323778786',500000,0),(5,'arie','4900D0A19B6894A4A514E9FF3AFCC2C0','Arie',1,'G',1,2,'Bandung AJA',NULL,NULL,NULL,NULL,'ariel@gmail.com','085323778786',0,0),(7,'agen04','9bfdf6bb1b9468e494ca1112520a3c16','agen04',1,'G',1,2,'Bandung',NULL,NULL,NULL,NULL,'agen04@gmail.com','085323778786',0,0);
 
 /* Procedure structure for procedure `dummy_data_transaksi` */
 

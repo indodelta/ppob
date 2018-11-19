@@ -31,8 +31,7 @@ if (sizeof($data_lembaga)>0) {
 
 <div class="wrapper wrapper-content animated fadeInRight article" style="margin-top: 10px;">
     <div class="row">
-        <div class="col-lg-3"></div>
-        <div class="col-lg-6">
+        <div class="col-lg-6 col-lg-offset-3">
 
             <?php $this->load->view('func_custom'); ?>
 
@@ -42,137 +41,66 @@ if (sizeof($data_lembaga)>0) {
             </h2>
             <div class="ibox float-e-margins" >
 
+                <?php
+                if($this->session->flashdata('error')){
+                    $error = $this->session->flashdata('error');
+                    ?>
+                    <div class="alert alert-success alert-dismissable">
+                        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                        Terjadi kesalahan pada topup anda dengan rincian : <br/>
+                        <?php echo $error; ?><br/>
+                        Silahkan ulangi kembali proses topup anda.
+                    </div>
+                <?php } ?>
+
                 <div class="ibox-content">
 
-                    <div class="tabs-container">
-                        <ul class="nav nav-tabs">
-                            <li class="active" id="liTab1">
-                                <a data-toggle="tab" href="#tab-1" class="text-center">
-                                    <i class="fa fa-cc" style="color: <?php echo $warna_lembaga; ?>;font-size:3em;"></i>
-                                    <span style="color: <?php echo $warna_lembaga; ?>">Kartu Kredit</span>
-                                </a>
-                            </li>
-                            <li id="liTab2">
-                                <a data-toggle="tab" href="#tab-2" class="text-center">
-                                    <i class="fa fa-bank" style="color: <?php echo $warna_lembaga; ?>;font-size:3em;"></i>
-                                    <span style="color: <?php echo $warna_lembaga; ?>">Bank</span>
-                                </a>
-                            </li>
-                            <li id="liTab3">
-                                <a data-toggle="tab" href="#tab-3" class="text-center">
-                                    <i class="fa fa-building" style="color: <?php echo $warna_lembaga; ?>;font-size:3em;"></i>
-                                    <span style="color: <?php echo $warna_lembaga; ?>">Convenience Store</span>
-                                </a>
-                            </li>
-                            <li id="liTab4">
-                                <a data-toggle="tab" href="#tab-4" class="text-center">
-                                    <i class="fa fa-money" style="color: <?php echo $warna_lembaga; ?>;font-size:3em;"></i>
-                                    <span style="color: <?php echo $warna_lembaga; ?>">ClickPay</span>
-                                </a>
-                            </li>
-                            <li id="liTab5">
-                                <a data-toggle="tab" href="#tab-5" class="text-center">
-                                    <i class="fa fa-google-wallet" style="color: <?php echo $warna_lembaga; ?>;font-size:3em;"></i>
-                                    <span style="color: <?php echo $warna_lembaga; ?>">E-Wallet</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="tab-content">
+                    <form class="form-horizontal" id="formtopup" method="post" action="Topup/topup" autocomplete="off" onsubmit="return confirm('Apakah data sudah terisi dengan benar?');">
 
-                        <div id="tab-1" class="tab-pane active">
-                            <div class="panel-body">
-
-                                <form class="form-horizontal" id="formtopupcc" method="post" action="Topup/topupcc" autocomplete="off">
-
-                                    <div class="form-group">
-
-                                        <label class="col-lg-3 control-label" style="color: <?php echo $warna_lembaga; ?>">Nominal
-                                            Topup </label>
-                                        <div class="col-lg-9">
-                                            <input type="text"
-                                                   id="txbnominaltopup"
-                                                   name="txbnominaltopup"
-                                                   class="form-control"
-                                                   placeholder="EX: 50000"
-                                                   style="font-size: 16px; border: none; border-bottom: solid 1px darkslategray;"
-                                                   onkeyup="formatangka()"
-                                                   required/>
-                                            <input type="hidden" id="txbnominal" name="txbnominal">
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="form-group" style="margin-top: 40px;">
-                                        <?php
-                                        $user_data = $this->session->userdata;
-                                        $fullname = $user_data['fullname'];
-                                        ?>
-                                        <label class="col-lg-3 control-label" style="color: <?php echo $warna_lembaga; ?>">Nama
-                                            Pengirim </label>
-                                        <div class="col-lg-9">
-                                            <input type="text"
-                                                   id="txbnamapengirim"
-                                                   name="txbnamapengirim"
-                                                   class="form-control"
-                                                   placeholder="<?php echo $fullname ?>"
-                                                   style="font-size: 16px; border: none; border-bottom: solid 1px darkslategray;"
-                                                   required/>
-                                        </div>
-
-                                    </div>
-
-                                    <div class="form-group">
-                                        <button
-                                            class="btn btn-danger"
-                                            type="submit"
-                                            style="display: block; width: 100%;">Lanjutkan
-                                        </button>
-                                    </div>
-
-                                </form>
-
-                            </div>
-                        </div>
-                        <div id="tab-2" class="tab-pane">
-                            <div class="panel-body">
-
-                                <div id="formPascabayar">
-
-                                </div>
-
-                            </div>
-                        </div>
-                        <div id="tab-3" class="tab-pane">
-                            <div class="panel-body">
-
-                                <div id="formPascabayar">
-
-                                </div>
-
-                            </div>
-                        </div>
-                        <div id="tab-4" class="tab-pane">
-                            <div class="panel-body">
-
-                                <div id="formPascabayar">
-
-                                </div>
-
-                            </div>
-                        </div>
-                        <div id="tab-5" class="tab-pane">
-                            <div class="panel-body">
-
-                                <div id="formPascabayar">
-
-                                </div>
-
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label" style="color: <?php echo $warna_lembaga; ?>">
+                                Metode Top Up
+                            </label>
+                            <div class="col-lg-9">
+                                <select class="form-control" name="slmetode" style="font-size: 16px;">
+                                    <option value="02">Transfer Bank</option>
+                                    <option value="01">Kartu Kredit</option>
+                                    <option value="03">Convencience Store</option>
+                                    <option value="04">ClickPay</option>
+                                    <option value="05">E-Wallet</option>
+                                </select>
                             </div>
                         </div>
 
-                    </div>
+                        <div class="form-group">
+
+                            <label class="col-lg-3 control-label" style="color: <?php echo $warna_lembaga; ?>">Nominal
+                                Topup </label>
+                            <div class="col-lg-9">
+                                <input type="text"
+                                       id="txbnominaltopup"
+                                       name="txbnominaltopup"
+                                       class="form-control"
+                                       placeholder="EX: 50000"
+                                       style="font-size: 16px; border: none; border-bottom: solid 1px #F4F4F5;"
+                                       onkeyup="formatangka()"
+                                       required/>
+                                <input type="hidden" id="txbnominal" name="txbnominal">
+
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <button
+                                    class="ladda-button btn btn-danger"
+                                    type="submit"
+                                    data-style="zoom-in"
+                                    style="display: block; width: 100%;">Lanjutkan
+                            </button>
+                        </div>
+
+                    </form>
 
                 </div>
 

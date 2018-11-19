@@ -53,44 +53,113 @@ class Topup extends CI_Controller
         }
     }
 
-    function generateReference() {
-        $microdate = microtime();
-        $date_array = explode(" ",$microdate);
-        $date = date("YmdHis",$date_array[1]);
-        $date_array[0] = preg_replace('/[^\p{L}\p{N}\s]/u', '', $date_array[0]);
-        return "Ref".$date.$date_array[0].rand(100,999);
-    }
-
-    public function topupcc()
+    public function topup()
     {
-        $Apiurl = 'http://www.mootacash.id/npay/cc';
+        $Apiurl = 'http://www.mootacash.id/npay/topup';
 
         $nominal = $this->input->post("txbnominal",true);
+        $metode = $this->input->post("slmetode",true);
+
+        $id = $this->session->userdata('iduser');
+        $datauser = $this->M_user->load_data_user_whereid($id);
+
+//        if($metode == '01'){
+//            $callbackurl = base_url('Topup/callbackCC');
+//        }else if($metode == '02'){
+//            $callbackurl = base_url('Topup/callbackVA');
+//        }else if($metode == '03'){
+//            $callbackurl = base_url('Topup/callbackCVS');
+//        }else if($metode == '04'){
+//            $callbackurl = base_url('Topup/callbackklik');
+//        }else if($metode == '05'){
+//            $callbackurl = base_url('Topup/callbackewallet');
+//        }
 
         $param = array(
             "nominal"=>$nominal,
-            "referenceNo"=>$this->generateReference(),
-            "noreff"=>'12345',);
+            "metode"=>$metode,
+            "billingNm"=>$datauser[0]->nama,
+            "billingPhone"=>$datauser[0]->telepon,
+            "billingEmail"=>$datauser[0]->email,
+            "billingAddr"=>$datauser[0]->alamat,
+            "billingCity"=>$datauser[0]->kota,
+            "billingState"=>$datauser[0]->provinsi,
+            "billingPostCd"=>$datauser[0]->kodepos,
+            "billingCountry"=>$datauser[0]->negara,
+            "callbackUrl"=>base_url('Topup/callback'),
+            );
 
-        $response = $this->curl->simple_post($Apiurl, $param, array(CURLOPT_BUFFERSIZE => 10));
+        $response = json_decode($this->curl->simple_post($Apiurl, $param, array(CURLOPT_BUFFERSIZE => 10)));
 
-        var_dump($response);
+        //Process response from NICEPAY
+        if(isset($response->data->resultCd) && $response->data->resultCd == "0000"){
+            header("Location: ".$response->data->requestURL."?tXid=".$response->tXid);
+            //Please save your tXid in your database
 
-//        //Process response from NICEPAY
-//        if(isset($response->data->resultCd) && $response->data->resultCd == "0000"){
-//            header("Location: ".$response->data->requestURL."?tXid=".$response->tXid);
-//            //Please save your tXid in your database
-//        }elseif (isset($response->resultCd)) {
-//            // In this sample, we echo error message
-//            echo "<pre>";
-//            echo "result code    : ".$response->resultCd."\n";
-//            echo "result message : ".$response->resultMsg."\n";
-//            echo "</pre>";
-//        }else {
-//            // In this sample, we echo error message
-//            echo "<pre>Connection Timeout. Please Try Again.</pre>";
-//        }
+        }elseif (isset($response->resultCd)) {
+            $error = '<div>'.
+                        'Result Code    : '.$response->resultCd.'<br/>'.
+                        'Result Message : '.$response->resultMsg.'<br/>'.
+                     '</div>';
+            $this->session->set_flashdata('error', $error);
+            redirect(base_url('Topup'));
 
+        }else {
+            $error = 'Connection Timeout. Please Try Again';
+            $this->session->set_flashdata('error', $error);
+            redirect(base_url('Topup'));
+        }
+
+    }
+
+    public function callback() {
+        $requestData['amt'] = $_GET['amount'];
+        $requestData['referenceNo'] = $_GET['referenceNo'];
+        $requestData['tXid'] = $_GET['tXid'];
+
+        $Apiurl = 'http://www.mootacash.id/npay/status';
+        $result = json_decode($this->curl->simple_post($Apiurl, $requestData, array(CURLOPT_BUFFERSIZE => 10)));
+
+        //Process Response Nicepay
+        if(isset($result->resultCd) && $result->resultCd == '0000'){
+            $this->session->set_flashdata('dataresult', $result);
+            redirect(base_url('Topup/info'));
+        }
+        elseif (isset($result->resultCd)) {
+            $error = '<div>'.
+                'Result Code    : '.$result->resultCd.'<br/>'.
+                'Result Message : '.$result->resultMsg.'<br/>'.
+                '</div>';
+            $this->session->set_flashdata('error', $error);
+            redirect(base_url('Topup'));
+        }
+        else {
+            $error = 'Timeout When Checking Payment Status';
+            $this->session->set_flashdata('error', $error);
+            redirect(base_url('Topup'));
+        }
+
+    }
+
+    public function info()
+    {
+        if($this->session->userdata('status') == '') {
+            $this->session->set_flashdata('belumlogin','Anda belum login');
+            redirect(base_url());
+        }else{
+            $id = $this->session->userdata('iduser');
+            $level = $this->session->userdata('user_level');
+            if($level == 0){
+                $data['datasaldo'] = $this->cek_saldo_mobipay();
+            }else{
+                $data['datasaldo'] = $this->M_user->load_data_user_whereid($id);
+            }
+            $data['data_lembaga'] = $this->M_login->get_datadomain($this->domain);
+
+            $this->load->view('layout/v_header',$data);
+            $this->load->view('topup/info',$data);
+            $this->load->view('layout/v_footer',$data);
+        }
     }
 
 
