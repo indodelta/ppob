@@ -54,7 +54,7 @@ if (sizeof($data_lembaga)>0) {
 
                     $paymethod = $dataresult->payMethod;
                     if($paymethod == '01'){$metode = 'Kartu Kredit';}
-                    else if($paymethod == '02'){$metode = 'Transfer Bank';}
+                    else if($paymethod == '02'){$metode = 'Virtual Account Bank';}
                     else if($paymethod == '03'){$metode = 'Convencience Store';}
                     else if($paymethod == '04'){$metode = 'Click Pay';}
                     else if($paymethod == '05'){$metode = 'E-Wallet';}

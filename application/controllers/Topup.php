@@ -55,9 +55,10 @@ class Topup extends CI_Controller
 
     public function topup()
     {
-        $Apiurl = 'http://www.mootacash.id/npay/topup';
+        $Apiurl = $this->config->item('api_topupsaldo');
+//        $Apiurl = 'http://www.mootacash.id/npay/topup';
 
-        $nominal = $this->input->post("txbnominal",true);
+        $nominal = $this->input->post("slnominal",true);
         $metode = $this->input->post("slmetode",true);
 
         $id = $this->session->userdata('iduser');
@@ -87,6 +88,7 @@ class Topup extends CI_Controller
             "billingPostCd"=>$datauser[0]->kodepos,
             "billingCountry"=>$datauser[0]->negara,
             "callbackUrl"=>base_url('Topup/callback'),
+            "dbprocessUrl"=>base_url('Topup/dbprocess'),
             );
 
         $response = json_decode($this->curl->simple_post($Apiurl, $param, array(CURLOPT_BUFFERSIZE => 10)));
@@ -117,7 +119,8 @@ class Topup extends CI_Controller
         $requestData['referenceNo'] = $_GET['referenceNo'];
         $requestData['tXid'] = $_GET['tXid'];
 
-        $Apiurl = 'http://www.mootacash.id/npay/status';
+        $Apiurl = $this->config->item('api_cekstatustopup');
+//        $Apiurl = 'http://www.mootacash.id/npay/status';
         $result = json_decode($this->curl->simple_post($Apiurl, $requestData, array(CURLOPT_BUFFERSIZE => 10)));
 
         //Process Response Nicepay
@@ -139,6 +142,20 @@ class Topup extends CI_Controller
             redirect(base_url('Topup'));
         }
 
+    }
+
+    public function dbprocess() {
+
+        $txid = $_GET['tXid'];
+
+        $data = array(
+            'txId' => $txid,
+        );
+
+
+        $simpan = $this->db->insert('t_user_saldo',$data);
+        $insertId = $this->db->insert_id();
+        return $insertId;
     }
 
     public function info()

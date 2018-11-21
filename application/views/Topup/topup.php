@@ -45,7 +45,7 @@ if (sizeof($data_lembaga)>0) {
                 if($this->session->flashdata('error')){
                     $error = $this->session->flashdata('error');
                     ?>
-                    <div class="alert alert-success alert-dismissable">
+                    <div class="alert alert-warning alert-dismissable">
                         <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
                         Terjadi kesalahan pada topup anda dengan rincian : <br/>
                         <?php echo $error; ?><br/>
@@ -63,7 +63,7 @@ if (sizeof($data_lembaga)>0) {
                             </label>
                             <div class="col-lg-9">
                                 <select class="form-control" name="slmetode" style="font-size: 16px;">
-                                    <option value="02">Transfer Bank</option>
+                                    <option value="02">Virtual Account Bank</option>
                                     <option value="01">Kartu Kredit</option>
                                     <option value="03">Convencience Store</option>
                                     <option value="04">ClickPay</option>
@@ -77,16 +77,14 @@ if (sizeof($data_lembaga)>0) {
                             <label class="col-lg-3 control-label" style="color: <?php echo $warna_lembaga; ?>">Nominal
                                 Topup </label>
                             <div class="col-lg-9">
-                                <input type="text"
-                                       id="txbnominaltopup"
-                                       name="txbnominaltopup"
-                                       class="form-control"
-                                       placeholder="EX: 50000"
-                                       style="font-size: 16px; border: none; border-bottom: solid 1px #F4F4F5;"
-                                       onkeyup="formatangka()"
-                                       required/>
-                                <input type="hidden" id="txbnominal" name="txbnominal">
-
+                                <select class="form-control" name="slnominal" style="font-size: 16px;">
+                                    <option value="10000">10.000</option>
+                                    <option value="20000">20.000</option>
+                                    <option value="50000">50.000</option>
+                                    <option value="100000">100.000</option>
+                                    <option value="500000">500.000</option>
+                                    <option value="1000000">1.000.000</option>
+                                </select>
                             </div>
 
                         </div>
