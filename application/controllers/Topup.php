@@ -1,5 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+ini_set('max_execution_time', 300);
 
 class Topup extends CI_Controller
 {
@@ -11,6 +12,7 @@ class Topup extends CI_Controller
         $this->load->model('M_trans_saldo');
         $this->load->model('M_user_deposit');
         $this->load->model('M_user');
+        $this->load->model('M_user_topup');
         $this->domain = $_SERVER['HTTP_HOST'];
 
         date_default_timezone_set('Asia/Jakarta');
@@ -56,25 +58,12 @@ class Topup extends CI_Controller
     public function topup()
     {
         $Apiurl = $this->config->item('api_topupsaldo');
-//        $Apiurl = 'http://www.mootacash.id/npay/topup';
 
         $nominal = $this->input->post("slnominal",true);
         $metode = $this->input->post("slmetode",true);
 
         $id = $this->session->userdata('iduser');
         $datauser = $this->M_user->load_data_user_whereid($id);
-
-//        if($metode == '01'){
-//            $callbackurl = base_url('Topup/callbackCC');
-//        }else if($metode == '02'){
-//            $callbackurl = base_url('Topup/callbackVA');
-//        }else if($metode == '03'){
-//            $callbackurl = base_url('Topup/callbackCVS');
-//        }else if($metode == '04'){
-//            $callbackurl = base_url('Topup/callbackklik');
-//        }else if($metode == '05'){
-//            $callbackurl = base_url('Topup/callbackewallet');
-//        }
 
         $param = array(
             "nominal"=>$nominal,
@@ -95,8 +84,29 @@ class Topup extends CI_Controller
 
         //Process response from NICEPAY
         if(isset($response->data->resultCd) && $response->data->resultCd == "0000"){
-            header("Location: ".$response->data->requestURL."?tXid=".$response->tXid);
-            //Please save your tXid in your database
+
+            $lembaga_id = $this->session->userdata('lembaga_id');
+            $iduser = $this->session->userdata('iduser');
+            $txid = $response->tXid;
+
+            $data = array(
+                'lembaga_id' => $lembaga_id,
+                'id_user' => $iduser,
+                'txId' => $txid,
+                'method' => $metode,
+                'date' =>  date("Y-m-d H:i:s"),
+                'nominal' =>  $nominal,
+            );
+
+            $id = $this->M_user_topup->simpan_data($data);
+
+            if($id != null){
+                header("Location: ".$response->data->requestURL."?tXid=".$txid);
+            }else{
+                $error = 'Error Database. Please Try Again';
+                $this->session->set_flashdata('error', $error);
+                redirect(base_url('Topup'));
+            }
 
         }elseif (isset($response->resultCd)) {
             $error = '<div>'.
@@ -120,13 +130,39 @@ class Topup extends CI_Controller
         $requestData['tXid'] = $_GET['tXid'];
 
         $Apiurl = $this->config->item('api_cekstatustopup');
-//        $Apiurl = 'http://www.mootacash.id/npay/status';
         $result = json_decode($this->curl->simple_post($Apiurl, $requestData, array(CURLOPT_BUFFERSIZE => 10)));
 
         //Process Response Nicepay
         if(isset($result->resultCd) && $result->resultCd == '0000'){
-            $this->session->set_flashdata('dataresult', $result);
-            redirect(base_url('Topup/info'));
+
+            $txid = $result->tXid;
+            $referenceNo = $result->referenceNo;
+            $status = $result->status;
+            $status_msg = $result->resultMsg;
+
+            $where = array(
+                'txId' => $txid
+            );
+
+            $data = array(
+                'refNo' =>  $referenceNo,
+                'date' =>  date("Y-m-d H:i:s"),
+                'status' => $status,
+                'status_msg' => $status_msg,
+                'confirm_status' => 0,
+            );
+
+            $update = $this->M_user_topup->update_data($where,$data);
+
+            if($update == true) {
+                $this->session->set_flashdata('dataresult', $result);
+                redirect(base_url('Topup/info'));
+            }else{
+                $error = 'Error Database. Please Try Again';
+                $this->session->set_flashdata('error', $error);
+                redirect(base_url('Topup'));
+            }
+
         }
         elseif (isset($result->resultCd)) {
             $error = '<div>'.
@@ -144,18 +180,27 @@ class Topup extends CI_Controller
 
     }
 
-    public function dbprocess() {
-
+    public function dbprocess()
+    {
         $txid = $_GET['tXid'];
+//            $referenceNo = $result->referenceNo;
+//            $status = $result->status;
+//            $status_msg = $result->resultMsg;
 
-        $data = array(
-            'txId' => $txid,
-        );
+            $where = array(
+                'txId' => $txid
+            );
 
+            $data = array(
+//                'refNo' =>  $referenceNo,
+//                'date' =>  date("Y-m-d h:i:s"),
+//                'status' => $status,
+//                'status_msg' => $status_msg,
+                'confirm_status' => 1,
+            );
 
-        $simpan = $this->db->insert('t_user_saldo',$data);
-        $insertId = $this->db->insert_id();
-        return $insertId;
+            $update = $this->M_user_topup->update_data($where,$data);
+
     }
 
     public function info()

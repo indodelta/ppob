@@ -90,6 +90,14 @@ if (sizeof($data_lembaga)>0) {
                                 <text style="font-size: 14px;"><?php echo $dataresult->referenceNo; ?></text>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <div class="col-lg-4">
+                                <label>Nominal Topup</label>
+                            </div>
+                            <div class="col-lg-8 text-right">
+                                <text style="font-size: 14px;"><?php echo $dataresult->goodsNm; ?></text>
+                            </div>
+                        </div>
                         <hr/>
                         <?php
                         if($paymethod == '01')
