@@ -18,4 +18,13 @@ class M_user_topup extends CI_Model
         return $update;
     }
 
+    function load_data($lembagaid)
+    {
+        $this->db->from('t_user_topup');
+        $this->db->where('lembaga_id', $lembagaid);
+        $this->db->order_by("date", "desc");
+        $query = $this->db->get();
+        return $query->result();
+    }
+
 }

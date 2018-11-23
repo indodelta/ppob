@@ -128,6 +128,11 @@ if (sizeof($data_lembaga)>0) {
             <script src="<?php echo base_url();?>assets/js/<?=$jsfiltertransaksi_to_load;?>"></script>
             <?php
         }
+        else if (isset($js_to_load)){
+            ?>
+            <script src="<?php echo base_url();?>assets/js/<?=$js_to_load;?>"></script>
+            <?php
+        }
         ?>
 
         <script>

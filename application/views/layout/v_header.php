@@ -207,7 +207,9 @@ if (sizeof($data_lembaga)>0) {
 
                     <li
                         <?php
-                        if(current_url() == base_url('Laporan/mutasideposit')){
+                        if(current_url() == base_url('Laporan/topupsaldo')){
+                            echo ' class="active"';
+                        }else if(current_url() == base_url('Laporan/mutasideposit')){
                             echo ' class="active"';
                         }else if(current_url() == base_url('Laporan/transaksi')){
                             echo ' class="active"';
@@ -215,11 +217,12 @@ if (sizeof($data_lembaga)>0) {
                         ?>>
                         <a href="#"><i class="fa fa-book"></i> <span class="nav-label">LAPORAN</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-                            <li<?php if (current_url() == base_url('Laporan/mutasideposit')) {
-                                echo ' class="active"';
-                            } ?>>
-                                <a href="<?php echo base_url('Laporan/mutasideposit') ?>"><i class="fa fa-book"></i>
-                                    LAPORAN MUTASI DEPOSIT</a>
+                            <li<?php if (current_url() == base_url('Laporan/topupsaldo')) {echo ' class="active"';} ?>>
+                                <a href="<?php echo base_url('Laporan/topupsaldo') ?>"><i class="fa fa-book"></i>LAPORAN TOPUP SALDO</a>
+                            </li>
+
+                            <li<?php if (current_url() == base_url('Laporan/mutasideposit')) {echo ' class="active"';} ?>>
+                                <a href="<?php echo base_url('Laporan/mutasideposit') ?>"><i class="fa fa-book"></i>LAPORAN MUTASI DEPOSIT</a>
                             </li>
 
                             <li<?php if(current_url() == base_url('Laporan/transaksi')) { echo ' class="active"'; } ?>>
