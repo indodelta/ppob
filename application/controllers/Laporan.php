@@ -8,6 +8,7 @@ class Laporan extends CI_Controller
         parent::__construct();
         $this->load->helper('url');
         $this->load->model('M_user_deposit');
+        $this->load->model('M_user_topup');
         $this->load->model('M_transaksi');
         $this->load->model('M_transdetail');
         $this->load->model('M_login');
@@ -581,6 +582,34 @@ class Laporan extends CI_Controller
         }
 
         $this->load->view('Laporan/transaksi_ex',$data);
+    }
+
+    public function topupsaldo()
+    {
+        if($this->session->userdata('status') == '') {
+            $this->session->set_flashdata('belumlogin','Anda belum login');
+            redirect(base_url());
+        }else{
+            $lembagaid = $this->session->userdata('lembaga_id');
+
+            $data['js_to_load']= 'js_laporantopup.js';
+
+            $data['data_lembaga'] = $this->M_login->get_datadomain($this->domain);
+            $data['datatopup'] = $this->M_user_topup->load_data($lembagaid);
+
+            $id = $this->session->userdata('iduser');
+            $level = $this->session->userdata('user_level');
+            if($level == 0){
+                $data['datasaldo'] = $this->cek_saldo_mobipay();
+            }else{
+                $data['datasaldo'] = $this->M_user->load_data_user_whereid($id);
+            }
+
+            $this->load->view('layout/v_header',$data);
+            $this->load->view('Laporan/topupsaldo',$data);
+            $this->load->view('layout/v_footer',$data);
+        }
+
     }
 
 }
