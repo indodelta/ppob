@@ -95,6 +95,13 @@ class PPOB extends CI_Controller {
 
             $data['jenistagihan'] = $jenistagihan;
 
+        }else if($txbjenistagihan == 'TOKENPLN'){
+
+            $produk = $this->input->post("txbproduk",true);
+            $nomorpelanggan = $this->input->post("txbnomorpelanggan",true);
+            $nominaltoken= $this->input->post("txbnominaltoken",true);
+            $data['nominaltoken'] = $nominaltoken;
+
         }else if($txbjenistagihan == 'PLNPASCABAYAR'){
 
             $produk = $this->input->post("txbproduk",true);
@@ -139,6 +146,10 @@ class PPOB extends CI_Controller {
 
             $data['namaangskredit'] = $namaangskredit;
 
+        }else if($txbjenistagihan == 'PGN'){
+
+            $produk = $this->input->post("txbproduk",true);
+
         }
 
         $data['txbjenistagihan'] = $txbjenistagihan;
@@ -151,25 +162,25 @@ class PPOB extends CI_Controller {
 
         //contoh hasil
 
-//        $datatagihan = array(
-//            "nama"=>'Arie',
-//            "periode"=>'201805',
-//            "nominal"=>'96087',
-//            "admin"=>'3000',
-//            "ref2"=>'1234567890'
-//        );
-//
-//        $tagihans = array(
-//            "errorCode"=>0,
-//            "errorMsg"=>'',
-//            "reqid"=>'1805240000007',
-//            "tgl"=>'24 May 2018 - 09:12:26',
-//            "nilai"=>'99087',
-//            "data"=>$datatagihan
-//        );
-//        $tagihan = json_encode($tagihans);
+        $datatagihan = array(
+            "nama"=>'Arie',
+            "periode"=>'201805',
+            "nominal"=>'96087',
+            "admin"=>'3000',
+            "ref2"=>'1234567890'
+        );
 
-        $tagihan = $this->curl->simple_post($this->config->item('api_inquiry'), $param, array(CURLOPT_BUFFERSIZE => 10));
+        $tagihans = array(
+            "errorCode"=>0,
+            "errorMsg"=>'',
+            "reqid"=>'1805240000007',
+            "tgl"=>'24 May 2018 - 09:12:26',
+            "nilai"=>'99087',
+            "data"=>$datatagihan
+        );
+        $tagihan = json_encode($tagihans);
+
+//        $tagihan = $this->curl->simple_post($this->config->item('api_inquiry'), $param, array(CURLOPT_BUFFERSIZE => 10));
         $data_tagihan = json_decode($tagihan);
 
         $data['param'] = $param;
@@ -185,7 +196,7 @@ class PPOB extends CI_Controller {
     {
         $txbjenistagihan = $this->input->post("txbjenistagihan");
 
-        if($txbjenistagihan == 'PULSA' or $txbjenistagihan == 'DATA' or $txbjenistagihan == 'VOUCHERGAME'){
+        if($txbjenistagihan == 'PULSA' or $txbjenistagihan == 'DATA' or $txbjenistagihan == 'VOUCHERGAME' or $txbjenistagihan == 'EMONEY'){
             $data = $this->api_trans();
         }else{
             $data = $this->api_payment();
@@ -221,6 +232,8 @@ class PPOB extends CI_Controller {
             $pilihannominal = $this->input->post("nominaldata",true);
         }else if($txbjenistagihan == 'VOUCHERGAME'){
             $pilihannominal = $this->input->post("pilihanprodukgameonline",true);
+        }else if($txbjenistagihan == 'EMONEY'){
+            $pilihannominal = $this->input->post("pilihanprodukemoney",true);
         }
 
         $split = explode(',', $pilihannominal);
@@ -233,23 +246,22 @@ class PPOB extends CI_Controller {
                        "notelp"=>$txbnopelanggan,
                        "produk"=>$produk);
 
-        var_dump($param);die();
         //contoh hasil
 
-//        $tagihans = array(
-//            "errorCode"=>0,
-//            "errorMsg"=>'',
-//            "reqid"=>'1805240000007',
-//            "tgl"=>'24 May 2018 - 09:12:26',
-//            "sn"=>'10001010101',
-//            "nilai"=>'125000',
-//            "produk"=>$produk,
-//            "mitra"=>3
-//        );
-//
-//        $tagihan = json_encode($tagihans);
+        $tagihans = array(
+            "errorCode"=>0,
+            "errorMsg"=>'',
+            "reqid"=>'1805240000007',
+            "tgl"=>'24 May 2018 - 09:12:26',
+            "sn"=>'10001010101',
+            "nilai"=>'125000',
+            "produk"=>$produk,
+            "mitra"=>3
+        );
 
-        $tagihan = $this->curl->simple_post($this->config->item('api_trans'), $param, array(CURLOPT_BUFFERSIZE => 10));
+        $tagihan = json_encode($tagihans);
+
+//        $tagihan = $this->curl->simple_post($this->config->item('api_trans'), $param, array(CURLOPT_BUFFERSIZE => 10));
         $data_bayar = json_decode($tagihan);
 
         $data['param'] = $param;

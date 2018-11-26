@@ -156,7 +156,7 @@ if (sizeof($data_lembaga)>0) {
                                             <i class="fa fa-road fa-3x" id="iconTabakhir" style="color: <?php echo $warna_lembaga; ?>;"></i>
                                             <br/>
                                             <span id="textTabakhir" class="textTabakhir" style="color: <?php echo $warna_lembaga; ?>">
-                                                E-Money
+                                                E-Money & Toll
                                             </span>
                                             <?php
                                         }

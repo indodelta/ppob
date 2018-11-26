@@ -54,8 +54,10 @@ if (sizeof($data_lembaga)>0) {
 
                     if($txbjenistagihan == "PASCABAYAR") {
                          echo $arrProdukPasca[$jenistagihan];
+                    }else if($txbjenistagihan == "TOKENPLN") {
+                         echo 'Pembelian Token PLN';
                     }else if($txbjenistagihan == "PLNPASCABAYAR") {
-                         echo 'Tagihan PLN PASCABAYAR';
+                        echo 'Tagihan PLN PASCABAYAR';
                     }else if($txbjenistagihan == "VOUCHERGAME") {
                         echo 'Beli Voucher Game Online';
                     }else if($txbjenistagihan == "INDIHOME") {
@@ -64,6 +66,8 @@ if (sizeof($data_lembaga)>0) {
                         echo 'Tagihan Telepon TELKOM';
                     }else if($txbjenistagihan == "PDAM") {
                         echo 'Tagihan '.$namapdam;
+                    }else if($txbjenistagihan == "PGN") {
+                        echo 'Tagihan Gas PGN';
                     }else if($txbjenistagihan == "TVKABEL") {
                         echo 'Tagihan '.$namatvkabel;
                     }else if($txbjenistagihan == "ANGSKREDIT") {
@@ -97,6 +101,12 @@ if (sizeof($data_lembaga)>0) {
                                                style="color: <?php echo $warna_lembaga; ?>;font-size:4em; vertical-align: middle;"></i>
                                             <input type="hidden" value="<?php echo $arrProdukPasca[$jenistagihan] ?>" name="txbnamaproduk" id="txbnamaproduk">
                                             <?php
+                                        } else if ($txbjenistagihan == "TOKENPLN") {
+                                            ?>
+                                            <img alt="image" src="<?php echo base_url(); ?>assets/img/LOGOPLN.png"
+                                                 style="height: 60px; width: 50px;"/>
+                                            <input type="hidden" value="TOKEN PLN" name="txbnamaproduk" id="txbnamaproduk">
+                                            <?php
                                         } else if ($txbjenistagihan == "PLNPASCABAYAR") {
                                             ?>
                                             <img alt="image" src="<?php echo base_url(); ?>assets/img/LOGOPLN.png"
@@ -123,6 +133,13 @@ if (sizeof($data_lembaga)>0) {
                                                  src="<?php echo base_url(); ?>assets/img/logopdam.png"
                                                  style="height: 70px; width: 90px;"/>
                                             <input type="hidden" value="<?php echo $namapdam;?>" name="txbnamaproduk" id="txbnamaproduk">
+                                            <?php
+                                        } else if ($txbjenistagihan == "PGN") {
+                                            ?>
+                                            <img alt="image" id="imgindihome"
+                                                 src="<?php echo base_url(); ?>assets/img/logopgn.png"
+                                                 style="height: 70px; width: 90px;"/>
+                                            <input type="hidden" value="Gas PGN" name="txbnamaproduk" id="txbnamaproduk">
                                             <?php
                                         } else if ($txbjenistagihan == "TVKABEL") {
                                             ?>
@@ -162,16 +179,35 @@ if (sizeof($data_lembaga)>0) {
                                                 ?>
                                             </h2>
                                         </div>
-                                        <div class="row">
-                                            <text class="col-lg-2 control-label">Total</text>
-                                            <h2 class="col-lg-10">
-                                                <?php
+                                        <?php
+                                        if ($txbjenistagihan != "TOKENPLN") {
+                                            ?>
+                                            <div class="row">
+                                                <text class="col-lg-2 control-label">Total</text>
+                                                <h2 class="col-lg-10">
+                                                    <?php
                                                     $tagihan = $data_tagihan->data->nominal;
                                                     $biayaadmin = $data_tagihan->data->admin;
                                                     echo rupiah($tagihan + $biayaadmin);
-                                                ?>
-                                            </h2>
-                                        </div>
+                                                    ?>
+                                                </h2>
+                                            </div>
+                                            <?php
+                                        }else{
+                                            ?>
+                                            <div class="row">
+                                                <text class="col-lg-2 control-label">Token</text>
+                                                <h2 class="col-lg-10">
+                                                    <?php
+                                                    $totalharga = $nominaltoken;
+                                                    echo number_format($nominaltoken,0,',','.');
+                                                    ?>
+                                                </h2>
+                                                <input type="hidden" id="txbnominaltoken" name="txbnominaltoken" value="<?php echo $nominaltoken;?>">
+                                            </div>
+                                            <?php
+                                        }
+                                        ?>
 
                                     </div>
 
@@ -179,10 +215,18 @@ if (sizeof($data_lembaga)>0) {
 
                             </div>
 
-                            <div class="ibox-content"
-                                 style="margin-top: 20px; padding-top: 10px; padding-bottom: 10px;">
-                                <h2>DETAIL TAGIHAN</h2>
-                            </div>
+                            <?php
+                            if ($txbjenistagihan != "TOKENPLN") {
+                                ?>
+
+                                <div class="ibox-content"
+                                     style="margin-top: 20px; padding-top: 10px; padding-bottom: 10px;">
+                                    <h2>DETAIL TAGIHAN</h2>
+                                </div>
+
+                                <?php
+                            }
+                            ?>
 
                             <div class="ibox-content">
 
@@ -196,6 +240,10 @@ if (sizeof($data_lembaga)>0) {
                                 ?>
 
                                 <input type="hidden" value="<?php echo $saldo ?>" name="txbsaldosekarang" id="txbsaldosekarang">
+
+                                <?php
+                                if ($txbjenistagihan != "TOKENPLN") {
+                                    ?>
 
                                     <div class="form-group">
 
@@ -246,14 +294,20 @@ if (sizeof($data_lembaga)>0) {
                                         <div class="col-lg-3 text-right">
                                             <h3 style="color: #ed5565">
                                                 <?php
-                                                    $totalharga = $tagihan + $biayaadmin;
-                                                    echo rupiah($totalharga);
+                                                $totalharga = $tagihan + $biayaadmin;
+                                                echo rupiah($totalharga);
                                                 ?>
                                             </h3>
-                                            <input type="hidden" value="<?php echo $totalharga?>" name="txbnominal" id="txbnominal">
                                         </div>
 
                                     </div>
+
+                                    <?php
+                                }
+                                ?>
+
+                                <input type="hidden" value="<?php echo $totalharga ?>" name="txbnominal"
+                                       id="txbnominal">
 
 
                                 <div class="form-group">
@@ -265,7 +319,7 @@ if (sizeof($data_lembaga)>0) {
 
                                     <div class="col-lg-12">
                                         <button type="button" class="btn btn-danger" style="width: 100%; margin-top: 30px;"
-                                                onclick="checkoutppob()">KONFIRMASI
+                                                onclick="checkoutppob()">BAYAR
                                         </button>
                                     </div>
 

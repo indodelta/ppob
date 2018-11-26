@@ -60,6 +60,8 @@ if (sizeof($data_lembaga)>0) {
                         echo 'Pembayaran Tagihan INDIHOME';
                     }else if($txbjenistagihan == "TELEPON") {
                         echo 'Pembayaran Tagihan TELEPON';
+                    }else if($txbjenistagihan == "PGN") {
+                        echo 'Pembayaran Tagihan TELEPON';
                     }else if($txbjenistagihan == "PDAM") {
                         echo 'Pembayaran Tagihan '.$dataproduk['namaproduk'];
                     }else if($txbjenistagihan == "TVKABEL") {
@@ -150,6 +152,12 @@ if (sizeof($data_lembaga)>0) {
                                             ?>
                                             <img alt="image" id="imgindihome"
                                                  src="<?php echo base_url(); ?>assets/img/logopdam.png"
+                                                 style="height: 70px; width: 90px;"/>
+                                            <?php
+                                        } else if ($txbjenistagihan == "PGN") {
+                                            ?>
+                                            <img alt="image" id="imgindihome"
+                                                 src="<?php echo base_url(); ?>assets/img/logopgn.png"
                                                  style="height: 70px; width: 90px;"/>
                                             <?php
                                         } else if ($txbjenistagihan == "TVKABEL") {
@@ -276,7 +284,7 @@ if (sizeof($data_lembaga)>0) {
                                         <input type="hidden" value="<?php echo $sn ?>" name="txbsn" id="txbsn">
                                         <input type="hidden" value="<?php echo $ref ?>" name="txbref" id="txbref">
                                         <input type="hidden" value="<?php echo $tab ?>" name="txbtab" id="txbtab">
-                                        <button type="submit" class="btn btn-danger" style="width: 100%; margin-top: 30px;">BAYAR</button>
+                                        <button type="submit" class="btn btn-danger" style="width: 100%; margin-top: 30px;">SELESAI</button>
                                     </div>
 
                                 </div>

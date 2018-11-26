@@ -73,7 +73,7 @@ function belitoken() {
             confirmButtonText: "Ya",
             closeOnConfirm: false
         }, function () {
-            document.getElementById("formtokenpln").action = "ppob/payment";
+            document.getElementById("formtokenpln").action = "ppob/checkout";
             document.getElementById("formtokenpln").submit();
         });
 
