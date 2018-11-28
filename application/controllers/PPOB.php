@@ -62,21 +62,29 @@ class PPOB extends CI_Controller {
 
     public function checkout()
     {
-        $data = $this->view_data_tagihan();
+        $txbjenistagihan = $this->input->post("txbjenistagihan");
 
-        $data['jscheckout_to_load']= 'js_checkout.js';
-        $data['data_lembaga'] = $this->M_login->get_datadomain($this->domain);
-        $id = $this->session->userdata('iduser');
-        $level = $this->session->userdata('user_level');
-        if($level == 0){
-            $data['datasaldo'] = $this->cek_saldo_mobipay();
+        if($txbjenistagihan != ''){
+            $data = $this->view_data_tagihan();
+
+            $data['jscheckout_to_load']= 'js_checkout.js';
+            $data['data_lembaga'] = $this->M_login->get_datadomain($this->domain);
+            $id = $this->session->userdata('iduser');
+            $level = $this->session->userdata('user_level');
+            if($level == 0){
+                $data['datasaldo'] = $this->cek_saldo_mobipay();
+            }else{
+                $data['datasaldo'] = $this->M_user->load_data_user_whereid($id);
+            }
+
+            $this->load->view('layout/v_header',$data);
+            $this->load->view('Checkout/checkout',$data);
+            $this->load->view('layout/v_footer',$data);
         }else{
-            $data['datasaldo'] = $this->M_user->load_data_user_whereid($id);
+            $error = 'Larangan direct langsung ke checkout !!!';
+            $this->session->set_flashdata('error', $error);
+            redirect(base_url('ppob'));
         }
-
-        $this->load->view('layout/v_header',$data);
-        $this->load->view('Checkout/checkout',$data);
-        $this->load->view('layout/v_footer',$data);
     }
 
     public function view_data_tagihan()
@@ -196,26 +204,34 @@ class PPOB extends CI_Controller {
     {
         $txbjenistagihan = $this->input->post("txbjenistagihan");
 
-        if($txbjenistagihan == 'PULSA' or $txbjenistagihan == 'DATA' or $txbjenistagihan == 'VOUCHERGAME' or $txbjenistagihan == 'EMONEY'){
-            $data = $this->api_trans();
-        }else{
-            $data = $this->api_payment();
-        }
+        if($txbjenistagihan != ''){
 
-        $data['jspayment_to_load']= 'js_payment.js';
-        $data['data_lembaga'] = $this->M_login->get_datadomain($this->domain);
-        $id = $this->session->userdata('iduser');
-        $level = $this->session->userdata('user_level');
-        if($level == 0){
-            $data['datasaldo'] = $this->cek_saldo_mobipay();
-        }else{
-            $data['datasaldo'] = $this->M_user->load_data_user_whereid($id);
-        }
-        $data['txbjenistagihan'] = $txbjenistagihan;
+            if($txbjenistagihan == 'PULSA' or $txbjenistagihan == 'DATA' or $txbjenistagihan == 'VOUCHERGAME'){
+                $data = $this->api_trans();
+            }else{
+                $data = $this->api_payment();
+            }
 
-        $this->load->view('layout/v_header',$data);
-        $this->load->view('Checkout/payment',$data);
-        $this->load->view('layout/v_footer',$data);
+            $data['jspayment_to_load']= 'js_payment.js';
+            $data['data_lembaga'] = $this->M_login->get_datadomain($this->domain);
+            $id = $this->session->userdata('iduser');
+            $level = $this->session->userdata('user_level');
+            if($level == 0){
+                $data['datasaldo'] = $this->cek_saldo_mobipay();
+            }else{
+                $data['datasaldo'] = $this->M_user->load_data_user_whereid($id);
+            }
+            $data['txbjenistagihan'] = $txbjenistagihan;
+
+            $this->load->view('layout/v_header',$data);
+            $this->load->view('Checkout/payment',$data);
+            $this->load->view('layout/v_footer',$data);
+
+        }else{
+            $error = 'Larangan direct langsung ke payment !!!';
+            $this->session->set_flashdata('error', $error);
+            redirect(base_url('ppob'));
+        }
     }
 
     public function api_trans()
@@ -232,8 +248,6 @@ class PPOB extends CI_Controller {
             $pilihannominal = $this->input->post("nominaldata",true);
         }else if($txbjenistagihan == 'VOUCHERGAME'){
             $pilihannominal = $this->input->post("pilihanprodukgameonline",true);
-        }else if($txbjenistagihan == 'EMONEY'){
-            $pilihannominal = $this->input->post("pilihanprodukemoney",true);
         }
 
         $split = explode(',', $pilihannominal);
@@ -286,6 +300,12 @@ class PPOB extends CI_Controller {
         $txbnopelanggan = $this->input->post("txbnomorpelanggan",true);
         $produk= $this->input->post("txbproduk",true);
         $namaproduk= $this->input->post("txbnamaproduk",true);
+        if($txbjenistagihan == 'EMONEY'){
+            $pilihanemoney = $this->input->post("pilihanprodukemoney",true);
+            $split = explode(',', $pilihanemoney);
+            $produk = $split[1];
+            $namaproduk = $split[2];
+        }
 
         if($txbjenistagihan == 'TOKENPLN'){
 
@@ -407,7 +427,7 @@ class PPOB extends CI_Controller {
             'case' => $txbkodeproduk,
             'id_transaksi' => $idtrans,
             'ket_transaksi' => $txbnamaproduk,
-            'debet' => $txbnominal,
+            'kredit' => $txbnominal,
             'sisa_saldo' => $saldoskrng,
         );
 

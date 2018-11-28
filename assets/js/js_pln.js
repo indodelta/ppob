@@ -22,7 +22,6 @@ $(document).ready(function(){
 
     });
 
-
 });
 
 function pilihtoken(button) {

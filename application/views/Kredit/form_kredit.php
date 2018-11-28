@@ -42,7 +42,7 @@
     <div class="form-group">
         <label class="col-lg-3 control-label" style="color: <?php echo $warna_lembaga ?>">Nomor / ID Pelanggan :</label>
         <div class="col-lg-9">
-            <input type="text" class="form-control" id="nomorpelanggan" name="nomorpelanggan" placeholder="CONTOH 1122334455" required>
+            <input type="text" class="form-control" id="nomorpelangganasfin" name="nomorpelanggan" placeholder="CONTOH 1122334455" required>
         </div>
     </div>
 
@@ -55,3 +55,25 @@
 </form>
 
 <script src="<?php echo base_url();?>assets/js/js_angskredit.js"></script>
+
+<script>
+
+    //input no telepon
+    var nomorpelangganasfin = document.getElementById('nomorpelangganasfin');
+    var goodKey = '0123456789';
+    var checkInputTel = function(e) {
+        var key = (typeof e.which == "number") ? e.which : e.keyCode;
+        var start = this.selectionStart,
+            end = this.selectionEnd;
+        var filtered = this.value.split('').filter(filterInput);
+        this.value = filtered.join("");
+        /* Prevents moving the pointer for a bad character */
+        var move = (filterInput(String.fromCharCode(key)) || (key == 0 || key == 8)) ? 0 : 1;
+        this.setSelectionRange(start - move, end - move);
+    }
+    var filterInput = function(val) {
+        return (goodKey.indexOf(val) > -1);
+    }
+    nomorpelangganasfin.addEventListener('input', checkInputTel);
+
+</script>

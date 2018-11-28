@@ -72,6 +72,16 @@ if (sizeof($data_lembaga)>0) {
 
                     <?php } ?>
 
+                    <?php
+                    if($this->session->flashdata('error')){
+                        $error = $this->session->flashdata('error');
+                        ?>
+                        <div class="alert alert-warning alert-dismissable">
+                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                            <?php echo $error; ?>
+                        </div>
+                    <?php } ?>
+
                     <input type="hidden" id="warnalembaga" value="<?php echo $warna_lembaga?>">
                     <?php
                     if($this->session->userdata('user_level') == 0){

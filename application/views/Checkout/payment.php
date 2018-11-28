@@ -61,13 +61,15 @@ if (sizeof($data_lembaga)>0) {
                     }else if($txbjenistagihan == "TELEPON") {
                         echo 'Pembayaran Tagihan TELEPON';
                     }else if($txbjenistagihan == "PGN") {
-                        echo 'Pembayaran Tagihan TELEPON';
+                        echo 'Pembayaran Tagihan Gas PGN';
                     }else if($txbjenistagihan == "PDAM") {
                         echo 'Pembayaran Tagihan '.$dataproduk['namaproduk'];
                     }else if($txbjenistagihan == "TVKABEL") {
                         echo 'Pembayaran Tagihan '.$dataproduk['namaproduk'];
                     }else if($txbjenistagihan == "ANGSKREDIT") {
                         echo 'Pembayaran Tagihan '.$dataproduk['namaproduk'];
+                    }else if($txbjenistagihan == "EMONEY") {
+                        echo 'Pembayaran '.$dataproduk['namaproduk'];
                     }
                     ?>
                 </span>
@@ -175,6 +177,11 @@ if (sizeof($data_lembaga)>0) {
                                             <i class="fa fa-mobile-phone"
                                                style="color: <?php echo $warna_lembaga; ?>;font-size:4em; vertical-align: middle;"></i>
                                             <?php
+                                        }else if ($txbjenistagihan == "EMONEY") {
+                                            ?>
+                                            <i class="fa fa-road"
+                                               style="color: <?php echo $warna_lembaga; ?>;font-size:4em; vertical-align: middle;"></i>
+                                            <?php
                                         }
                                         ?>
                                     </div>
@@ -192,7 +199,7 @@ if (sizeof($data_lembaga)>0) {
                                         </div>
                                         <div class="row">
                                             <text class="col-lg-2 control-label">
-                                                <?php if($txbjenistagihan == "VOUCHERGAME"){
+                                                <?php if($txbjenistagihan == "VOUCHERGAME" or $txbjenistagihan == "EMONEY"){
                                                     echo 'Produk';
                                                 }else{
                                                     echo 'Nama';
@@ -203,7 +210,7 @@ if (sizeof($data_lembaga)>0) {
                                                 <?php
                                                 $kodeproduk = $dataproduk['produk'];
                                                 $namaproduk = $dataproduk['namaproduk'];
-                                                if ($txbjenistagihan == "PULSA" or $txbjenistagihan == "DATA" or $txbjenistagihan == "VOUCHERGAME"){
+                                                if ($txbjenistagihan == "PULSA" or $txbjenistagihan == "DATA" or $txbjenistagihan == "VOUCHERGAME" or $txbjenistagihan == "EMONEY"){
 
                                                     $namapelanggan = '';
                                                     echo $namaproduk;

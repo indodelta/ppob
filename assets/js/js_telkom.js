@@ -4,6 +4,8 @@ $(document).ready(function(){
         radioClass: 'iradio_square-red',
     });
 
+    var nomorpelanggantelkom = document.getElementById('nomorpelanggantelkom');
+
     $('.ichecksindihome').on('ifChecked', function(event){
         var kode= $(this).attr('data-kode');
 
@@ -11,6 +13,7 @@ $(document).ready(function(){
         document.getElementById("txbkodeproduk").value= kode;
         document.getElementById("imgindihome").style.display= 'block';
         document.getElementById("imgtelkom").style.display= 'none';
+        nomorpelanggantelkom.value = '';
     });
 
     $('.icheckstelepon').on('ifChecked', function(event){
@@ -20,6 +23,7 @@ $(document).ready(function(){
         document.getElementById("txbkodeproduk").value= kode;
         document.getElementById("imgindihome").style.display= 'none';
         document.getElementById("imgtelkom").style.display= 'block';
+        nomorpelanggantelkom.value = '';
     });
 
     $("#formtelkom").validate({

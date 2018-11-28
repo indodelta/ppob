@@ -54,7 +54,7 @@
                 <input type="hidden" class="form-control" id="txbjenistelkom" name="txbjenistagihan" value="INDIHOME">
                 <input type="hidden" class="form-control" name="txbtab" value="5">
                 <input type="hidden" class="form-control" id="txbkodeproduk" name="txbkodeproduk" value="<?php echo $kodeprodukspeedy ?>">
-                <input type="text" class="form-control" id="nomorpelanggan" name="nomorpelanggan" style="height: 50px;" placeholder="CONTOH 1122334455" required>
+                <input type="text" class="form-control" id="nomorpelanggantelkom" name="nomorpelanggan" style="height: 50px;" placeholder="CONTOH 1122334455" required>
                 <span class="input-group-addon">
                     <img alt="image" id="imgindihome" src="<?php echo base_url();?>assets/img/logoindihome.png" style="height: 30px; width: 40px;" />
                     <img alt="image" id="imgtelkom" src="<?php echo base_url();?>assets/img/logotelkom.png" style="height: 30px; width: 40px; display: none;" />
@@ -75,3 +75,24 @@
 </form>
 
 <script src="<?php echo base_url();?>assets/js/js_telkom.js"></script>
+<script>
+
+    //input no telepon
+    var nomorpelanggantelkom = document.getElementById('nomorpelanggantelkom');
+    var goodKey = '0123456789';
+    var checkInputTel = function(e) {
+        var key = (typeof e.which == "number") ? e.which : e.keyCode;
+        var start = this.selectionStart,
+            end = this.selectionEnd;
+        var filtered = this.value.split('').filter(filterInput);
+        this.value = filtered.join("");
+        /* Prevents moving the pointer for a bad character */
+        var move = (filterInput(String.fromCharCode(key)) || (key == 0 || key == 8)) ? 0 : 1;
+        this.setSelectionRange(start - move, end - move);
+    }
+    var filterInput = function(val) {
+        return (goodKey.indexOf(val) > -1);
+    }
+    nomorpelanggantelkom.addEventListener('input', checkInputTel);
+
+</script>

@@ -137,7 +137,7 @@ $datasaldo=$_GET['datasaldo'];
                 <input type="hidden" name="txbproduk" id="txbproduk" value="<?php echo $kdprodukplnpasca?>">
                 <input type="hidden" class="form-control" id="txbjenistagihan" name="txbjenistagihan" value="PLNPASCABAYAR">
                 <input type="hidden" class="form-control" name="txbtab" value="2">
-                <input type="text" class="form-control" id="nomorpelanggan" name="nomorpelanggan" style="height: 50px;" placeholder="CONTOH 1122334455" required>
+                <input type="text" class="form-control" id="nomorpelangganpln" name="nomorpelanggan" style="height: 50px;" placeholder="CONTOH 1122334455" required>
                 <span class="input-group-addon"><img alt="image" src="<?php echo base_url();?>assets/img/LOGOPLN.png" style="height: 30px; width: 20px;" /></span>
             </div>
         </div>
@@ -153,3 +153,26 @@ $datasaldo=$_GET['datasaldo'];
 </form>
 
 <script src="<?php echo base_url();?>assets/js/js_pln.js"></script>
+<script>
+
+    //input no telepon
+    var nomorpelangganpln = document.getElementById('nomorpelangganpln');
+    var nomoridpelanggan = document.getElementById('nomoridpelanggan');
+    var goodKey = '0123456789';
+    var checkInputTel = function(e) {
+        var key = (typeof e.which == "number") ? e.which : e.keyCode;
+        var start = this.selectionStart,
+            end = this.selectionEnd;
+        var filtered = this.value.split('').filter(filterInput);
+        this.value = filtered.join("");
+        /* Prevents moving the pointer for a bad character */
+        var move = (filterInput(String.fromCharCode(key)) || (key == 0 || key == 8)) ? 0 : 1;
+        this.setSelectionRange(start - move, end - move);
+    }
+    var filterInput = function(val) {
+        return (goodKey.indexOf(val) > -1);
+    }
+    nomorpelangganpln.addEventListener('input', checkInputTel);
+    nomoridpelanggan.addEventListener('input', checkInputTel);
+
+</script>
