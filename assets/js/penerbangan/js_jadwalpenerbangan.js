@@ -79,8 +79,6 @@ function tampildata(){
 
     // data jadwal
 
-    $('#loading').show();
-
     var warnalembaga = document.getElementById("txbwarnalembaga").value;
     var cekreturn = document.getElementById("cekpp").value;
     var jumlahairline = document.getElementById("jumlahairline").value;
@@ -95,6 +93,73 @@ function tampildata(){
     var arrdata = [];
 
     if(cekreturn == 'on'){
+
+        var arraypergi = [];
+        var arraypulang = [];
+
+        for (i = 0; i < jumlahairline; i++) {
+
+            var idtxbairline = 'airline'+i;
+            var airline = document.getElementById(idtxbairline).value;
+
+            //ajax pergi
+
+            $.ajax({
+                url: "getflightschedule",
+                type: "POST",
+                data : {cekreturn: cekreturn,
+                    airline: airline,
+                    air_from: air_from,
+                    air_to: air_to,
+                    tglpergi: tgl_pergi,
+                    tglpulang: tgl_pergi,
+                    jml_adult: adult,
+                    jml_child: child,
+                    jml_infant: infant,
+                },
+                async: false,
+                success: function (ajaxData){
+                    if (ajaxData) {
+                        var datapergi = JSON.parse(ajaxData);
+                        arraypergi[i] = datapergi;
+                    }else{
+                        arraypergi[i] = null;
+                    }
+                }
+            });
+
+            arrdata[0] = arraypergi;
+
+            //ajax pulang
+
+            $.ajax({
+                url: "getflightschedule",
+                type: "POST",
+                data : {cekreturn: cekreturn,
+                    airline: airline,
+                    air_from: air_to,
+                    air_to: air_from,
+                    tglpergi: tgl_pulang,
+                    tglpulang: tgl_pulang,
+                    jml_adult: adult,
+                    jml_child: child,
+                    jml_infant: infant,
+                },
+                async: false,
+                success: function (ajaxData){
+                    if (ajaxData) {
+                        var datapulang = JSON.parse(ajaxData);
+                        arraypulang[i] = datapulang;
+                    }else{
+                        arraypulang[i] = null;
+                    }
+                }
+            });
+
+            arrdata[1] = arraypulang;
+
+        }
+
 
     }else{
 
@@ -124,7 +189,7 @@ function tampildata(){
                         console.log(data);
                         arrdata[i] = data;
                     }else{
-                        arrdata = [''];
+                        arrdata[i] = null;
                     }
                 }
 

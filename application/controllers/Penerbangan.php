@@ -162,13 +162,12 @@ class Penerbangan extends CI_Controller
     {
         $cekreturn = $this->input->post('cekreturn',true);
 
-        $data['jadwal'] = $this->input->post('jadwal',true);
         $data['data_lembaga'] = $this->M_login->get_datadomain($this->domain);
-        $data['js_to_load']= 'penerbangan/js_formpesawat.js';
 
         if($cekreturn == 'on'){
             $this->load->view('penerbangan/form_pulangpergi',$data);
         }else{
+            $data['jadwal'] = $this->input->post('jadwal',true);
             $this->load->view('penerbangan/form_pergi',$data);
         }
     }
