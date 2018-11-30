@@ -268,6 +268,9 @@ if (sizeof($data_lembaga)>0) {
                         else if(current_url() == base_url('admin/user')){
                             echo ' class="active"';
                         }
+                        else if(current_url() == base_url('admin/lembaga')){
+                            echo ' class="active"';
+                        }
                         else if(current_url() == base_url('admin/api_setting')){
                             echo ' class="active"';
                         }
@@ -285,6 +288,9 @@ if (sizeof($data_lembaga)>0) {
                                 </li>
                                 <li<?php if (current_url() == base_url('admin/user')) { echo ' class="active"'; } ?>>
                                     <a href="<?php echo base_url('admin/user')?>"><i class="fa fa-users"></i>PENGGUNA</a>
+                                </li>
+                                <li<?php if (current_url() == base_url('admin/lembaga')) { echo ' class="active"'; } ?>>
+                                    <a href="<?php echo base_url('admin/lembaga')?>"><i class="fa fa-building"></i>LEMBAGA</a>
                                 </li>
                                 <li<?php if (current_url() == base_url('admin/api_setting')) { echo ' class="active"'; } ?>>
                                     <a href="<?php echo base_url('admin/api_setting')?>"><i class="fa fa-gears"></i>API SETTING</a>

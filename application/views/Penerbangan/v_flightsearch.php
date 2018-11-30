@@ -287,9 +287,13 @@ if($cekreturn == 'on'){
                 Sedang Mencari Jadwal Penerbangan, Mohon untuk menunggu beberapa saat <span class="loading"></span>
             </div>
 
-            <div id="divjadwal"></div>
-
-
+            <?php
+            if($cekreturn == ''){
+                ?>
+                <div id="divjadwal"></div>
+                <?php
+            }
+            ?>
 
         </div>
 
@@ -298,6 +302,14 @@ if($cekreturn == 'on'){
         </div>
 
     </div>
+
+    <?php
+    if($cekreturn == 'on'){
+        ?>
+        <div id="divjadwal"></div>
+        <?php
+    }
+    ?>
 
 
 </div>
