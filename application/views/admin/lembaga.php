@@ -34,6 +34,16 @@ if (sizeof($data_lembaga)>0) {
         <div class="col-lg-2"></div>
         <div class="col-lg-8">
 
+            <?php
+            if($this->session->flashdata('success')){ ?>
+
+                <div class="alert alert-success alert-dismissable">
+                    <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                    <?php echo $this->session->flashdata('success'); ?>
+                </div>
+
+            <?php } ?>
+
             <h2>
                 <i class="fa fa-building" style="font-size:1.5em;margin-right:8px;color: <?php echo $warna_lembaga ?>;"></i>
                 <span style="color: <?php echo $warna_lembaga ?>">Manajemen Lembaga</span>
@@ -67,8 +77,8 @@ if (sizeof($data_lembaga)>0) {
                             <tbody class="text-center">
 
                             <?php
+                            $i=1;
                             foreach ($lembaga as $lembaga) {
-                                $i=1;
                                 ?>
 
                                 <tr>

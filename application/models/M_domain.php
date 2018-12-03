@@ -1,11 +1,12 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class M_Lembaga extends CI_Model
+class M_domain extends CI_Model
 {
-    function load_data_lembaga()
+
+    function load_data_domain()
     {
-        $this->db->from('lembaga');
+        $this->db->from('domain');
         $query = $this->db->get();
         return $query->result();
     }
