@@ -60,9 +60,12 @@ if (sizeof($data_lembaga)>0) {
             </div>
 
             <div class="search-form" style="position: absolute; top: 200px; left: 70px; right: 70px;">
-                <form action="index.html" method="get">
+                <form action="Wisata/cari" method="get" autocomplete="off">
                     <div class="input-group">
-                        <input type="text" placeholder="Cari berdasarkan Nama Kota, Nama Daerah, Nama Tempat Wisata" name="search" class="form-control input-lg">
+                        <input type="text"
+                               placeholder="Cari berdasarkan Nama Kota, Nama Daerah, Nama Tempat Wisata"
+                               name="nama"
+                               class="form-control input-lg">
                         <div class="input-group-btn">
                             <button class="btn btn-lg btn-danger" type="submit">
                                 Cari

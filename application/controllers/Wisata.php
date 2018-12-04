@@ -56,5 +56,19 @@ class Wisata extends CI_Controller
 
     }
 
+    public function cari()
+    {
+
+        if($this->session->userdata('status') == '') {
+            $this->session->set_flashdata('belumlogin','Anda belum login');
+            redirect(base_url());
+        }else{
+            $txbcari = $this->input->get('nama',true);
+
+            echo $txbcari;
+        }
+
+    }
+
 
 }
