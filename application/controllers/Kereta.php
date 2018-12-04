@@ -16,8 +16,6 @@ class Kereta extends CI_Controller {
         $this->load->model('M_user_deposit');
         $this->domain = $_SERVER['HTTP_HOST'];
 
-        $this->output->delete_cache();
-
 	}
 
     function cek_saldo_mobipay()

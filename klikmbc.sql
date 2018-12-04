@@ -498,6 +498,22 @@ CREATE TABLE `user` (
 
 insert  into `user`(`id`,`username`,`password`,`nama`,`user_level`,`klasifikasi`,`user_status`,`lembaga_id`,`alamat`,`kota`,`provinsi`,`kodepos`,`negara`,`email`,`telepon`,`saldo`,`status_login`) values (1,'admin','21232f297a57a5a743894a0e4a801fc3','Administrasi',0,NULL,1,1,'Jl Dipatiukur No.1','Bandung','Jawa Barat','40134','Indonesia','arielesmanahidayat@gmail.com','085323778786',0,0),(2,'arie','db76becac4ca1a766a3d61a35ac47149','Arie Lesmana Hidayat',1,'G',1,1,'Bandung',NULL,NULL,NULL,NULL,'arie@gmail.com','085323778786',0,0),(3,'agen01','b0583fede16f57a4fe14fc2ec9ce0900','Agen01',1,'G',1,1,'Bandung',NULL,NULL,NULL,NULL,'agen1@gmail.com','085323778786',5763323,0),(4,'agen02','940a7501ace3f5175e5fab2709477b95','agen02',1,'A',1,1,'Bandung',NULL,NULL,NULL,NULL,'agen02@gmail.com','085323778786',500000,0),(5,'arie','4900D0A19B6894A4A514E9FF3AFCC2C0','Arie',1,'G',1,2,'Bandung AJA',NULL,NULL,NULL,NULL,'ariel@gmail.com','085323778786',0,0),(7,'agen04','9bfdf6bb1b9468e494ca1112520a3c16','agen04',1,'G',1,2,'Bandung',NULL,NULL,NULL,NULL,'agen04@gmail.com','085323778786',0,0);
 
+/*Table structure for table `wisata_nama` */
+
+DROP TABLE IF EXISTS `wisata_nama`;
+
+CREATE TABLE `wisata_nama` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nama` varchar(50) DEFAULT NULL,
+  `img` varchar(50) DEFAULT NULL,
+  `type` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+
+/*Data for the table `wisata_nama` */
+
+insert  into `wisata_nama`(`id`,`nama`,`img`,`type`) values (1,'DKI Jakarta','bg-jakarta.jpg','KOTA'),(2,'Bandung','bg-bandung.jpg','KOTA'),(3,'D I Yogyakarta','bg-jogja.jpeg','KOTA'),(4,'Semarang','bg-semarang.jpg','KOTA'),(5,'Surabaya','bg-surabaya.jpg','KOTA'),(6,'Bali','bg-bali.jpg','KOTA'),(7,'Jawa Barat','bg-jabar.jpg','PROVINSI'),(8,'DKI Jakarta','bg-jakarta2.jpg','PROVINSI'),(9,'Jawa Tengah','bg-jateng.jpg','PROVINSI'),(10,'D I Yogyakarta','bg-jogja2.jpg','PROVINSI'),(11,'Bali','bg-bali2.jpg','PROVINSI'),(12,'Jawa Timur','bg-jatim.jpg','PROVINSI'),(13,'Pantai','bg-pantai.jpg','AREA'),(14,'Gunung','bg-gunung.jpg','AREA'),(15,'Kota','bg-kota.jpg','AREA'),(16,'Danau','bg-danau.jpg','AREA');
+
 /* Procedure structure for procedure `dummy_data_transaksi` */
 
 /*!50003 DROP PROCEDURE IF EXISTS  `dummy_data_transaksi` */;

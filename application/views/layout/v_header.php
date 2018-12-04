@@ -21,9 +21,6 @@ if (sizeof($data_lembaga)>0) {
     <link href="<?php echo base_url();?>assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="<?php echo base_url();?>assets/font-awesome/css/font-awesome.css" rel="stylesheet">
     <link href="<?php echo base_url();?>assets/css/plugins/iCheck/red.css" rel="stylesheet">
-    <link href="<?php echo base_url();?>assets/css/animate.css" rel="stylesheet">
-    <link href="<?php echo base_url();?>assets/css/<?php echo $css_lembaga; ?>" rel="stylesheet">
-    <link href="<?php echo base_url();?>assets/css/custom.css" rel="stylesheet">
 
     <link href="<?php echo base_url();?>assets/css/plugins/chosen/bootstrap-chosen.css" rel="stylesheet">
     <link href="<?php echo base_url();?>assets/css/plugins/select2/select2.min.css" rel="stylesheet">
@@ -33,8 +30,12 @@ if (sizeof($data_lembaga)>0) {
     <link href="<?php echo base_url();?>assets/css/plugins/blueimp/css/blueimp-gallery.min.css" rel="stylesheet">
     <link href="<?php echo base_url();?>assets/css/plugins/ladda/ladda-themeless.min.css" rel="stylesheet">
     <link href="<?php echo base_url();?>assets/css/plugins/textSpinners/spinners.css" rel="stylesheet">
+    <link href="<?php echo base_url();?>assets/css/plugins/slick/slick.css" rel="stylesheet">
+    <link href="<?php echo base_url();?>assets/css/plugins/slick/slick-theme.css" rel="stylesheet">
 
-    <link href="<?php echo base_url();?>assets/css/plugins/footable/footable.core.css" rel="stylesheet">
+    <link href="<?php echo base_url();?>assets/css/animate.css" rel="stylesheet">
+    <link href="<?php echo base_url();?>assets/css/<?php echo $css_lembaga; ?>" rel="stylesheet">
+    <link href="<?php echo base_url();?>assets/css/custom.css" rel="stylesheet">
 
     <?php date_default_timezone_set('Asia/Jakarta'); ?>
 
@@ -130,6 +131,8 @@ if (sizeof($data_lembaga)>0) {
                             echo 'class="active"';
                         }else if(($urlcurrent == 'hotel')){
                             echo 'class="active"';
+                        }else if(($urlcurrent == 'wisata')){
+                            echo 'class="active"';
                         }else if(($urlcurrent == 'pulsa')){
                             echo 'class="active"';
                         }else if(($urlcurrent == 'ppob')){
@@ -183,6 +186,15 @@ if (sizeof($data_lembaga)>0) {
                                 ?>
                             >
                                 <a href="<?php echo base_url('hotel')?>"><i class="fa fa-hotel"></i>HOTEL</a>
+                            </li>
+                            <li
+                                <?php
+                                if(($urlcurrent == 'wisata')){
+                                    echo 'class="active"';
+                                }
+                                ?>
+                            >
+                                <a href="<?php echo base_url('wisata')?>"><i class="fa fa-snowflake-o"></i>WISATA</a>
                             </li>
                             <li
                                 <?php
@@ -414,11 +426,11 @@ if (sizeof($data_lembaga)>0) {
                             <button type="button" class="btn btn-outline btn-danger"
                                     style="height: 49px;
                                            <?php
-                                                if ($urlcurrent == 'ppob') { echo ' border-bottom: solid 3px #19AA8D'; }
-                                           ?>">
-                            <a href="<?php echo base_url('ppob')?>">
-                                <i class="fa fa-file-text-o" style="color: white"></i> <font color="white"> PPOB</font>
-                            </a>
+                                    if ($urlcurrent == 'ppob') { echo ' border-bottom: solid 3px #19AA8D'; }
+                                    ?>">
+                                <a href="<?php echo base_url('ppob')?>">
+                                    <i class="fa fa-file-text-o" style="color: white"></i> <font color="white"> PPOB</font>
+                                </a>
                             </button>
                         </li>
 
@@ -430,13 +442,19 @@ if (sizeof($data_lembaga)>0) {
                                 <ul class="dropdown-menu">
                                     <li <?php if(($urlcurrent == 'pelni')){echo 'class="active"';} ?> style="color: black;">
                                         <a href="<?php echo base_url('pelni')?>">
-                                            <i class="fa fa-anchor"></i> PELNI
+                                            <i class="fa fa-ship"></i> PELNI
                                         </a>
                                     </li>
                                     <li class="divider"></li>
                                     <li <?php if(($urlcurrent == 'bus')){echo 'class="active"';} ?> style="color: black;">
                                         <a href="<?php echo base_url('bus')?>">
                                             <i class="fa fa-bus"></i> BUS TRAVEL
+                                        </a>
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li <?php if(($urlcurrent == 'wisata')){echo 'class="active"';} ?> style="color: black;">
+                                        <a href="<?php echo base_url('wisata')?>">
+                                            <i class="fa fa-snowflake-o"></i> PAKET WISATA
                                         </a>
                                     </li>
                                     <li class="divider"></li>

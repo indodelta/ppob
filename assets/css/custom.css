@@ -1,12 +1,3 @@
-.table-dashboard-utm tr td a{
-    color: white !important;
-}
-
-.table-dashboard-utm tr td a div h2:hover {
-    color: #ed5565;
-    font-weight: bold;
-}
-
 .btn-file {
     position: relative;
     overflow: hidden;

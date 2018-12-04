@@ -62,6 +62,10 @@ if (sizeof($data_lembaga)>0) {
         <!-- blueimp gallery -->
         <script src="<?php echo base_url();?>assets/js/plugins/blueimp/jquery.blueimp-gallery.min.js"></script>
 
+        <!-- slick carousel -->
+        <script src="<?php echo base_url();?>assets/js/plugins/slick/slick.min.js"></script>
+
+
         <!-- Ladda -->
         <script src="<?php echo base_url();?>assets/js/plugins/ladda/spin.min.js"></script>
         <script src="<?php echo base_url();?>assets/js/plugins/ladda/ladda.min.js"></script>
