@@ -155,7 +155,7 @@ if (sizeof($data_lembaga)>0) {
 
                                         $jamlimit = $dataresult->vacctValidTm;
                                         $jam = substr($jamlimit, 0, 2);
-                                        $menit = bulan(substr($jamlimit, 2, 2));
+                                        $menit = substr($jamlimit, 2, 2);
                                         $detik = substr($jamlimit, -2);
                                         $jamlimit = $jam . ':' . $menit . ':' . $detik;
                                         echo $tanggallimit . ' ' . $jamlimit;
