@@ -79,6 +79,84 @@ if (sizeof($data_lembaga)>0) {
     </div>
 
     <div class="row">
+        <div class="col-lg-4 col-lg-offset-2">
+
+            <h2>Kategori</h2>
+
+            <?php
+            $count = 1;
+            foreach ($data_wisata_kategori as $data_wisata_kategori) {
+                $nama = $data_wisata_kategori->nama;
+                if ($count%4 == 1)
+                {
+                    echo "<div class='row'>";
+                }
+                ?>
+
+                <div class="col-sm-3">
+                    <a href="<?php echo base_url('wisata/cari?key='.$nama)?>">
+                        <div class="widget style1 red-bg">
+                            <div class="row">
+                                <div class="col-xs-12 text-center">
+                                    <text class="font-bold" style="font-size: 14px;"><?php echo $nama; ?></text>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <?php
+                if ($count%4 == 0)
+                {
+                    echo "</div>";
+                }
+                $count++;
+            }
+            if ($count%4 != 1) echo "</div>";
+            ?>
+
+        </div>
+        <div class="col-lg-4">
+            <h2>Area Populer</h2>
+
+            <table class="table no-borders">
+                <tr class="no-borders">
+
+            <?php
+            $i = 1;
+            foreach ($data_wisata_area as $data_wisata_area) {
+                $nama = $data_wisata_area->nama;
+                $img = $data_wisata_area->img;
+                ?>
+                    <td class="no-borders">
+                        <a href="<?php echo base_url('wisata/cari?key='.$nama)?>">
+                        <div class="ibox-content"
+                             style="background-image: url('<?php echo base_url('assets/img/wisata/'.$img); ?>');
+                                     background-size: cover;
+                                     background-repeat: no-repeat;
+                                     outline: none;
+                                     border-color:
+                                     #d3d3d3;box-shadow: 0 0 10px #d3d3d3;">
+                            <h2 style="color: white; font-weight: bolder"><?= $nama; ?></h2>
+                            <p style="height: 100px;">&nbsp;</p>
+                        </div>
+                        </a>
+                    </td>
+
+                <?php
+                if ($i % 2 == 0) echo "</tr><tr class='no-borders'>";
+                $i++;
+            }
+            ?>
+
+            </table>
+
+        </div>
+        <div class="col-lg-2"></div>
+
+    </div>
+
+    <div class="row">
         <div class="col-lg-8 col-lg-offset-2">
 
             <h2>Kota Populer</h2>
@@ -90,16 +168,21 @@ if (sizeof($data_lembaga)>0) {
                     $nama = $data_wisata_kota->nama;
                     $img = $data_wisata_kota->img;
                     ?>
-                    <div>
-                        <div class="ibox-content"
-                             style="background-image: url('<?php echo base_url('assets/img/wisata/'.$img); ?>');
-                                     background-size: cover;
-                                     background-repeat: no-repeat;
-                                     margin: 0 10px;">
-                            <h2 style="color: white; font-weight: bolder"><?= $nama; ?></h2>
-                            <p style="height: 100px;">&nbsp;</p>
+                    <a href="<?php echo base_url('wisata/cari?key='.$nama)?>">
+                        <div>
+                            <div class="ibox-content"
+                                 style="background-image: url('<?php echo base_url('assets/img/wisata/'.$img); ?>');
+                                         background-size: cover;
+                                         background-repeat: no-repeat;
+                                         margin: 0 10px;
+                                         outline: none;
+                                         border-color:
+                                         #d3d3d3;box-shadow: 0 0 10px #d3d3d3;">
+                                <h2 style="color: white; font-weight: bolder"><?= $nama; ?></h2>
+                                <p style="height: 100px;">&nbsp;</p>
+                            </div>
                         </div>
-                    </div>
+                    </a>
 
                     <?php
                 }
@@ -122,48 +205,21 @@ if (sizeof($data_lembaga)>0) {
                     $nama = $data_wisata_prov->nama;
                     $img = $data_wisata_prov->img;
                     ?>
-                    <div>
-                        <div class="ibox-content"
-                             style="background-image: url('<?php echo base_url('assets/img/wisata/'.$img); ?>');
-                                     background-size: cover;
-                                     background-repeat: no-repeat;
-                                     margin: 0 10px;">
-                            <h2 style="color: white; font-weight: bolder"><?= $nama; ?></h2>
-                            <p style="height: 100px;">&nbsp;</p>
+                    <a href="<?php echo base_url('wisata/cari?key='.$nama)?>">
+                        <div>
+                            <div class="ibox-content"
+                                 style="background-image: url('<?php echo base_url('assets/img/wisata/'.$img); ?>');
+                                         background-size: cover;
+                                         background-repeat: no-repeat;
+                                         margin: 0 10px;
+                                         outline: none;
+                                         border-color:
+                                         #d3d3d3;box-shadow: 0 0 10px #d3d3d3;">
+                                <h2 style="color: white; font-weight: bolder"><?= $nama; ?></h2>
+                                <p style="height: 100px;">&nbsp;</p>
+                            </div>
                         </div>
-                    </div>
-
-                    <?php
-                }
-                ?>
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="row">
-        <div class="col-lg-8 col-lg-offset-2">
-
-            <h2>Area Populer</h2>
-
-            <div class="slick_demo_2">
-
-                <?php
-                foreach ($data_area_prov as $data_area_prov) {
-                    $nama = $data_area_prov->nama;
-                    $img = $data_area_prov->img;
-                    ?>
-                    <div>
-                        <div class="ibox-content"
-                             style="background-image: url('<?php echo base_url('assets/img/wisata/'.$img); ?>');
-                                     background-size: cover;
-                                     background-repeat: no-repeat;
-                                     margin: 0 10px;">
-                            <h2 style="color: white; font-weight: bolder"><?= $nama; ?></h2>
-                            <p style="height: 100px;">&nbsp;</p>
-                        </div>
-                    </div>
+                    </a>
 
                     <?php
                 }

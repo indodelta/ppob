@@ -139,11 +139,9 @@ if($rc != '00'){
                 <div class="ibox-title">
                     <h3>Durasi</h3>
                 </div>
-                <div class="ibox-content" style="padding-bottom: 0px;">
+                <div class="ibox-content" style="padding-bottom: 0px; max-height: 150px; overflow-x: hidden; overflow-y: scroll;">
 
-                    <form class="form-horizontal" id="formdurasi" method="get" action="cari">
-
-                        <input type="hidden" name="key" value="<?php echo $key; ?>">
+                    <form class="form-horizontal" id="formdurasi" method="get" action="#">
 
                         <div class="i-checks-durasi">
                             <?php
@@ -159,15 +157,46 @@ if($rc != '00'){
                                 <input type="checkbox"
                                        name="durasi"
                                        value="<?php echo $days[$x];?>"
-                                       onclick="pilihDurasi()"
                                        class="durasi">
                                 <span><?php echo $days[$x].' Hari';?></span><br><br>
                                 <?php
                             }
-                            $jenisdurasi = implode(",",$days);
                             ?>
-                            <input type="hidden" id="txbjenisdurasi" value="<?php echo $jenisdurasi;?>">
-                            <input type="hidden" id="txbjumlahjenisdurasi" value="<?php echo count($days);?>">
+
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+            <div class="ibox" style="width: 100%;">
+                <div class="ibox-title">
+                    <h3>Provinsi</h3>
+                </div>
+                <div class="ibox-content" style="padding-bottom: 0px; max-height: 250px; overflow-x: hidden; overflow-y: scroll;">
+
+                    <form class="form-horizontal" id="formprovinsi" method="get" action="#">
+
+                        <div class="i-checks-propinsi">
+                            <?php
+                            for ($x = 0; $x < $jmldatawisata; $x++) {
+                                $propinsi = $datacari->data[$x]->nama_propinsi;
+                                $res[$propinsi] = null;
+                            }
+                            $prop = array_keys($res);
+                            ?>
+                            <?php
+                            for ($x = 0; $x < count($prop); $x++) {
+                                ?>
+                                <input type="checkbox"
+                                       name="propinsi"
+                                       value="<?php echo str_replace(' ', '', $prop[$x]);?>"
+                                       class="propinsi">
+                                <span><?php echo $prop[$x];?></span><br><br>
+                                <?php
+                            }
+                            ?>
 
                         </div>
 
@@ -204,14 +233,16 @@ if($rc != '00'){
                     $harga = $datacari->data[$x]->harga;
                     $obyek_wisata = $datacari->data[$x]->obyek_wisata;
                     $viewer = $datacari->data[$x]->viewer;
-                    $divid = 'ibox'.$x.'-'.$days.'hari';
+                    $divid = 'ibox'.$x;
+                    $div[$divid] = null;
+                    $namaclasshari = $days;
+                    $namaclassprop = str_replace(' ', '', $nama_provinsi);
                     ?>
 
-                    <div class="ibox product-detail <?php echo $divid;?>"
+                    <div class="ibox product-detail <?php echo $namaclasshari.' '.$namaclassprop;?>"
                          id="<?php echo $divid;?>"
                          style="outline: none; border-color: #d3d3d3;box-shadow: 0 0 10px #d3d3d3;">
 
-                        <input type="text" value="<?php echo $divid;?>">
                         <div class="ibox-content" style="padding: 20px;">
 
                             <div class="row">
@@ -270,7 +301,11 @@ if($rc != '00'){
 
                     <?php
                 }
+                $namadiv = array_keys($div);
+                $namadiv = implode(",",$namadiv);
                 ?>
+
+                <input type="hidden" id="txbnamadiv" value="<?php echo $namadiv;?>">
 
             </div>
             <div class="col-lg-2"></div>

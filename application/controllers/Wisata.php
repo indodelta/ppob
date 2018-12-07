@@ -48,7 +48,8 @@ class Wisata extends CI_Controller
             $data['data_lembaga'] = $this->M_login->get_datadomain($this->domain);
             $data['data_wisata_kota'] = $this->M_wisata->load_data_wisata_where_type('KOTA');
             $data['data_wisata_prov'] = $this->M_wisata->load_data_wisata_where_type('PROVINSI');
-            $data['data_area_prov'] = $this->M_wisata->load_data_wisata_where_type('AREA');
+            $data['data_wisata_area'] = $this->M_wisata->load_data_wisata_where_type('AREA');
+            $data['data_wisata_kategori'] = $this->M_wisata->load_data_wisata_where_type('KATEGORI');
 
             $this->load->view('layout/v_header',$data);
             $this->load->view('wisata/wisata');

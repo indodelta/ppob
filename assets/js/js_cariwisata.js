@@ -4,47 +4,127 @@ $(document).ready(function(){
         checkboxClass: 'icheckbox_square-red',
     });
 
-    var jenisdurasi = document.getElementById("txbjenisdurasi").value;
-    var jumlahjenisdurasi = document.getElementById("txbjumlahjenisdurasi").value;
+    $('.i-checks-propinsi').iCheck({
+        checkboxClass: 'icheckbox_square-red',
+    });
+
     var jumlahwisata = document.getElementById("txbjumlahwisata").value;
+    var iddiv = document.getElementById("txbnamadiv").value;
+
+    var splitdiv = iddiv.split(',');
+
+    var arrcheck = [];
 
     $('.durasi').on('ifChecked', function(event){
-        var value = event.target.value;
 
-        var splitdurasi = jenisdurasi.split(',');
+        for(var i = 0; i < jumlahwisata; i++) {
+            var iddiv = splitdiv[i];
 
-        for(var i = 0; i <= jumlahwisata; i++){
-            var idiboxclick = 'ibox' + i + '-' + value + 'hari';
-            console.log(idiboxclick);
-            for(var j = 0; j < jumlahjenisdurasi; j++) {
-                var idibox = 'ibox' + i + '-' + splitdurasi[j] + 'hari';
-                console.log(idibox);
+            document.getElementById(iddiv).style.display = "none";
 
-                if(idibox == idiboxclick){
-                    console.log('sama');
-                }
-
-            }
         }
 
-        // var splitdurasi = jenisdurasi.split(',');
-        // for(var i = 0; i < jumlahjenisdurasi; i++){
-        //     var iddivlain = '.div-'+splitdurasi[i]+'hari';
-        //     document.getElementsByClassName(iddivlain).style.display = "none";
-        // }
+        var valuedurasi = event.target.value;
 
+        if (arrcheck.indexOf(valuedurasi) < 0) {
+            arrcheck.push(valuedurasi);
+        }
 
+        for (var j = 0; j < arrcheck.length; j++) {
+            var namaclassvalue = '.' + arrcheck[j];
+            $(namaclassvalue).css('display', 'block');
+        }
 
     });
 
     $('.durasi').on('ifUnchecked', function(event){
-        var value = event.target.value;
 
-        // for(var i = 0; i <= jumlahwisata; i++){
-        //     var iddiv = 'ibox'+i+'-'+value+'hari';
-        //
-        //     document.getElementById(iddiv).style.display = "block";
-        // }
+        for(var i = 0; i < jumlahwisata; i++) {
+            var iddiv = splitdiv[i];
+
+            document.getElementById(iddiv).style.display = "none";
+
+        }
+
+        var valuedurasi = event.target.value;
+
+        var index = arrcheck.indexOf(valuedurasi);
+        if (index !== -1) arrcheck.splice(index, 1);
+
+        if(arrcheck.length == 0){
+
+            for(var i = 0; i < jumlahwisata; i++) {
+                var iddiv = splitdiv[i];
+
+                document.getElementById(iddiv).style.display = "block";
+
+            }
+
+        }else {
+
+            for (var j = 0; j < arrcheck.length; j++) {
+                var namaclassvalue = '.' + arrcheck[j];
+                $(namaclassvalue).css('display', 'block');
+            }
+
+        }
+
+    });
+
+    $('.propinsi').on('ifChecked', function(event){
+
+        for(var i = 0; i < jumlahwisata; i++) {
+            var iddiv = splitdiv[i];
+
+            document.getElementById(iddiv).style.display = "none";
+
+        }
+
+        var valueprop = event.target.value;
+
+        if (arrcheck.indexOf(valueprop) < 0) {
+            arrcheck.push(valueprop);
+        }
+
+        for (var j = 0; j < arrcheck.length; j++) {
+            var namaclassvalue = '.' + arrcheck[j];
+            $(namaclassvalue).css('display', 'block');
+        }
+
+    });
+
+    $('.propinsi').on('ifUnchecked', function(event){
+
+        for(var i = 0; i < jumlahwisata; i++) {
+            var iddiv = splitdiv[i];
+
+            document.getElementById(iddiv).style.display = "none";
+
+        }
+
+        var valueprop = event.target.value;
+
+        var index = arrcheck.indexOf(valueprop);
+        if (index !== -1) arrcheck.splice(index, 1);
+
+        if(arrcheck.length == 0){
+
+            for(var i = 0; i < jumlahwisata; i++) {
+                var iddiv = splitdiv[i];
+
+                document.getElementById(iddiv).style.display = "block";
+
+            }
+
+        }else {
+
+            for (var j = 0; j < arrcheck.length; j++) {
+                var namaclassvalue = '.' + arrcheck[j];
+                $(namaclassvalue).css('display', 'block');
+            }
+
+        }
+
 
     });
 

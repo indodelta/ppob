@@ -508,11 +508,11 @@ CREATE TABLE `wisata_nama` (
   `img` varchar(50) DEFAULT NULL,
   `type` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=latin1;
 
 /*Data for the table `wisata_nama` */
 
-insert  into `wisata_nama`(`id`,`nama`,`img`,`type`) values (1,'DKI Jakarta','bg-jakarta.jpg','KOTA'),(2,'Bandung','bg-bandung.jpg','KOTA'),(3,'D I Yogyakarta','bg-jogja.jpeg','KOTA'),(4,'Semarang','bg-semarang.jpg','KOTA'),(5,'Surabaya','bg-surabaya.jpg','KOTA'),(6,'Bali','bg-bali.jpg','KOTA'),(7,'Jawa Barat','bg-jabar.jpg','PROVINSI'),(8,'DKI Jakarta','bg-jakarta2.jpg','PROVINSI'),(9,'Jawa Tengah','bg-jateng.jpg','PROVINSI'),(10,'D I Yogyakarta','bg-jogja2.jpg','PROVINSI'),(11,'Bali','bg-bali2.jpg','PROVINSI'),(12,'Jawa Timur','bg-jatim.jpg','PROVINSI'),(13,'Pantai','bg-pantai.jpg','AREA'),(14,'Gunung','bg-gunung.jpg','AREA'),(15,'Kota','bg-kota.jpg','AREA'),(16,'Danau','bg-danau.jpg','AREA');
+insert  into `wisata_nama`(`id`,`nama`,`img`,`type`) values (1,'DKI Jakarta','bg-jakarta.jpg','KOTA'),(2,'Bandung','bg-bandung.jpg','KOTA'),(3,'D I Yogyakarta','bg-jogja.jpeg','KOTA'),(4,'Semarang','bg-semarang.jpg','KOTA'),(5,'Surabaya','bg-surabaya.jpg','KOTA'),(6,'Bali','bg-bali.jpg','KOTA'),(7,'Jawa Barat','bg-jabar.jpg','PROVINSI'),(8,'DKI Jakarta','bg-jakarta2.jpg','PROVINSI'),(9,'Jawa Tengah','bg-jateng.jpg','PROVINSI'),(10,'D I Yogyakarta','bg-jogja2.jpg','PROVINSI'),(11,'Bali','bg-bali2.jpg','PROVINSI'),(12,'Jawa Timur','bg-jatim.jpg','PROVINSI'),(13,'Pantai','bg-pantai.jpg','AREA'),(14,'Gunung','bg-gunung.jpg','AREA'),(15,'Kota','bg-kota.jpg','AREA'),(16,'Danau','bg-danau.jpg','AREA'),(17,'Budaya',NULL,'KATEGORI'),(18,'Wisata Alam',NULL,'KATEGORI'),(19,'Keluarga',NULL,'KATEGORI'),(20,'Pedesaan',NULL,'KATEGORI'),(21,'Belanja',NULL,'KATEGORI'),(22,'Study Tour',NULL,'KATEGORI'),(23,'WisataMalam',NULL,'KATEGORI'),(24,'Kuliner',NULL,'KATEGORI'),(25,'Kota',NULL,'KATEGORI'),(26,'Mendaki',NULL,'KATEGORI'),(27,'Petualangan',NULL,'KATEGORI'),(28,'Backpacker',NULL,'KATEGORI'),(29,'Tracking',NULL,'KATEGORI'),(30,'Hobi',NULL,'KATEGORI'),(31,'Religi',NULL,'KATEGORI'),(32,'Agro Bisnis',NULL,'KATEGORI');
 
 /* Procedure structure for procedure `dummy_data_transaksi` */
 
