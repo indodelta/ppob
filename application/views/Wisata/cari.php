@@ -60,10 +60,8 @@ if (sizeof($data_lembaga)>0) {
 
 <?php
 
-$rc = $datacari->rc;
-$rd = $datacari->rd;
-
-if($rc != '00'){
+if($datacari == null)
+{
     ?>
 
     <div class="wrapper wrapper-content animated fadeInDown article" style="margin-top: 150px;">
@@ -74,9 +72,8 @@ if($rc != '00'){
                     <div class="ibox-content text-center" style="padding: 20px;">
 
                         <h1>
-                            KATA KUNCI WISATA TIDAK DITEMUKAN
+                            API tidak terkoneksi
                         </h1><br/>
-                        <h2>Error API : <?php echo $rd;?></h2><br/>
                         <h2>Lakukan Pencarian Kata Kunci Kembali</h2><br/>
                         <a href="<?php echo base_url('wisata')?>"><button class="btn btn-danger">Kembali ke form pencarian</button></a>
 
@@ -90,133 +87,153 @@ if($rc != '00'){
     <?php
 }else{
 
-    $jmldatawisata = count($datacari->data);
+    $rc = $datacari->rc;
+    $rd = $datacari->rd;
 
-    ?>
+    if($rc != '00'){
+        ?>
 
-    <div class="row" style="position: fixed; z-index: 1; width: 100%; margin-top: 150px;">
-        <div class="col-lg-2 col-lg-offset-2 col-sm-4">
+        <div class="wrapper wrapper-content animated fadeInDown article" style="margin-top: 150px;">
 
-            <div class="ibox" style="width: 100%;">
-                <div class="ibox-title">
-                    <h3>
-                        <i class="fa fa-search"></i>
-                        <?php echo $jmldatawisata.' Hasil Pencarian ditemukan'?>
-                    </h3>
-                </div>
-            </div>
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <div class="ibox" style="outline: none; border-color: #d3d3d3;box-shadow: 0 0 10px #d3d3d3;">
+                        <div class="ibox-content text-center" style="padding: 20px;">
 
-            <div class="ibox" style="width: 100%;">
-                <div class="ibox-title">
-                    <h3>Sorting Berdasarkan</h3>
-                </div>
-                <div class="ibox-content" style="padding-bottom: 0px;">
-
-                    <form class="form-horizontal" id="formsorting" method="get" action="cari">
-
-                        <input type="hidden" name="key" value="<?php echo $key; ?>">
-
-                        <div class="form-group">
-                            <div class="col-xs-12">
-                                <select class="form-control m-b" name="sorting" id="sorting" onchange="this.form.submit()">
-                                    <option value="1" <?php if($sort == 1){echo 'selected';} ?>>Terbaru</option>
-                                    <option value="2" <?php if($sort == 2){echo 'selected';} ?>>Harga: Rendah ke Tinggi</option>
-                                    <option value="3" <?php if($sort == 3){echo 'selected';} ?>>Harga: Tinggi ke Rendah</option>
-                                    <option value="4" <?php if($sort == 4){echo 'selected';} ?>>Populer: Rendah ke Tinggi</option>
-                                    <option value="5" <?php if($sort == 5){echo 'selected';} ?>>Populer: Tinggi ke Rendah</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div id="loadingsorting" style="display: none;">Loading data...</div>
-
-                    </form>
-
-                </div>
-            </div>
-
-            <div class="ibox" style="width: 100%;">
-                <div class="ibox-title">
-                    <h3>Durasi</h3>
-                </div>
-                <div class="ibox-content" style="padding-bottom: 0px; max-height: 150px; overflow-x: hidden; overflow-y: scroll;">
-
-                    <form class="form-horizontal" id="formdurasi" method="get" action="#">
-
-                        <div class="i-checks-durasi">
-                            <?php
-                            for ($x = 0; $x < $jmldatawisata; $x++) {
-                                $days = $datacari->data[$x]->days;
-                                $result[$days] = null;
-                            }
-                            $days = array_keys($result);
-                            ?>
-                            <?php
-                            for ($x = 0; $x < count($days); $x++) {
-                                ?>
-                                <input type="checkbox"
-                                       name="durasi"
-                                       value="<?php echo $days[$x];?>"
-                                       class="durasi">
-                                <span><?php echo $days[$x].' Hari';?></span><br><br>
-                                <?php
-                            }
-                            ?>
+                            <h1>
+                                KATA KUNCI WISATA TIDAK DITEMUKAN
+                            </h1><br/>
+                            <h2>Error API : <?php echo $rd;?></h2><br/>
+                            <h2>Lakukan Pencarian Kata Kunci Kembali</h2><br/>
+                            <a href="<?php echo base_url('wisata')?>"><button class="btn btn-danger">Kembali ke form pencarian</button></a>
 
                         </div>
-
-                    </form>
-
+                    </div>
                 </div>
+                <div class="col-lg-2"></div>
             </div>
-
-            <div class="ibox" style="width: 100%;">
-                <div class="ibox-title">
-                    <h3>Provinsi</h3>
-                </div>
-                <div class="ibox-content" style="padding-bottom: 0px; max-height: 250px; overflow-x: hidden; overflow-y: scroll;">
-
-                    <form class="form-horizontal" id="formprovinsi" method="get" action="#">
-
-                        <div class="i-checks-propinsi">
-                            <?php
-                            for ($x = 0; $x < $jmldatawisata; $x++) {
-                                $propinsi = $datacari->data[$x]->nama_propinsi;
-                                $res[$propinsi] = null;
-                            }
-                            $prop = array_keys($res);
-                            ?>
-                            <?php
-                            for ($x = 0; $x < count($prop); $x++) {
-                                ?>
-                                <input type="checkbox"
-                                       name="propinsi"
-                                       value="<?php echo str_replace(' ', '', $prop[$x]);?>"
-                                       class="propinsi">
-                                <span><?php echo $prop[$x];?></span><br><br>
-                                <?php
-                            }
-                            ?>
-
-                        </div>
-
-                    </form>
-
-                </div>
-            </div>
-
         </div>
-        <div class="col-lg-8 col-sm-8"></div>
 
-    </div>
+        <?php
+    }else{
 
-    <div class="wrapper wrapper-content animated fadeInUp article" style="margin-top: 150px;">
+        $jmldatawisata = count($datacari->data);
 
-        <div class="row">
-            <div class="col-lg-2 col-lg-offset-2 col-sm-4"></div>
-            <div class="col-lg-6 col-sm-8">
+        ?>
+
+        <div class="row" style="margin-top: 150px;">
+
+            <div class="col-lg-2 col-lg-offset-2 col-sm-4">
+
+                <div id="divcheckbox" style="position: fixed">
+
+                    <div class="ibox">
+                        <div class="ibox-title">
+                            <h3>
+                                <i class="fa fa-search"></i>
+                                <?php echo $jmldatawisata.' Hasil Pencarian ditemukan'?>
+                            </h3>
+                        </div>
+                    </div>
+
+                    <div class="ibox">
+                        <div class="ibox-title">
+                            <h3>Durasi</h3>
+                        </div>
+                        <div class="ibox-content" style="padding-bottom: 0px; max-height: 150px; overflow-x: hidden; overflow-y: scroll;">
+
+                            <form class="form-horizontal" id="formdurasi" method="get" action="#">
+
+                                <div class="i-checks-durasi">
+                                    <?php
+                                    for ($x = 0; $x < $jmldatawisata; $x++) {
+                                        $days = $datacari->data[$x]->days;
+                                        $result[$days] = null;
+                                    }
+                                    $days = array_keys($result);
+                                    ?>
+                                    <?php
+                                    for ($x = 0; $x < count($days); $x++) {
+                                        ?>
+                                        <input type="checkbox"
+                                               name="durasi"
+                                               value="<?php echo $days[$x];?>"
+                                               class="durasi">
+                                        <span><?php echo $days[$x].' Hari';?></span><br><br>
+                                        <?php
+                                    }
+                                    ?>
+
+                                </div>
+
+                            </form>
+
+                        </div>
+                    </div>
+
+                    <div class="ibox">
+                        <div class="ibox-title">
+                            <h3>Provinsi</h3>
+                        </div>
+                        <div class="ibox-content" style="padding-bottom: 0px; max-height: 250px; overflow-x: hidden; overflow-y: scroll;">
+
+                            <form class="form-horizontal" id="formprovinsi" method="get" action="#">
+
+                                <div class="i-checks-propinsi">
+                                    <?php
+                                    for ($x = 0; $x < $jmldatawisata; $x++) {
+                                        $propinsi = $datacari->data[$x]->nama_propinsi;
+                                        $res[$propinsi] = null;
+                                    }
+                                    $prop = array_keys($res);
+                                    ?>
+                                    <?php
+                                    for ($x = 0; $x < count($prop); $x++) {
+                                        ?>
+                                        <input type="checkbox"
+                                               name="propinsi"
+                                               value="<?php echo str_replace(' ', '', $prop[$x]);?>"
+                                               class="propinsi">
+                                        <span><?php echo $prop[$x];?></span><br><br>
+                                        <?php
+                                    }
+                                    ?>
+
+                                </div>
+
+                            </form>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-6 col-sm-8 animated fadeInUp">
 
                 <input type="hidden" id="txbjumlahwisata" value="<?php echo $jmldatawisata ?>">
+
+                <form class="form-horizontal" id="formsorting" method="get" action="cari">
+
+                    <input type="hidden" name="key" value="<?php echo $key; ?>">
+
+                    <div class="form-group">
+
+                        <div class="col-xs-6 text-right"><h3 class="m-t-sm">Sorting : </h3></div>
+
+                        <div class="col-xs-6">
+                            <select class="form-control m-b" name="sorting" id="sorting" onchange="this.form.submit()">
+                                <option value="1" <?php if($sort == 1){echo 'selected';} ?>>Terbaru</option>
+                                <option value="2" <?php if($sort == 2){echo 'selected';} ?>>Harga: Rendah ke Tinggi</option>
+                                <option value="3" <?php if($sort == 3){echo 'selected';} ?>>Harga: Tinggi ke Rendah</option>
+                                <option value="4" <?php if($sort == 4){echo 'selected';} ?>>Populer: Rendah ke Tinggi</option>
+                                <option value="5" <?php if($sort == 5){echo 'selected';} ?>>Populer: Tinggi ke Rendah</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </form>
 
                 <?php
                 for ($x = 0; $x < $jmldatawisata; $x++) {
@@ -289,8 +306,11 @@ if($rc != '00'){
                                         </div>
                                     </div>
                                     <div class="col-sm-3 text-right">
-                                        <button class="btn btn-danger btn-sm"><i class="fa fa-arrow-right"></i> Detail
-                                        </button>
+                                        <a href="<?php echo base_url('wisata/detail?id='.$id_destinasi)?>" target="_blank">
+                                            <button class="btn btn-danger btn-sm" type="button">
+                                                <i class="fa fa-arrow-right"></i> Detail
+                                            </button>
+                                        </a>
                                     </div>
 
                                 </div>
@@ -308,13 +328,15 @@ if($rc != '00'){
                 <input type="hidden" id="txbnamadiv" value="<?php echo $namadiv;?>">
 
             </div>
+
             <div class="col-lg-2"></div>
         </div>
 
-    </div>
+        <?php
+    }
 
-    <?php
 }
+
 ?>
 
 

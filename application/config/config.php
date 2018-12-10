@@ -581,6 +581,7 @@ $config['api2_hotelpayment'] = "http://mpay.umrohnesia.id/index.php/ApiFT/hotel_
 
 //wisata
 $config['api2_wisatasearch'] = "http://mpay.umrohnesia.id/index.php/ApiFT/wisata_search";
+$config['api2_wisatadetail'] = "http://mpay.umrohnesia.id/index.php/ApiFT/wisata_detail";
 
 //npay
 $config['api_topupsaldo'] = "http://mpay.umrohnesia.id/index.php/Npay/topup";

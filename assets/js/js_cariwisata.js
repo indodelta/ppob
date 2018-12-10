@@ -1,5 +1,11 @@
 $(document).ready(function(){
 
+    if($( window ).width() < 750){
+        document.getElementById("divcheckbox").style.display= 'none';
+    }else{
+        document.getElementById("divcheckbox").style.display= 'block';
+    }
+
     $('.i-checks-durasi').iCheck({
         checkboxClass: 'icheckbox_square-red',
     });
@@ -128,6 +134,14 @@ $(document).ready(function(){
 
     });
 
+});
+
+$( window ).resize(function() {
+    if($( window ).width() < 750){
+        document.getElementById("divcheckbox").style.display= 'none';
+    }else{
+        document.getElementById("divcheckbox").style.display= 'block';
+    }
 });
 
 function cleartxbkey() {
