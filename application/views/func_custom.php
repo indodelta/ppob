@@ -44,6 +44,15 @@ function bulan($bln){
     return $bulan;
 }
 
+function tanggalindo($date)
+{
+    $split = explode('-', $date);
+    $bulan = bulan($split[1]);
+    $tanggalindo = $split[2] . ' ' . $bulan . ' ' .$split[0];
+
+    return ($tanggalindo);
+}
+
 
 function rupiah($angka){
 

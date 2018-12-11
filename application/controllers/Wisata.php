@@ -50,6 +50,8 @@ class Wisata extends CI_Controller
             $data['data_wisata_prov'] = $this->M_wisata->load_data_wisata_where_type('PROVINSI');
             $data['data_wisata_area'] = $this->M_wisata->load_data_wisata_where_type('AREA');
             $data['data_wisata_kategori'] = $this->M_wisata->load_data_wisata_where_type('KATEGORI');
+            $keys = array('cariwisata', 'wisatadetail');
+            $this->session->unset_userdata($keys);
 
             $this->load->view('layout/v_header',$data);
             $this->load->view('wisata/wisata');
@@ -264,6 +266,8 @@ class Wisata extends CI_Controller
         $APIurl = $this->config->item('api2_wisatadetail');
 
         $data = json_decode($this->curl->simple_post($APIurl, $param, array(CURLOPT_BUFFERSIZE => 10)));
+
+        $this->session->set_userdata('wisatadetail', $data);
 
         return $data;
     }

@@ -32,6 +32,8 @@ if (sizeof($data_lembaga)>0) {
     <link href="<?php echo base_url();?>assets/css/plugins/textSpinners/spinners.css" rel="stylesheet">
     <link href="<?php echo base_url();?>assets/css/plugins/slick/slick.css" rel="stylesheet">
     <link href="<?php echo base_url();?>assets/css/plugins/slick/slick-theme.css" rel="stylesheet">
+    <link href="<?php echo base_url();?>assets/css/plugins/fullcalendar/fullcalendar.css" rel="stylesheet">
+    <link href="<?php echo base_url();?>assets/css/plugins/fullcalendar/fullcalendar.print.css" rel="stylesheet" media='print'>
 
     <link href="<?php echo base_url();?>assets/css/animate.css" rel="stylesheet">
     <link href="<?php echo base_url();?>assets/css/<?php echo $css_lembaga; ?>" rel="stylesheet">

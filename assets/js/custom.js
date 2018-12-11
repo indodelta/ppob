@@ -34,3 +34,17 @@ function dateindo(date){
     return _tanggal+' '+bulan;
 
 }
+
+function dateindowithyear(date){
+    var bulan = ['Januari', 'Februari', 'Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+
+    var splitdate = date.split('-');
+    var _tahun = splitdate[0];
+    var _bulan = splitdate[1];
+    var _tanggal = splitdate[2];
+
+    bulan = bulan[_bulan - 1];
+
+    return _tanggal+' '+bulan+' '+_tahun;
+
+}

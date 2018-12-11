@@ -65,6 +65,11 @@ if (sizeof($data_lembaga)>0) {
         <!-- slick carousel -->
         <script src="<?php echo base_url();?>assets/js/plugins/slick/slick.min.js"></script>
 
+        <!-- Full Calendar -->
+        <script src="<?php echo base_url();?>assets/js/plugins/fullcalendar/moment.min.js"></script>
+        <script src="<?php echo base_url();?>assets/js/plugins/fullcalendar/fullcalendar.min.js"></script>
+        <script src="<?php echo base_url();?>assets/js/plugins/fullcalendar/id.js"></script>
+
 
         <!-- Ladda -->
         <script src="<?php echo base_url();?>assets/js/plugins/ladda/spin.min.js"></script>
