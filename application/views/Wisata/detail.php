@@ -86,6 +86,7 @@ if($wisata == null)
     }else{
         $this->load->view('func_custom');
 
+        $destid = $wisata->data->destinationId;
         $title = $wisata->data->title;
         $location = $wisata->data->location;
         $days = $wisata->data->days;
@@ -253,7 +254,11 @@ if($wisata == null)
                                 for($i= 0 ; $i < $jmlimages ; $i++ ) {
 
                                     ?>
-                                    <a href="<?php echo $photo[$i]; ?>" title="<?php echo $photo[$i]; ?>" data-gallery=""><img src="<?php echo $photo[$i]; ?>" style="height:100px; width: 130px;"></a>
+                                    <a href="<?php echo $photo[$i]; ?>" title="<?php echo $photo[$i]; ?>" data-gallery="">
+                                        <img src="<?php echo $photo[$i]; ?>"
+                                             onerror="this.src = '<?php echo base_url('assets/img/No_Image_Available.png');?>';"
+                                             style="height:100px; width: 130px;">
+                                    </a>
                                     <?php
                                 }
 
@@ -277,99 +282,170 @@ if($wisata == null)
 
             </div>
 
-            <div class="form-group" id="divpesanan">
+        </div>
 
-                <div class="col-lg-8 col-lg-offset-2">
+        <div class="row">
 
-                    <input type="hidden" id="txbcolor" value="#ed5565">
+            <form id="formpesanan" method="post" action="#">
 
-                    <div class="ibox float-e-margins"
-                         style="outline: none; border-color: #d3d3d3;box-shadow: 0 0 10px #d3d3d3;">
-                        <div class="ibox-title">
-                            <h2>Pesanan Anda :</h2>
-                        </div>
-                        <div class="ibox-content" style="padding: 20px;">
-                            <div class="row">
-                                <div class="col-lg-6" style="border-right: solid 3px #F3F3F4; padding: 20px;">
-                                    <div id="calendar"></div>
-                                    <span class="help-block m-b-none">Silahkan klik pilihan tanggal anda sesua tanggal tersedia</span>
-                                </div>
-                                <div class="col-lg-6">
-                                    <?php
-                                    $prices = $wisata->data->prices;
-                                    $jumlahprices = count($prices);
-                                    $tanggalawaltersedia = $prices[0]->tanggal;
-                                    $tanggalakhirtersedia = $prices[$jumlahprices - 1]->tanggal;
+                <div class="form-group" id="divpesanan">
 
-                                    $tglawalindo = tanggalindo($tanggalawaltersedia);
-                                    $tglakhirindo = tanggalindo($tanggalakhirtersedia);
+                    <div class="col-lg-8 col-lg-offset-2">
 
-                                    $tanggaltersedia = $tglawalindo.' - '.$tglakhirindo;
+                        <input type="hidden" id="txbcolor" value="#ed5565">
 
-                                    $paxlist = $wisata->data->paxList;
-                                    $jumlahpaxlist = count($paxlist);
-                                    $paxlistakhir = $paxlist[$jumlahpaxlist - 1];
-
-                                    $listprice = $wisata->data->listPrice;
-                                    $jumlahlistprice = count($listprice);
-
-                                    ?>
-                                    <div class="form-group m-t-lg">
-                                        <b><text style="font-size: 16px;">Tanggal Tersedia: <?= $tanggaltersedia;?></text></b>
-                                        <input type="hidden" id="txbtanggalawaltersedia" value="<?php echo $tanggalawaltersedia ?>" readonly>
-                                        <input type="hidden" id="txbtanggalakhirtersedia" value="<?php echo $tanggalakhirtersedia ?>" readonly>
+                        <div class="ibox float-e-margins"
+                             style="outline: none; border-color: #d3d3d3;box-shadow: 0 0 10px #d3d3d3;">
+                            <div class="ibox-title">
+                                <h2>Pesanan Anda :</h2>
+                            </div>
+                            <div class="ibox-content" style="padding: 20px;">
+                                <div class="row">
+                                    <div class="col-lg-6" style="border-right: solid 3px #F3F3F4; padding: 20px;">
+                                        <div id="calendar"></div>
+                                        <span class="help-block m-b-none">Silahkan klik pilihan tanggal anda sesua tanggal tersedia</span>
                                     </div>
+                                    <div class="col-lg-6">
+                                        <?php
+                                        $prices = $wisata->data->prices;
+                                        $jumlahprices = count($prices);
 
-                                    <div class="form-group">
-                                        <text style="font-size: 16px;">Pilihan Tanggal: </text>
-                                        <input type="text" id="txbpilihantanggal"
-                                               style="color:#ed5565; background-color: transparent; border-color: transparent; font-size: 16px;" readonly>
-                                        <input type="hidden" id="txbpilihtanggal" name="txbpilihtanggal" readonly>
-                                    </div>
+                                        $tanggaltersedia = '';
+                                        $arrtanggal = '';
+                                        $arrratehotel = '';
+                                        $arrquota = '';
 
-                                    <div class="form-group">
-                                        <text style="font-size: 16px;">Jumlah Peserta : </text>
-                                        <input type="number" class="form-control" min="1" max="<?php echo $paxlistakhir;?>" required>
-                                        <span class="help-block m-b-none">Min = 1 Orang, Max = <?php echo $paxlistakhir;?> Orang</span>
-                                    </div>
+                                        if($jumlahprices>0){
+                                            $tanggalawaltersedia = $prices[0]->tanggal;
+                                            $tanggalakhirtersedia = $prices[$jumlahprices - 1]->tanggal;
 
-                                    <div class="form-group">
-                                        <text style="font-size: 16px;">List Harga : </text>
-                                        <div class="table-responsive">
-                                            <table class="table table-striped">
-                                                <tr class="text-center">
-                                                    <th class="text-center">Peserta Tour</th>
-                                                    <th class="text-center">Harga (/pax)</th>
-                                                </tr>
-                                                <?php
-                                                for ($i = 0; $i < $jumlahlistprice; $i++) {
-                                                    $jumlahpesertalistprice = $listprice[$i][0];
-                                                    $hargalistprice = $listprice[$i][1];
-                                                    ?>
+
+                                            for ($i = 0; $i < $jumlahprices; $i++) {
+                                                $tanggal = $prices[$i]->tanggal;
+                                                $ratehotel = $prices[$i]->rate_hotel;
+                                                $quota = $prices[$i]->quota;
+                                                $tanggalindo = tanggalindo($tanggal);
+
+                                                $arraytanggal[$tanggal] = null;
+                                                $arrayratehotel[$i] = $ratehotel;
+                                                $arrayquota[$i] = $quota;
+
+                                                $tanggaltersedia = $tanggaltersedia.', '.$tanggalindo;
+                                            }
+
+                                            $arrtanggal = array_keys($arraytanggal);
+                                            $arrtanggal = implode(",",$arrtanggal);
+
+                                            $arrratehotel = implode(",",$arrayratehotel);
+                                            $arrquota = implode(",",$arrayquota);
+
+                                            $tanggaltersedia = ltrim($tanggaltersedia, ', ');
+
+                                            if($tourtype == 'OPEN_TRIP'){
+                                                $tglawalindo = tanggalindo($tanggalawaltersedia);
+                                                $tglakhirindo = tanggalindo($tanggalakhirtersedia);
+
+                                                $tanggaltersedia = $tglawalindo.' - '.$tglakhirindo;
+                                            }
+                                        }
+
+                                        $paxlist = $wisata->data->paxList;
+                                        $jumlahpaxlist = count($paxlist);
+                                        $paxlistawal = 0;
+                                        $paxlistakhir = 0;
+                                        if($jumlahpaxlist>0){
+                                            $paxlistawal = $paxlist[0];
+                                            $paxlistakhir = $paxlist[$jumlahpaxlist - 1];
+                                        }
+
+                                        $listprice = $wisata->data->listPrice;
+                                        $jumlahlistprice = count($listprice);
+
+                                        ?>
+                                        <div class="form-group m-t-lg">
+                                            <b><text style="font-size: 16px;">Tanggal Tersedia: <?= $tanggaltersedia;?></text></b>
+                                            <input type="hidden" id="txbarraytanggal" value="<?php echo $arrtanggal ?>" readonly>
+                                            <input type="hidden" id="txbarrayratehotel" value="<?php echo $arrratehotel ?>" readonly>
+                                            <input type="hidden" id="txbarrayquota" value="<?php echo $arrquota ?>" readonly>
+                                            <input type="hidden" id="txbtourtype" value="<?php echo $tourtype ?>" readonly>
+                                            <input type="hidden" id="txbjumlahprices" value="<?php echo $jumlahprices ?>" readonly>
+                                            <input type="hidden" id="txbpaxlistawal" value="<?php echo $paxlistawal ?>" readonly>
+                                            <input type="hidden" id="txbpaxlistakhir" value="<?php echo $paxlistakhir ?>" readonly>
+                                            <input type="hidden" id="txbratehotel" readonly>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <text style="font-size: 16px;">Pilihan Tanggal: </text>
+                                            <input type="text" id="txbpilihantanggal"
+                                                   style="color:#ed5565; background-color: transparent; border-color: transparent; font-size: 16px;" readonly>
+                                            <text style="font-size: 16px;">Kuota: </text>
+                                            <input type="text" id="txbquota"
+                                                   style="color:#ed5565; background-color: transparent; border-color: transparent; font-size: 16px;" readonly>
+                                            <input type="hidden" id="txbpilihtanggal" name="txbpilihtanggal" readonly>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <text style="font-size: 16px;">Jumlah Peserta : </text>
+                                            <input type="number" id="txbjumlahpeserta" name="txbjumlahpeserta" class="form-control" value="<?php echo $paxlistawal;?>" min="<?php echo $paxlistawal;?>" max="<?php echo $paxlistakhir;?>" onchange="ubahjumlahpeserta()" required>
+                                            <span class="help-block m-b-none">Min = <?php echo $paxlistawal;?> Orang, Max = <?php echo $paxlistakhir;?> Orang</span>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <text style="font-size: 16px;">List Harga : </text>
+                                            <div class="table-responsive">
+                                                <table class="table table-striped">
                                                     <tr class="text-center">
-                                                        <td><?php echo $jumlahpesertalistprice ?></td>
-                                                        <td><?php echo number_format($hargalistprice, 0, ',', '.'); ?></td>
+                                                        <th class="text-center">Peserta Tour</th>
+                                                        <th class="text-center">Harga (/pax)</th>
                                                     </tr>
                                                     <?php
-                                                }
-                                                ?>
-                                            </table>
+                                                    $arrjmlpesertalistprices = '';
+                                                    $arrhargalistprices = '';
+                                                    if($jumlahlistprice>0) {
+                                                        for ($i = 0; $i < $jumlahlistprice; $i++) {
+                                                            $jumlahpesertalistprice = $listprice[$i][0];
+                                                            $hargalistprice = $listprice[$i][1];
+
+                                                            $arrayjmlpesertalistprices[$i] = $jumlahpesertalistprice;
+                                                            $arrayhargalistprices[$i] = $hargalistprice;
+                                                            ?>
+                                                            <tr class="text-center">
+                                                                <td><?php echo $jumlahpesertalistprice ?></td>
+                                                                <td><?php echo number_format($hargalistprice, 0, ',', '.'); ?></td>
+                                                            </tr>
+                                                            <?php
+                                                        }
+                                                        $arrjmlpesertalistprices = implode(",",$arrayjmlpesertalistprices);
+                                                        $arrhargalistprices = implode(",",$arrayhargalistprices);
+                                                    }
+                                                    ?>
+                                                </table>
+                                            </div>
+                                            <input type="hidden" id="txbjumlahlistprices" value="<?php echo $jumlahlistprice ?>" readonly>
+                                            <input type="hidden" id="txbarrayjmlpesertalistprices" value="<?php echo $arrjmlpesertalistprices ?>" readonly>
+                                            <input type="hidden" id="txbarrayhargalistprices" value="<?php echo $arrhargalistprices ?>" readonly>
+
+                                        </div>
+
+                                        <div class="form-group text-right">
+                                            <text style="font-size: 16px;">Total Harga: </text>
+                                            <input type="text" id="txbtotalhargarupiah" value="<?php echo 'Rp '.number_format($listprice[0][1] , 0, ',', '.')?>"
+                                                   style="color:#ed5565; background-color: transparent; border-color: transparent; font-size: 20px;" readonly>
+                                            <input type="hidden" id="txbtotalharga" name="txbtotalharga" value="<?php echo $listprice[0][1]?>" readonly>
+                                            <input type="hidden" name="txbiddest" value="<?php echo $destid?>" readonly>
+                                            <button type="button" class="btn btn-danger" onclick="submitform()">PESAN</button>
                                         </div>
 
                                     </div>
-
-                                    <div class="form-group text-right">
-                                        <button class="btn btn-danger">PESAN</button>
-                                    </div>
-
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-2"></div>
+                    <div class="col-lg-2"></div>
 
-            </div>
+                </div>
+
+            </form>
 
         </div>
 

@@ -272,5 +272,36 @@ class Wisata extends CI_Controller
         return $data;
     }
 
+    public function peserta()
+    {
+
+        if($this->session->userdata('status') == '') {
+            $this->session->set_flashdata('belumlogin','Anda belum login');
+            redirect(base_url());
+        }else{
+            $id = $this->session->userdata('iduser');
+            $level = $this->session->userdata('user_level');
+            $iddestination = $this->input->post('txbiddest',true);
+            if($level == 0){
+                $data['datasaldo'] = $this->cek_saldo_mobipay();
+            }else{
+                $data['datasaldo'] = $this->M_user->load_data_user_whereid($id);
+            }
+
+
+            $data['wisata'] = $this->apidetailwisata($iddestination);
+
+
+            $data['data_lembaga'] = $this->M_login->get_datadomain($this->domain);
+            $data['iddestination'] = $iddestination;
+
+            $data['js_to_load']= 'js_detailwisata.js';
+            $this->load->view('layout/v_header',$data);
+            $this->load->view('Wisata/peserta');
+            $this->load->view('layout/v_footer',$data);
+        }
+
+    }
+
 
 }
