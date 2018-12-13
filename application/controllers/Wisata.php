@@ -295,10 +295,27 @@ class Wisata extends CI_Controller
             $data['data_lembaga'] = $this->M_login->get_datadomain($this->domain);
             $data['iddestination'] = $iddestination;
 
-            $data['js_to_load']= 'js_detailwisata.js';
+            $data['js_to_load']= 'js_pesertawisata.js';
             $this->load->view('layout/v_header',$data);
             $this->load->view('Wisata/peserta');
             $this->load->view('layout/v_footer',$data);
+        }
+
+    }
+
+    public function booking()
+    {
+
+        if($this->session->userdata('status') == '') {
+            $this->session->set_flashdata('belumlogin','Anda belum login');
+            redirect(base_url());
+        }else{
+
+            $namapemesan = $this->input->post('txbnamapemesan',true);
+
+            echo $namapemesan;
+
+
         }
 
     }

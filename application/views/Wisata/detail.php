@@ -9,7 +9,7 @@ if (sizeof($data_lembaga)>0) {
 }
 ?>
 
-<div class="row wrapper border-bottom white-bg page-heading" style="position: fixed; z-index: 2; width: 100%">
+<div class="row wrapper border-bottom white-bg page-heading" style="position: fixed; z-index: 1; width: 100%">
     <div class="col-lg-10">
         <ol class="breadcrumb" style="padding-top: 60px;">
             <li>
@@ -109,7 +109,7 @@ if($wisata == null)
 
         ?>
 
-        <div class="row animated fadeInUp" style="position:fixed; margin-top: 100px; width: 100%; z-index: 2;">
+        <div class="row animated fadeInUp" style="position:fixed; margin-top: 100px; width: 100%; z-index: 1;">
             <div class="col-lg-8 col-lg-offset-2">
 
                 <div class="ibox-content red-bg" style="padding: 30px; outline: none; border-color: #ed5565;box-shadow: 0 0 10px #ed5565;">
@@ -301,7 +301,7 @@ if($wisata == null)
                             </div>
                             <div class="ibox-content" style="padding: 20px;">
                                 <div class="row">
-                                    <div class="col-lg-6" style="border-right: solid 3px #F3F3F4; padding: 20px;">
+                                    <div class="col-lg-6" style="z-index: 0; border-right: solid 3px #F3F3F4; padding: 20px;">
                                         <div id="calendar"></div>
                                         <span class="help-block m-b-none">Silahkan klik pilihan tanggal anda sesua tanggal tersedia</span>
                                     </div>

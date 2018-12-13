@@ -579,6 +579,11 @@ $config['api2_hoteldetail'] = "http://mpay.umrohnesia.id/index.php/ApiFT/hotel_d
 $config['api2_hotelbook'] = "http://mpay.umrohnesia.id/index.php/ApiFT/hotel_book";
 $config['api2_hotelpayment'] = "http://mpay.umrohnesia.id/index.php/ApiFT/hotel_payment";
 
+//pelni
+$config['api2_pelniorigin'] = "http://mpay.umrohnesia.id/index.php/ApiFT/pelni_origin";
+$config['api2_pelnidestination'] = "http://mpay.umrohnesia.id/index.php/ApiFT/pelni_destination";
+$config['api2_pelnisearch'] = "http://mpay.umrohnesia.id/index.php/ApiFT/pelni_search";
+
 //wisata
 $config['api2_wisatasearch'] = "http://mpay.umrohnesia.id/index.php/ApiFT/wisata_search";
 $config['api2_wisatadetail'] = "http://mpay.umrohnesia.id/index.php/ApiFT/wisata_detail";

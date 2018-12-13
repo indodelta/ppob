@@ -24,6 +24,7 @@ if (sizeof($data_lembaga)>0) {
 
     <link href="<?php echo base_url();?>assets/css/plugins/chosen/bootstrap-chosen.css" rel="stylesheet">
     <link href="<?php echo base_url();?>assets/css/plugins/select2/select2.min.css" rel="stylesheet">
+    <link href="<?php echo base_url();?>assets/css/plugins/jasny/jasny-bootstrap.min.css" rel="stylesheet">
     <link href="<?php echo base_url();?>assets/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
     <link href="<?php echo base_url();?>assets/css/plugins/dataTables/datatables.min.css" rel="stylesheet">
     <link href="<?php echo base_url();?>assets/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
@@ -375,7 +376,7 @@ if (sizeof($data_lembaga)>0) {
                         <text style="color: white;">SALDO : <?php echo $saldo; ?></text>
                     </div>
 
-                    <ul class="nav navbar-top-links navbar-right">
+                    <ul id="divmenuresponsiveatas" class="nav navbar-top-links navbar-right">
                         <li>
                             <button type="button" class="btn btn-outline btn-danger"
                                     style="height: 49px;
@@ -483,5 +484,57 @@ if (sizeof($data_lembaga)>0) {
                 </nav>
 
             </div>
+            <div id="divmenuresponsivebawah" class="row table-responsive" style="margin-top: 50px; position: fixed; z-index: 2; width: 100%; display: none; padding-top: 0px;">
+                <table class="table no-borders red-bg">
+                    <tr style="height: 49px;">
+                        <td class="text-center" style="<?php if (current_url() == base_url('pesawat')) { echo ' border-bottom: solid 3px #19AA8D'; } ?>">
+                            <a href="<?php echo base_url('pesawat')?>">
+                                <i class="fa fa-plane" style="color: white; padding: 0px;"></i><font color="white"> PESAWAT</font>
+                            </a>
+                        </td>
+                        <td class="text-center" style="<?php if (current_url() == base_url('kereta')) { echo ' border-bottom: solid 3px #19AA8D'; } ?>">
+                            <a href="<?php echo base_url('kereta')?>">
+                                <i class="fa fa-train" style="color: white"></i><font color="white"> KERETA</font>
+                            </a>
+                        </td>
+                        <td class="text-center" style="<?php if (current_url() == base_url('hotel')) { echo ' border-bottom: solid 3px #19AA8D'; } ?>">
+                            <a href="<?php echo base_url('hotel')?>">
+                                <i class="fa fa-hotel" style="color: white"></i><font color="white"> HOTEL</font>
+                            </a>
+                        </td>
+                        <td class="text-center" style="<?php if (current_url() == base_url('pulsa')) { echo ' border-bottom: solid 3px #19AA8D'; } ?>">
+                            <a href="<?php echo base_url('pulsa')?>">
+                                <i class="fa fa-tablet" style="color: white"></i><font color="white"> PULSA</font>
+                            </a>
+                        </td>
+                        <td class="text-center" style="<?php if (current_url() == base_url('ppob')) { echo ' border-bottom: solid 3px #19AA8D'; } ?>">
+                            <a href="<?php echo base_url('ppob')?>">
+                                <i class="fa fa-file-text-o" style="color: white"></i><font color="white"> PPOB</font>
+                            </a>
+                        </td>
+                        <td class="text-center" style="<?php if (current_url() == base_url('ppob')) { echo ' border-bottom: solid 3px #19AA8D'; } ?>">
+                            <a href="<?php echo base_url('pelni')?>">
+                                <i class="fa fa-ship" style="color: white"></i><font color="white"> PELNI</font>
+                            </a>
+                        </td>
+                        <td class="text-center" style="<?php if (current_url() == base_url('ppob')) { echo ' border-bottom: solid 3px #19AA8D'; } ?>">
+                            <a href="<?php echo base_url('bus')?>">
+                                <i class="fa fa-bus" style="color: white"></i><font color="white"> BUS</font>
+                            </a>
+                        </td>
+                        <td class="text-center" style="<?php if (current_url() == base_url('ppob')) { echo ' border-bottom: solid 3px #19AA8D'; } ?>">
+                            <a href="<?php echo base_url('wisata')?>">
+                                <i class="fa fa-snowflake-o" style="color: white"></i><font color="white"> WISATA</font>
+                            </a>
+                        </td>
+                        <td class="text-center" style="<?php if (current_url() == base_url('ppob')) { echo ' border-bottom: solid 3px #19AA8D'; } ?>">
+                            <a href="<?php echo base_url('login/logout')?>">
+                                <i class="fa fa-sign-out" style="color: white"></i><font color="white"> LOGOUT</font>
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
 
             <!-- /header -->

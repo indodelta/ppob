@@ -9,26 +9,26 @@ if (sizeof($data_lembaga)>0) {
 }
 ?>
 
-<!--<div class="row wrapper border-bottom white-bg page-heading" style="position: fixed; z-index: 2; width: 100%">-->
-<!--    <div class="col-lg-10">-->
-<!--        <ol class="breadcrumb" style="padding-top: 60px;">-->
-<!--            <li>-->
-<!--                <a href="--><?php //echo base_url('dashboard')?><!--">Home</a>-->
-<!--            </li>-->
-<!--            <li>-->
-<!--                <a href="--><?php //echo base_url('wisata')?><!--">Wisata</a>-->
-<!--            </li>-->
-<!--            <li class="active">-->
-<!--                <strong>Nama Wisata</strong>-->
-<!--            </li>-->
-<!--        </ol>-->
-<!--    </div>-->
-<!--    <div class="col-lg-2">-->
-<!---->
-<!--    </div>-->
-<!--</div>-->
+<div class="row wrapper border-bottom white-bg page-heading" style="position: fixed; z-index: 1; width: 100%">
+    <div class="col-lg-10">
+        <ol class="breadcrumb" style="padding-top: 60px;">
+            <li>
+                <a href="<?php echo base_url('dashboard')?>">Home</a>
+            </li>
+            <li>
+                <a href="<?php echo base_url('wisata')?>">Wisata</a>
+            </li>
+            <li class="active">
+                <strong>Nama Wisata</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
 
-<!-- Content -->
+    </div>
+</div>
+
+ Content
 
 <?php
 
@@ -100,89 +100,179 @@ if($wisata == null)
         }else{
             $durasi = $days.' Hari';
         }
-        $viewer = $wisata->data->viewer;
-//        $dateva = $wisata->data->dateAvailability;
-//        if(count($dateva)==null){
-//            $ketersediaan = 'Semua Tanggal';
-//        }else{
-//            $ketersediaan = 'Tanggal Tertentu';
-//        }
-        $tourtype = $wisata->data->tourType;
         $harga = $wisata->data->price;
         $unit = $wisata->data->unit;
 
         ?>
 
-        <div class="row animated fadeInUp" style="position:fixed; margin-top: 60px; width: 100%; z-index: 2;">
-            <div class="col-lg-8 col-lg-offset-2">
+        <div class="row" style="margin-top: 100px;">
 
-                <div class="carousel slide" id="carousel2" style="height: 250px">
-                    <ol class="carousel-indicators">
-                        <li data-slide-to="0" data-target="#carousel2" class="active"></li>
-                        <li data-slide-to="1" data-target="#carousel2"></li>
-                        <li data-slide-to="2" data-target="#carousel2" class=""></li>
-                    </ol>
-                    <div class="carousel-inner">
-                        <?php
-                        $photo = $wisata->data->photos;
-                        $jmlimages = count($photo);
-                        for($i= 0 ; $i < $jmlimages ; $i++ ) {
+            <form id="formbooking" class="form-horizontal" method="post" action="booking" autocomplete="off">
 
-                            ?>
-                            <div class="item <?php if($i==0){echo 'active';} ?>">
-                                <img alt="image"
-                                     class="img-responsive"
-                                     style="width: 100%; height: 100%;"
-                                     src="<?php echo $photo[$i]; ?>"
-                                     onerror="this.src = '<?php echo base_url('assets/img/No_Image_Available.png');?>';">
+                <div class="col-lg-6 col-lg-offset-2 col-xs-8">
+
+                    <div class="ibox animated fadeInUp" style="outline: none; border-color: #F4F4F4;box-shadow: 0 0 50px #F4F4F4;">
+
+                        <div class="ibox-title red-bg">
+                            <h2>Data Pemesan (Kontak)</h2>
+                        </div>
+                        <div class="ibox-content">
+
+                            <div class="form-group">
+                                <label class="control-label col-xs-3">Nama <span style="color:#ed5565">*</span></label>
+                                <div class="col-xs-9">
+                                    <input type="text" class="form-control" name="txbnamapemesan">
+                                    <span class="help-block m-b-none">Nama lengkap sesuai dengan KTP/Paspor/SIM(tanpa tanda baca/gelar)</span>
+                                </div>
                             </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-xs-3">Email <span style="color:#ed5565">*</span></label>
+                                <div class="col-xs-9">
+                                    <input type="email" class="form-control" name="txbemailpemesan">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-xs-3">No Telp / Handphone <span style="color:#ed5565">*</span></label>
+                                <div class="col-xs-9">
+                                    <input type="text" class="form-control" name="txbtlppemesan" placeholder="081xxxxxxxx">
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="ibox animated fadeInUp m-t-lg" style="outline: none; border-color: #F4F4F4;box-shadow: 0 0 50px #F4F4F4;">
+
+                        <div class="ibox-title red-bg">
+                            <h2>Data Peserta</h2>
+                        </div>
+
+                        <?php
+                        $j = 1;
+                        for ($i = 0; $i < $jumlahpeserta; $i++) {
+                            ?>
+
+                            <div class="ibox-content">
+
+                                <div class="form-group">
+                                    <label class="control-label col-xs-1"><?php echo $j;?>).</label>
+                                    <label class="control-label col-xs-2">Nama</label>
+                                    <div class="col-xs-9">
+                                        <input type="text" class="form-control" name="<?php echo 'txbnamapeserta'.$j ?>">
+                                        <span class="help-block m-b-none">Nama lengkap sesuai dengan KTP/Paspor/SIM(tanpa tanda baca/gelar)</span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-xs-3">Email</label>
+                                    <div class="col-xs-9">
+                                        <input type="email" class="form-control" name="<?php echo 'txbemailpeserta'.$j ?>">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-xs-3">No Telp / Handphone</label>
+                                    <div class="col-xs-9">
+                                        <input type="text" class="form-control" name="<?php echo 'txbtelppeserta'.$j ?>" placeholder="081xxxxxxxx">
+                                    </div>
+                                </div>
+
+                            </div>
+
                             <?php
+                            $j++;
                         }
-
                         ?>
+
                     </div>
-                    <a data-slide="prev" href="#carousel2" class="left carousel-control">
-                        <span class="icon-prev"></span>
-                    </a>
-                    <a data-slide="next" href="#carousel2" class="right carousel-control">
-                        <span class="icon-next"></span>
-                    </a>
-                </div>
-
-                <div class="ibox-content red-bg"
-                     style="padding: 30px;
-                            outline: none;
-                            border-color: #ed5565;
-                            box-shadow: 0 0 10px #ed5565;">
-                    <h2><?= $title;?></h2>
-                    <h3>
-                        <i class="fa fa-map-marker"></i> Lokasi : <?= $location;?>
-                        | <i class="fa fa-clock-o m-l-md"></i> Durasi : <?= $durasi;?>
-                        | <i class="fa fa-eye m-l-md"></i> Jumlah Dilihat :  <?= $viewer;?>
-                        <!--                        | <i class="fa fa-calendar m-l-md"></i> Ketersediaan :  --><?//= $ketersediaan;?>
-                    </h3>
-                    <text style="font-size: 16px;">
-                        Tanggal Liburan : <?= tanggalindo($tanggalpilih);?><br/>
-                        Jumlah Peserta : <?= $jumlahpeserta;?> Orang<br/>
-                        Jenis : <?= str_replace('_',' ',$tourtype);?>
-                    </text>
 
                 </div>
+                <div class="col-lg-2 col-lg-offset-8 col-xs-4 col-xs-offset-8" style="position: fixed;">
 
-                <div class="ibox-content" style="outline: none; border-color: #ed5565;box-shadow: 0 0 10px #ed5565;">
                     <div class="row">
-                        <div class="col-sm-8">
-                            <h2>Total Harga : <b>Rp. <?php echo number_format($totalharga, 0, ',', '.'); ?></b></h2>
-                        </div>
-                        <div class="col-sm-4 text-right m-t-sm">
-                            <button type="button" id="btnshowpesanan" class="btn btn-danger">Pesan</button>
+                        <div class="col-lg-12">
+
+                            <div class="carousel slide" id="carousel2" style="height: 250px">
+                                <div class="carousel-inner">
+                                    <?php
+                                    $photo = $wisata->data->photos;
+                                    $jmlimages = count($photo);
+                                    for($i= 0 ; $i < $jmlimages ; $i++ ) {
+
+                                        ?>
+                                        <div class="item <?php if($i==0){echo 'active';} ?>">
+                                            <img alt="image"
+                                                 class="img-responsive"
+                                                 style="width: 100%; height: 100%;"
+                                                 src="<?php echo $photo[$i]; ?>"
+                                                 onerror="this.src = '<?php echo base_url('assets/img/No_Image_Available.png');?>//';">
+                                        </div>
+                                        <?php
+                                    }
+
+                                    ?>
+                                </div>
+                                <a data-slide="prev" href="#carousel2" class="left carousel-control">
+                                    <span class="icon-prev"></span>
+                                </a>
+                                <a data-slide="next" href="#carousel2" class="right carousel-control">
+                                    <span class="icon-next"></span>
+                                </a>
+                            </div>
+
                         </div>
                     </div>
+
+                    <div class="ibox-content red-bg"
+                         style="padding: 30px;
+                                outline: none;
+                                border-color: #ed5565;
+                                box-shadow: 0 0 10px #ed5565;">
+                        <div class="row">
+                            <div class="col-lg-12">
+
+                                <h2><?= $title;?></h2>
+                                <text style="font-size: 12px;">
+                                    <i class="fa fa-map-marker"></i> Lokasi : <?= $location;?><br/>
+                                    <i class="fa fa-clock-o"></i> Durasi : <?= $durasi;?>
+                                </text><br/>
+                                <hr>
+                                <text style="font-size: 16px;">
+                                    Tanggal Liburan : <br/><?= tanggalindo($tanggalpilih);?><br/>
+                                    <br/>
+                                    Jumlah Peserta : <br/><?= $jumlahpeserta;?> Orang
+                                </text>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="ibox-content"
+                         style="outline: none;
+                                    border-color: #ed5565;
+                                    box-shadow: 0 0 10px #ed5565;">
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <h2>Total Harga :
+                                    <br/>
+                                    <b>Rp. <?php echo number_format($totalharga, 0, ',', '.'); ?></b></h2>
+                            </div>
+                            <div class="col-lg-4 text-right m-t-sm">
+                                <button type="submit" id="btnshowpesanan" class="btn btn-danger">Pesan</button>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
-            </div>
-            <div class="col-lg-2"></div>
+            </form>
+
         </div>
+
 
         <?php
 

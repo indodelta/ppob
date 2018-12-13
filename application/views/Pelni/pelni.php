@@ -59,7 +59,7 @@ if (sizeof($data_lembaga)>0) {
                     Sedang Mengambil data Pelabuhan, Mohon untuk menunggu beberapa saat <span class="loading"></span>
                 </div>
 
-                <form id="formpesantiket" method="post" autocomplete="off" target="_blank">
+                <form id="formpesantiket" class="form-horizontal" method="post" autocomplete="off" target="_blank">
 
                     <input type="hidden" id="txbwarnalembaga" value="<?php echo $warna_lembaga;?>">
 

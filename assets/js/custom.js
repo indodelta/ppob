@@ -1,3 +1,23 @@
+$(document).ready(function(){
+    if($( window ).width() < 910){
+        document.getElementById("divmenuresponsiveatas").style.display= 'none';
+        document.getElementById("divmenuresponsivebawah").style.display= 'block';
+    }else{
+        document.getElementById("divmenuresponsiveatas").style.display= 'block';
+        document.getElementById("divmenuresponsivebawah").style.display= 'none';
+    }
+})
+
+$( window ).resize(function() {
+    if($( window ).width() < 910){
+        document.getElementById("divmenuresponsiveatas").style.display= 'none';
+        document.getElementById("divmenuresponsivebawah").style.display= 'block';
+    }else{
+        document.getElementById("divmenuresponsiveatas").style.display= 'block';
+        document.getElementById("divmenuresponsivebawah").style.display= 'none';
+    }
+});
+
 function toRp(angka){
     var rev     = parseInt(angka, 10).toString().split('').reverse().join('');
     var rev2    = '';

@@ -1,7 +1,7 @@
 <?php
 
 defined('BASEPATH') OR exit('No direct script access allowed');
-ini_set('max_execution_time', 300);
+ini_set('max_execution_time', 1000);
 
 class PELNI extends CI_Controller
 {
@@ -62,13 +62,11 @@ class PELNI extends CI_Controller
 
         $param = array("token"=>$token);
 
-        $params = json_encode($param);
+        $APIurl = $this->config->item('api2_pelniorigin');
 
-        $APIurl = 'https://api-dev.fastravel.co.id/pelni/get_origin';
+        $data = json_decode($this->curl->simple_post($APIurl, $param, array(CURLOPT_BUFFERSIZE => 10)));
 
-        $a=array();
-
-        $data = json_decode($this->curl->simple_post($APIurl, $params, array(CURLOPT_BUFFERSIZE => 10)));
+        $a = array();
 
         if($data != ''){
             $lengthdata = count($data->data);
@@ -96,13 +94,11 @@ class PELNI extends CI_Controller
 
         $param = array("token"=>$token);
 
-        $params = json_encode($param);
+        $APIurl = $this->config->item('api2_pelnidestination');
 
-        $APIurl = 'https://api-dev.fastravel.co.id/pelni/get_destination';
+        $data = json_decode($this->curl->simple_post($APIurl, $param, array(CURLOPT_BUFFERSIZE => 10)));
 
         $a=array();
-
-        $data = json_decode($this->curl->simple_post($APIurl, $params, array(CURLOPT_BUFFERSIZE => 10)));
 
         if($data != '') {
             $lengthdata = count($data->data);
@@ -127,6 +123,8 @@ class PELNI extends CI_Controller
 
     public function get_jadwal()
     {
+        $cekpp = $this->input->post('cekpp');
+
         $origin = $this->input->post('origin',true);
         $exporigin = explode('-', $origin);
         $origincode = str_replace(' ', '', $exporigin[0]);
@@ -145,19 +143,32 @@ class PELNI extends CI_Controller
 
         $token = $this->session->userdata('tokenft');
 
-        $APIurl = 'https://api-dev.fastravel.co.id/pelni/search';
-
         $param = array(
           "origin"=>$origincode,
           "destination"=>$destcode,
-          "startDate"=>$tanggalpergi,
-          "endDate"=>$tanggalpergi,
+          "tanggalpergi"=>$tanggalpergi,
           "token"=>$token,
         );
 
-        $params = json_encode($param);
+        $APIurl = $this->config->item('api2_pelnisearch');
 
-        $data = json_decode($this->curl->simple_post($APIurl, $params, array(CURLOPT_BUFFERSIZE => 10)));
+        $data['pergi'] = json_decode($this->curl->simple_post($APIurl, $param, array(CURLOPT_BUFFERSIZE => 10)));
+
+        if($cekpp == 'on'){
+
+            $param = array(
+                "origin"=>$destcode,
+                "destination"=>$origincode,
+                "tanggalpergi"=>$tanggalpulang,
+                "token"=>$token,
+            );
+
+            $APIurl = $this->config->item('api2_pelnisearch');
+
+            $data['pulang'] = json_decode($this->curl->simple_post($APIurl, $param, array(CURLOPT_BUFFERSIZE => 10)));
+
+
+        }
 
         return $data;
 
@@ -169,11 +180,9 @@ class PELNI extends CI_Controller
 
         $param = array("token"=>$token);
 
-        $params = json_encode($param);
+        $APIurl = $this->config->item('api2_pelnidestination');
 
-        $APIurl = 'https://api-dev.fastravel.co.id/pelni/get_destination';
-
-        $data = json_decode($this->curl->simple_post($APIurl, $params, array(CURLOPT_BUFFERSIZE => 10)));
+        $data = json_decode($this->curl->simple_post($APIurl, $param, array(CURLOPT_BUFFERSIZE => 10)));
 
         return $data;
 

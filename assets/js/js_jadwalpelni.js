@@ -65,6 +65,33 @@ function showhargakelas(select) {
 
 }
 
+function showhargakelaspergi(select) {
+    var value = select.options[select.selectedIndex].value;
+
+    var splitvalue = value.split("/");
+    var nokelas = splitvalue[0];
+    var namakelas = splitvalue[1];
+    var jmlfare = splitvalue[2];
+    var nofare = splitvalue[3];
+
+    var namaspan = 'spanpergi'+nokelas;
+    document.getElementById(namaspan).innerHTML = namakelas;
+
+    var tableshow = 'tablepergi'+nokelas+nofare;
+
+    for (i = 0; i < jmlfare; i++) {
+        var idtable = 'tablepergi'+nokelas+i;
+
+        if(idtable == tableshow){
+            document.getElementById(tableshow).style.display = 'block';
+        }else{
+            document.getElementById(idtable).style.display = 'none';
+        }
+
+    }
+
+}
+
 function clearori() {
     document.getElementById("origin").value = '';
 }
