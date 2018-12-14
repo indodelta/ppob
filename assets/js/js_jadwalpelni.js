@@ -90,6 +90,58 @@ function showhargakelaspergi(select) {
 
     }
 
+
+    var btnkelaspergi = 'btnkelaspergi'+nokelas+nofare;
+    for (i = 0; i < jmlfare; i++) {
+        var idbtn = 'btnkelaspergi'+nokelas+i;
+
+        if(idbtn == btnkelaspergi){
+            document.getElementById(btnkelaspergi).style.display = 'block';
+        }else{
+            document.getElementById(idbtn).style.display = 'none';
+        }
+
+    }
+
+}
+
+function showhargakelaspulang(select) {
+    var value = select.options[select.selectedIndex].value;
+
+    var splitvalue = value.split("/");
+    var nokelas = splitvalue[0];
+    var namakelas = splitvalue[1];
+    var jmlfare = splitvalue[2];
+    var nofare = splitvalue[3];
+
+    var namaspan = 'spanpulang'+nokelas;
+    document.getElementById(namaspan).innerHTML = namakelas;
+
+    var tableshow = 'tablepulang'+nokelas+nofare;
+
+    for (i = 0; i < jmlfare; i++) {
+        var idtable = 'tablepulang'+nokelas+i;
+
+        if(idtable == tableshow){
+            document.getElementById(tableshow).style.display = 'block';
+        }else{
+            document.getElementById(idtable).style.display = 'none';
+        }
+
+    }
+
+    var btnkelaspulang = 'btnkelaspulang'+nokelas+nofare;
+    for (i = 0; i < jmlfare; i++) {
+        var idbtn = 'btnkelaspulang'+nokelas+i;
+
+        if(idbtn == btnkelaspulang){
+            document.getElementById(btnkelaspulang).style.display = 'block';
+        }else{
+            document.getElementById(idbtn).style.display = 'none';
+        }
+
+    }
+
 }
 
 function clearori() {
@@ -220,5 +272,116 @@ function submittiket() {
 
         }
     }
+
+}
+
+function pilihtabpergi() {
+    var tabpergi = document.getElementById("tabpergi");
+    var tabpulang = document.getElementById("tabpulang");
+    var judultabpergi = document.getElementById("judultabpergi");
+    var judultabpulang = document.getElementById("judultabpulang");
+    tabpergi.style.display = "block";
+    tabpulang.style.display = "none";
+    judultabpergi.classList.add("aktif");
+    judultabpulang.classList.remove("aktif");
+}
+
+function pilihtabpulang() {
+    var tabpergi = document.getElementById("tabpergi");
+    var tabpulang = document.getElementById("tabpulang");
+    var judultabpergi = document.getElementById("judultabpergi");
+    var judultabpulang = document.getElementById("judultabpulang");
+    tabpulang.style.display = "block";
+    tabpergi.style.display = "none";
+    judultabpergi.classList.remove("aktif");
+    judultabpulang.classList.add("aktif");
+
+}
+
+var totalharga = 0;
+
+function pilihkelaspergi(button) {
+    document.getElementById("formpilihpergi").style.display = "block";
+    document.getElementById("formsebelumpilihpergi").style.display = "none";
+
+    var jmlpria = parseInt(document.getElementById("jmlpria").value);
+    var jmlwanita = parseInt(document.getElementById("jmlwanita").value);
+    var jmlbayi = parseInt(document.getElementById("jmlbayi").value);
+
+    var shipsubtotalpergi = document.getElementById("shipsubtotalpergi").value;
+
+    totalharga = totalharga - parseInt(shipsubtotalpergi);
+
+    var shipnamepergi = $(button).attr('data-shipnamepergi');
+    var shipnopergi = $(button).attr('data-shipnopergi');
+    var shipsubkelaspergi = $(button).attr('data-shipsubkelaspergi');
+    var shipkelaspergi = $(button).attr('data-shipkelaspergi');
+    var shipdepdatepergi = $(button).attr('data-shipdepdatepergi');
+    var daydep = getDayName(shipdepdatepergi, "id-ID");
+    var shipdeptimepergi = $(button).attr('data-shipdeptimepergi');
+    var shiparvdatepergi = $(button).attr('data-shiparvpergi');
+    var dayarv = getDayName(shiparvdatepergi, "id-ID");
+    var shiparvtimepergi = $(button).attr('data-shiparvtimepergi');
+    var shipadultpricepergi = $(button).attr('data-shipadultpricepergi');
+    var shipinfantpricepergi = $(button).attr('data-shipinfantpricepergi');
+
+    var subtotalpricepergi = (jmlpria*shipadultpricepergi)+(jmlwanita*shipadultpricepergi)+(jmlbayi*shipinfantpricepergi);
+
+    document.getElementById("shipnamepergi").innerHTML= shipnopergi +' / ' + shipnamepergi;
+    document.getElementById("shipclasspergi").innerHTML= shipkelaspergi +' - ' + shipsubkelaspergi;
+    document.getElementById("shipdatedeppergi").innerHTML= daydep +', ' + dateindowithslash(shipdepdatepergi);
+    document.getElementById("shiptimedeppergi").innerHTML= shipdeptimepergi;
+    document.getElementById("shipdatearvpergi").innerHTML= dayarv +', ' + dateindowithslash(shiparvdatepergi);
+    document.getElementById("shiptimearvpergi").innerHTML= shiparvtimepergi;
+
+    document.getElementById("shipsubtotalpergi").value = subtotalpricepergi;
+
+    totalharga += parseInt(subtotalpricepergi);
+
+    document.getElementById("shiptotalhargapp").innerHTML= toRp(totalharga);
+
+}
+
+function pilihkelaspulang(button) {
+    document.getElementById("formpilihpulang").style.display = "block";
+    document.getElementById("formsebelumpilihpulang").style.display = "none";
+
+    var jmlpria = parseInt(document.getElementById("jmlpria").value);
+    var jmlwanita = parseInt(document.getElementById("jmlwanita").value);
+    var jmlbayi = parseInt(document.getElementById("jmlbayi").value);
+
+    var shipsubtotalpulang = document.getElementById("shipsubtotalpulang").value;
+
+    totalharga = totalharga - parseInt(shipsubtotalpulang);
+
+    var shipnamepulang = $(button).attr('data-shipnamepulang');
+    var shipnopulang = $(button).attr('data-shipnopulang');
+    var shipsubkelaspulang = $(button).attr('data-shipsubkelaspulang');
+    var shipkelaspulang = $(button).attr('data-shipkelaspulang');
+    var shipdepdatepulang = $(button).attr('data-shipdepdatepulang');
+    var daydep = getDayName(shipdepdatepulang, "id-ID");
+    var shipdeptimepulang = $(button).attr('data-shipdeptimepulang');
+    var shiparvdatepulang = $(button).attr('data-shiparvpulang');
+    var dayarv = getDayName(shiparvdatepulang, "id-ID");
+    var shiparvtimepulang = $(button).attr('data-shiparvtimepulang');
+    var shipadultpricepulang = $(button).attr('data-shipadultpricepulang');
+    var shipinfantpricepulang = $(button).attr('data-shipinfantpricepulang');
+
+    alert(shipkelaspulang);
+
+    var subtotalpricepulang = (jmlpria*shipadultpricepulang)+(jmlwanita*shipadultpricepulang)+(jmlbayi*shipinfantpricepulang);
+
+    document.getElementById("shipnamepulang").innerHTML= shipnopulang +' / ' + shipnamepulang;
+    document.getElementById("shipclasspulang").innerHTML= shipkelaspulang +' - ' + shipsubkelaspulang;
+    document.getElementById("shipdatedeppulang").innerHTML= daydep +', ' + dateindowithslash(shipdepdatepulang);
+    document.getElementById("shiptimedeppulang").innerHTML= shipdeptimepulang;
+    document.getElementById("shipdatearvpulang").innerHTML= dayarv +', ' + dateindowithslash(shiparvdatepulang);
+    document.getElementById("shiptimearvpulang").innerHTML= shiparvtimepulang;
+
+    document.getElementById("shipsubtotalpulang").value = subtotalpricepulang;
+
+    totalharga += parseInt(subtotalpricepulang);
+
+    document.getElementById("shiptotalhargapp").innerHTML= toRp(totalharga);
 
 }

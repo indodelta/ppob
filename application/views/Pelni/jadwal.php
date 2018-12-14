@@ -62,7 +62,7 @@ $tglpulangdb = $exptglpulang[2].'-'.$exptglpulang[1].'-'.$exptglpulang[0];
 if($cekpp == 'on'){
     $tanggalpulang = hari($tglpulangdb).', '.$tglpulangindo;
     $pp = '(PP)';
-    $margintop = '450px';
+    $margintop = '550px';
     $display = 'block';
 }else{
     $tanggalpulang = '';
@@ -121,10 +121,40 @@ if($cekpp == 'on') {
 
                         <div class="row">
 
-                            <div class="col-xs-8">
+                            <div class="col-xs-10">
 
                                 <div id="formsebelumpilihpergi" style="display: block;">
                                     <h3>Jadwal Kapal Pergi belum dipilih</h3>
+                                </div>
+
+                                <div id="formpilihpergi" style="display: none;">
+                                    <div class="row">
+
+                                        <div class="col-xs-2 text-center">
+                                            <h3>PERGI</h3>
+                                            <i class="fa fa-arrow-circle-o-right fa-2x"></i>
+                                        </div>
+
+                                        <div class="col-xs-4">
+
+                                            <h3 id="shipnamepergi"></h3>
+                                            Kelas : <span id="shipclasspergi"></span>
+
+                                        </div>
+
+                                        <div class="col-xs-3">
+                                            Berangkat :
+                                            <h3 id="shipdatedeppergi"></h3>
+                                            <span id="shiptimedeppergi"></span>
+                                        </div>
+
+                                        <div class="col-xs-3">
+                                            Tiba :
+                                            <h3 id="shipdatearvpergi"></h3>
+                                            <span id="shiptimearvpergi"></span>
+                                        </div>
+
+                                    </div>
                                 </div>
 
                                 <hr/>
@@ -133,14 +163,47 @@ if($cekpp == 'on') {
                                     <h3>Jadwal Kapal Pulang belum dipilih</h3>
                                 </div>
 
+                                <div id="formpilihpulang" style="display: none;">
+                                    <div class="row">
+
+                                        <div class="col-xs-2 text-center">
+                                            <h3>PULANG</h3>
+                                            <i class="fa fa-arrow-circle-o-left fa-2x"></i>
+                                        </div>
+
+                                        <div class="col-xs-4">
+
+                                            <h3 id="shipnamepulang"></h3>
+                                            Kelas : <span id="shipclasspulang"></span>
+
+                                        </div>
+
+                                        <div class="col-xs-3">
+                                            Berangkat :
+                                            <h3 id="shipdatedeppulang"></h3>
+                                            <span id="shiptimedeppulang"></span>
+                                        </div>
+
+                                        <div class="col-xs-3">
+                                            Tiba :
+                                            <h3 id="shipdatearvpulang"></h3>
+                                            <span id="shiptimearvpulang"></span>
+                                        </div>
+
+                                    </div>
+                                </div>
+
                             </div>
-                            <div class="col-xs-4" id="forminputpilihpergi">
+                            <div class="col-xs-2" id="forminputpilihpergi">
 
                                 <form method="post" id="formpilihpulangpergi" target="_blank">
 
                                     <div class="text-center"
                                          style="border-left: solid 1px #eeeeee;">
-                                        <h2 id="flighttotalhargapp" style="color: <?php echo $warna_lembaga?>">Rp 0</h2>
+                                        <h2 id="shiptotalhargapp" style="color: <?php echo $warna_lembaga?>">Rp 0</h2>
+                                        <input type="hidden" id="shipsubtotalpergi" value="0">
+                                        <input type="hidden" id="shipsubtotalpulang" value="0">
+
                                         <button type="button" class="btn btn-danger" id="btnsubmitpulangpergi" onclick="submitpulangpergi()"> PESAN SEKARANG
                                         </button>
                                     </div>
@@ -155,22 +218,20 @@ if($cekpp == 'on') {
 
                     <div class="ibox-content">
 
-                        <div class="row">
+                        <div class="row judultab">
 
-                            <ul class="nav nav-tabs text-center" style="border: none;">
-                                <li class="active col-xs-6">
-                                    <a data-toggle="tab" href="#tab-1" style="border: none;">
-                                        <i class="fa fa-ship" style="color: <?php echo $warna_lembaga; ?>;font-size:3em;"></i>
-                                        <br/> <span style="color: #ed5565">Perjalanan Pergi</span>
-                                    </a>
-                                </li>
-                                <li class="col-xs-6">
-                                    <a data-toggle="tab" href="#tab-2" style="border: none;">
-                                        <i class="fa fa-ship" style="color: <?php echo $warna_lembaga; ?>;font-size:3em;"></i>
-                                        <br/> <span style="color: #ed5565">Perjalanan Pulang</span>
-                                    </a>
-                                </li>
-                            </ul>
+                            <div class="col-xs-6 text-center aktif" id="judultabpergi" style="padding-bottom: 15px;" onclick="pilihtabpergi()">
+                                <a>
+                                    <i class="fa fa-ship" style="color: <?php echo $warna_lembaga; ?>;font-size:3em;"></i>
+                                    <br/> <span style="color: #ed5565">Perjalanan Pergi</span>
+                                </a>
+                            </div>
+                            <div class="col-xs-6 text-center" id="judultabpulang" style="padding-bottom: 15px;" onclick="pilihtabpulang()">
+                                <a>
+                                    <i class="fa fa-ship" style="color: <?php echo $warna_lembaga; ?>;font-size:3em;"></i>
+                                    <br/> <span style="color: #ed5565">Perjalanan Pulang</span>
+                                </a>
+                            </div>
 
                         </div>
 
@@ -334,13 +395,36 @@ if($cekpp == 'on') {
                     else{
                         ?>
 
-                        <div class="tab-content" style="padding-top: 20px;">
+                        <!-- Jadwal Pergi-->
+                        <div id="tabpergi">
 
-                            <!-- Jadwal Pergi-->
-                            <div id="tab-1" class="tab-pane active">
+                            <?php
+                            if($jadwal['pergi'] == null){
+
+                                ?>
+
+                                <div class="ibox-content">
+
+                                    <div class="row text-center">
+
+                                        <h1>
+                                            API Pergi Tidak Terkoneksi
+                                        </h1><br/>
+                                        <h2>Lakukan Pencarian Jadwal Keberangkatan Kembali</h2><br/>
+                                        <a href="<?php echo base_url('pelni')?>"><button class="btn btn-danger">Kembali ke form pencarian</button></a>
+
+                                    </div>
+
+                                </div>
 
                                 <?php
-                                if($jadwal['pergi'] == null){
+
+                            }else{
+
+                                $rcpergi = $jadwal['pergi']->rc;
+                                $rdpergi = $jadwal['pergi']->rd;
+
+                                if($rcpergi != '00'){
 
                                     ?>
 
@@ -349,8 +433,9 @@ if($cekpp == 'on') {
                                         <div class="row text-center">
 
                                             <h1>
-                                                API Pergi Tidak Terkoneksi
+                                                Terjadi error pada API Pergi
                                             </h1><br/>
+                                            <h2>Error API : <?php echo $rdpergi;?></h2><br/>
                                             <h2>Lakukan Pencarian Jadwal Keberangkatan Kembali</h2><br/>
                                             <a href="<?php echo base_url('pelni')?>"><button class="btn btn-danger">Kembali ke form pencarian</button></a>
 
@@ -362,10 +447,9 @@ if($cekpp == 'on') {
 
                                 }else{
 
-                                    $rcpergi = $jadwal['pergi']->rc;
-                                    $rdpergi = $jadwal['pergi']->rd;
+                                    $jumlahjadwalpergi = count($jadwal['pergi']->data);
 
-                                    if($rcpergi != '00'){
+                                    if($jumlahjadwalpergi == 0){
 
                                         ?>
 
@@ -374,9 +458,8 @@ if($cekpp == 'on') {
                                             <div class="row text-center">
 
                                                 <h1>
-                                                    Terjadi error pada API Pergi
+                                                    JADWAL KEBERANGKATAN PERGI TIDAK DITEMUKAN
                                                 </h1><br/>
-                                                <h2>Error API : <?php echo $rdpergi;?></h2><br/>
                                                 <h2>Lakukan Pencarian Jadwal Keberangkatan Kembali</h2><br/>
                                                 <a href="<?php echo base_url('pelni')?>"><button class="btn btn-danger">Kembali ke form pencarian</button></a>
 
@@ -388,10 +471,258 @@ if($cekpp == 'on') {
 
                                     }else{
 
-                                        $jumlahjadwalpergi = count($jadwal['pergi']->data);
+                                        ?>
 
-                                        if($jumlahjadwalpergi == 0){
+                                        <!--form jadwal kapal-->
+                                        <input type="hidden" id="jumlahjadwalpergi" value="<?= $jumlahjadwalpergi;?>">
 
+                                        <?php
+                                        $depdatekurangpergi = 0;
+                                        for ($x = 0; $x < $jumlahjadwalpergi; $x++) {
+                                            $depdatepergi = $jadwal['pergi']->data[$x]->DEP_DATE;
+                                            $newdepdatepergi = date('Y-m-d',strtotime($depdatepergi));
+                                            $expnewdepdatepergi = explode('-', $newdepdatepergi);
+                                            $newdepdatepergiindo = hari($newdepdatepergi).', '.$expnewdepdatepergi[2] . ' ' . bulan($expnewdepdatepergi[1]) . ' ' .$expnewdepdatepergi[0];
+                                            $deptimepergi = $jadwal['pergi']->data[$x]->DEP_TIME;
+                                            $chunkspergi = str_split($deptimepergi, 2);
+                                            $deptimepergi = implode(':', $chunkspergi);
+
+                                            $arvdatepergi = $jadwal['pergi']->data[$x]->ARV_DATE;
+                                            $newarvdatepergi = date('Y-m-d',strtotime($arvdatepergi));
+                                            $expnewarvdatepergi = explode('-', $newarvdatepergi);
+                                            $newarvdatepergiindo = hari($newarvdatepergi).', '.$expnewarvdatepergi[2] . ' ' . bulan($expnewarvdatepergi[1]) . ' ' .$expnewarvdatepergi[0];
+                                            $arvtimepergi = $jadwal['pergi']->data[$x]->ARV_TIME;
+                                            $chunkspergi = str_split($arvtimepergi, 2);
+                                            $arvtimepergi = implode(':', $chunkspergi);
+
+                                            $shipnopergi = $jadwal['pergi']->data[$x]->SHIP_NO;
+                                            $shipnamepergi = $jadwal['pergi']->data[$x]->SHIP_NAME;
+
+                                            $routepergi = $jadwal['pergi']->data[$x]->ROUTE;
+                                            $exproutepergi = explode('-',$routepergi);
+                                            $jmlroutepergi = count($exproutepergi);
+
+                                            if($newdepdatepergi >= $tglpergidb) {
+
+                                                $depdatekurangpergi = $depdatekurangpergi + 1;
+
+                                                $labelrutepergi = array();
+
+                                                for($y = 0; $y < $jmlroutepergi; $y++){
+                                                    $rutepergi = $exproutepergi[$y];
+                                                    $exprutepergi = explode('/',$rutepergi);
+                                                    $coderutepergi = $exprutepergi[0];
+                                                    $tiperutepergi = $exprutepergi[1];
+
+                                                    for($z = 0; $z<count($kode->data); $z++){
+                                                        $namarutepergi = $kode->data[$z]->NAME;
+                                                        $koderutepergi = $kode->data[$z]->CODE;
+                                                        if($y==0){
+                                                            $namarute = '<b>'.$namarutepergi.'</b>';
+                                                        }
+                                                        if($y==($jmlroutepergi-1)){
+                                                            $namarute = '<b>'.$namarutepergi.'</b>';
+                                                        }
+                                                        if($coderutepergi == $koderutepergi){
+                                                            array_push($labelrutepergi,$namarutepergi);
+                                                        }
+                                                    }
+                                                }
+
+                                                $labelpergi = implode(" <i class='fa fa-arrow-right'></i> ",$labelrutepergi);
+                                                $idibox = 'iboxpergi'.$x;
+
+                                                ?>
+                                                <div class="ibox float-e-margins">
+                                                    <div class="ibox-title red-bg">
+                                                        <div class="row">
+                                                            <div class="col-xs-10">
+                                                                <?php echo 'Berangkat : '.$newdepdatepergiindo.' ('.$deptimepergi.') - Tiba : '.$newarvdatepergiindo.' ('.$arvtimepergi.')';?>
+                                                            </div>
+                                                            <div class="col-xs-2">
+                                                                <div class="ibox-tools">
+                                                                    <a data-toggle="collapse" data-target="#<?php echo $idibox; ?>"
+                                                                       class="collapse-link">
+                                                                        <i class="fa fa-chevron-down" style="color: white;"></i>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div id="<?php echo $idibox; ?>" class="ibox-content collapse" style="margin-bottom: 10px; padding-top: 10px;">
+                                                        <h2><?= $shipnopergi.' - '.$shipnamepergi;?></h2>
+                                                        <hr/>
+                                                        <div style="text-align: justify">
+                                                            <Text style="font-size: 14px;"><?= 'Rute : '.$labelpergi;?></Text>
+                                                        </div>
+                                                        <hr/>
+                                                        <form class="form-horizontal">
+                                                            <div class="form-group">
+                                                                <label class="control-label col-sm-2"> Pilih Kelas </label>
+                                                                <div class="col-sm-5">
+                                                                    <?php
+                                                                    $farespergi= $jadwal['pergi']->data[$x]->fares;
+                                                                    $idselectpergi = 'kelas'.$x;
+                                                                    $jmlfarespergi = count($farespergi);
+                                                                    ?>
+                                                                    <select class="form-control" name="kelas" id="<?= $idselectpergi;?>" onchange="showhargakelaspergi(this)">
+                                                                        <?php
+                                                                        for($i=0; $i<$jmlfarespergi; $i++){
+                                                                            $subclasspergi = $farespergi[$i]->SUBCLASS;
+                                                                            $classpergi = $farespergi[$i]->CLASS;
+                                                                            $availabilityfpergi = $farespergi[$i]->AVAILABILITY->F;
+                                                                            $availabilitympergi = $farespergi[$i]->AVAILABILITY->M;
+                                                                            $valuepergi = $x.'/'.$farespergi[$i]->CLASS.' - '.$farespergi[$i]->SUBCLASS.'/'.$jmlfarespergi.'/'.$i;
+                                                                            $labelclasspergi = 'KELAS '.$classpergi.' - '.$subclasspergi.', Sisa Kursi (W = '. $availabilityfpergi .', P = '.$availabilitympergi.')';
+                                                                            ?>
+                                                                            <option value="<?= $valuepergi;?>"><?= $labelclasspergi;?></option>
+                                                                            <?php
+                                                                        }
+                                                                        ?>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-sm-5 text-center">
+                                                                    <?php
+                                                                        for($i=0; $i<$jmlfarespergi; $i++){
+                                                                            $subclasspergi = $farespergi[$i]->SUBCLASS;
+                                                                            $classpergi = $farespergi[$i]->CLASS;
+                                                                            $adultpricepergi = $farespergi[$i]->FARE_DETAIL->A->TOTAL;
+                                                                            $infantpricepergi = $farespergi[$i]->FARE_DETAIL->I->TOTAL;
+                                                                            $idbtnpergi = 'btnkelaspergi'.$x.''.$i;
+                                                                            if($i==0){$displaypergi = 'block';}else{$displaypergi = 'none';}
+                                                                            ?>
+                                                                            <button type="button"
+                                                                                    id="<?=$idbtnpergi;?>"
+                                                                                    class="btn btn-danger"
+                                                                                    onclick="pilihkelaspergi(this)"
+                                                                                    data-shipnamepergi = "<?= $shipnamepergi;?>"
+                                                                                    data-shipnopergi = "<?= $shipnopergi;?>"
+                                                                                    data-shipsubkelaspergi = "<?= $subclasspergi;?>"
+                                                                                    data-shipkelaspergi = "<?= $classpergi;?>"
+                                                                                    data-shipdepdatepergi = "<?= $newdepdatepergi;?>"
+                                                                                    data-shipdeptimepergi = "<?= $deptimepergi;?>"
+                                                                                    data-shiparvpergi = "<?= $newarvdatepergi;?>"
+                                                                                    data-shiparvtimepergi = "<?= $arvtimepergi;?>"
+                                                                                    data-shipadultpricepergi = "<?= $adultpricepergi;?>"
+                                                                                    data-shipinfantpricepergi = "<?= $infantpricepergi;?>"
+                                                                                    style="display: <?= $displaypergi;?>">
+                                                                                PILIH KAPAL PERGI
+                                                                            </button>
+                                                                            <?php
+                                                                        }
+                                                                    ?>
+                                                                </div>
+                                                            </div>
+                                                            <hr>
+                                                            <?php
+                                                            $namakelaspergi = $farespergi[0]->CLASS.' - '.$farespergi[0]->SUBCLASS;
+                                                            $namaspanpergi = 'spanpergi'.$x;
+                                                            ?>
+                                                            <h3>Harga sesuai kelas : KELAS <span id="<?=$namaspanpergi;?>"><?= $namakelaspergi;?></span></h3>
+                                                            <?php
+                                                            for($i=0; $i<$jmlfarespergi; $i++) {
+                                                                $portpasspergi = $farespergi[$i]->FARE_DETAIL->A->PORT_PASS;
+                                                                $arvporttransportfeeepergi = $farespergi[$i]->FARE_DETAIL->A->ARV_PORT_TRANSPORT_FEE;
+                                                                $depporttransportfeeepergi = $farespergi[$i]->FARE_DETAIL->A->DEP_PORT_TRANSPORT_FEE;
+                                                                $insurancepergi = $farespergi[$i]->FARE_DETAIL->A->INSURANCE;
+                                                                $farepergi = $farespergi[$i]->FARE_DETAIL->A->FARE;
+                                                                $totalpergi = $farespergi[$i]->FARE_DETAIL->A->TOTAL;
+
+                                                                $portpassbayipergi = $farespergi[$i]->FARE_DETAIL->I->PORT_PASS;
+                                                                $arvporttransportfeeebayipergi = $farespergi[$i]->FARE_DETAIL->I->ARV_PORT_TRANSPORT_FEE;
+                                                                $depporttransportfeeebayipergi = $farespergi[$i]->FARE_DETAIL->I->DEP_PORT_TRANSPORT_FEE;
+                                                                $insurancebayipergi = $farespergi[$i]->FARE_DETAIL->I->INSURANCE;
+                                                                $farebayipergi = $farespergi[$i]->FARE_DETAIL->I->FARE;
+                                                                $totalbayipergi = $farespergi[$i]->FARE_DETAIL->I->TOTAL;
+
+                                                                $idtablepergi = 'tablepergi'.$x.''.$i;
+
+                                                                if ($i == 0) {
+                                                                    $display = 'block';
+                                                                } else {
+                                                                    $display = 'none';
+                                                                }
+                                                                ?>
+
+                                                                <div id="<?= $idtablepergi;?>" class="<?= $idtablepergi;?> form-group" style="display: <?= $display;?>">
+                                                                    <div class="col-sm-6 text-center">
+                                                                        <text class="text-center" style="font-weight: bold;"> Tarif Tiket Dewasa </text>
+                                                                        <div class="table-responsive">
+                                                                            <table class="table table-bordered table-hover" style="font-size: 12px;">
+                                                                                <tr class="text-right">
+                                                                                    <th class="text-right">PORT PASS</th>
+                                                                                    <td><?= nominalcomma($portpasspergi);?></td>
+                                                                                </tr>
+                                                                                <tr class="text-right">
+                                                                                    <th class="text-right">DEPARTURE PORT TRANSPORT FEE</th>
+                                                                                    <td><?= nominalcomma($depporttransportfeeepergi);?></td>
+                                                                                </tr>
+                                                                                <tr class="text-right">
+                                                                                    <th class="text-right">ARRRIVAL PORT TRANSPORT FEE</th>
+                                                                                    <td><?= nominalcomma($arvporttransportfeeepergi);?></td>
+                                                                                </tr>
+                                                                                <tr class="text-right">
+                                                                                    <th class="text-right">ASURANSI</th>
+                                                                                    <td><?= nominalcomma($insurancepergi);?></td>
+                                                                                </tr>
+                                                                                <tr class="text-right">
+                                                                                    <th class="text-right">HARGA</th>
+                                                                                    <td><?= nominalcomma($farepergi);?></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th class="text-right">TOTAL HARGA</th>
+                                                                                    <th class="text-right"><?= rupiah($totalpergi);?></th>
+                                                                                </tr>
+                                                                            </table>
+
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-6 text-center">
+                                                                        <text class="text-center" style="font-weight: bold;"> Tarif Tiket Bayi </text>
+                                                                        <div class="table-responsive">
+                                                                            <table class="table table-bordered table-hover" style="font-size: 12px;">
+                                                                                <tr class="text-right">
+                                                                                    <th class="text-right">PORT PASS</th>
+                                                                                    <td><?= nominalcomma($portpassbayipergi);?></td>
+                                                                                </tr>
+                                                                                <tr class="text-right">
+                                                                                    <th class="text-right">DEPARTURE PORT TRANSPORT FEE</th>
+                                                                                    <td><?= nominalcomma($depporttransportfeeebayipergi);?></td>
+                                                                                </tr>
+                                                                                <tr class="text-right">
+                                                                                    <th class="text-right">ARRRIVAL PORT TRANSPORT FEE</th>
+                                                                                    <td><?= nominalcomma($arvporttransportfeeebayipergi);?></td>
+                                                                                </tr>
+                                                                                <tr class="text-right">
+                                                                                    <th class="text-right">ASURANSI</th>
+                                                                                    <td><?= nominalcomma($insurancebayipergi);?></td>
+                                                                                </tr>
+                                                                                <tr class="text-right">
+                                                                                    <th class="text-right">HARGA</th>
+                                                                                    <td><?= nominalcomma($farebayipergi);?></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th class="text-right">TOTAL HARGA</th>
+                                                                                    <th class="text-right"><?= rupiah($totalbayipergi);?></th>
+                                                                                </tr>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <?php
+                                                            }
+                                                            ?>
+                                                        </form>
+
+                                                    </div>
+
+                                                </div>
+                                                <?php
+                                            }
+                                        }
+
+                                        if($depdatekurangpergi == 0){
                                             ?>
 
                                             <div class="ibox-content">
@@ -399,9 +730,9 @@ if($cekpp == 'on') {
                                                 <div class="row text-center">
 
                                                     <h1>
-                                                        JADWAL KEBERANGKATAN PERGI TIDAK DITEMUKAN
+                                                        JADWAL KEBERANGKATAN PERGI TIDAK DITEMUKAN SETELAH TANGGAL INI
                                                     </h1><br/>
-                                                    <h2>Lakukan Pencarian Jadwal Keberangkatan Kembali</h2><br/>
+                                                    <h2>Lakukan Pencarian Jadwal Keberangkatan Pergi Kembali sebelum tanggal ini</h2><br/>
                                                     <a href="<?php echo base_url('pelni')?>"><button class="btn btn-danger">Kembali ke form pencarian</button></a>
 
                                                 </div>
@@ -409,253 +740,373 @@ if($cekpp == 'on') {
                                             </div>
 
                                             <?php
+                                        }
 
-                                        }else{
+                                    }
 
-                                            ?>
 
-                                            <!--form jadwal kapal-->
-                                            <input type="hidden" id="jumlahjadwalpergi" value="<?= $jumlahjadwalpergi;?>">
+                                }
 
-                                            <?php
-                                            $depdatekurangpergi = 0;
-                                            for ($x = 0; $x < $jumlahjadwalpergi; $x++) {
-                                                $depdatepergi = $jadwal['pergi']->data[$x]->DEP_DATE;
-                                                $newdepdatepergi = date('Y-m-d',strtotime($depdatepergi));
-                                                $expnewdepdatepergi = explode('-', $newdepdatepergi);
-                                                $newdepdatepergiindo = hari($newdepdatepergi).', '.$expnewdepdatepergi[2] . ' ' . bulan($expnewdepdatepergi[1]) . ' ' .$expnewdepdatepergi[0];
-                                                $deptimepergi = $jadwal['pergi']->data[$x]->DEP_TIME;
-                                                $chunkspergi = str_split($deptimepergi, 2);
-                                                $deptimepergi = implode(':', $chunkspergi);
+                            }
+                            ?>
 
-                                                $arvdatepergi = $jadwal['pergi']->data[$x]->ARV_DATE;
-                                                $newarvdatepergi = date('Y-m-d',strtotime($arvdatepergi));
-                                                $expnewarvdatepergi = explode('-', $newarvdatepergi);
-                                                $newarvdatepergiindo = hari($newarvdatepergi).', '.$expnewarvdatepergi[2] . ' ' . bulan($expnewarvdatepergi[1]) . ' ' .$expnewarvdatepergi[0];
-                                                $arvtimepergi = $jadwal['pergi']->data[$x]->ARV_TIME;
-                                                $chunkspergi = str_split($arvtimepergi, 2);
-                                                $arvtimepergi = implode(':', $chunkspergi);
 
-                                                $shipnopergi = $jadwal['pergi']->data[$x]->SHIP_NO;
-                                                $shipnamepergi = $jadwal['pergi']->data[$x]->SHIP_NAME;
+                        </div>
 
-                                                $routepergi = $jadwal['pergi']->data[$x]->ROUTE;
-                                                $exproutepergi = explode('-',$routepergi);
-                                                $jmlroutepergi = count($exproutepergi);
+                        <!-- Jadwal Pulang-->
+                        <div id="tabpulang" style="display: none;">
 
-                                                if($newdepdatepergi >= $tglpergidb) {
+                            <?php
+                            if($jadwal['pulang'] == null){
 
-                                                    $depdatekurangpergi = $depdatekurangpergi + 1;
+                                ?>
 
-                                                    $labelrutepergi = array();
+                                <div class="ibox-content">
 
-                                                    for($y = 0; $y < $jmlroutepergi; $y++){
-                                                        $rutepergi = $exproutepergi[$y];
-                                                        $exprutepergi = explode('/',$rutepergi);
-                                                        $coderutepergi = $exprutepergi[0];
-                                                        $tiperutepergi = $exprutepergi[1];
+                                    <div class="row text-center">
 
-                                                        for($z = 0; $z<count($kode->data); $z++){
-                                                            $namarutepergi = $kode->data[$z]->NAME;
-                                                            $koderutepergi = $kode->data[$z]->CODE;
-                                                            if($y==0){
-                                                                $namarute = '<b>'.$namarutepergi.'</b>';
-                                                            }
-                                                            if($y==($jmlroutepergi-1)){
-                                                                $namarute = '<b>'.$namarutepergi.'</b>';
-                                                            }
-                                                            if($coderutepergi == $koderutepergi){
-                                                                array_push($labelrutepergi,$namarutepergi);
-                                                            }
+                                        <h1>
+                                            API Pulang Tidak Terkoneksi
+                                        </h1><br/>
+                                        <h2>Lakukan Pencarian Jadwal Keberangkatan Kembali</h2><br/>
+                                        <a href="<?php echo base_url('pelni')?>"><button class="btn btn-danger">Kembali ke form pencarian</button></a>
+
+                                    </div>
+
+                                </div>
+
+                                <?php
+
+                            }else{
+
+                                $rcpulang = $jadwal['pulang']->rc;
+                                $rdpulang = $jadwal['pulang']->rd;
+
+                                if($rcpulang != '00'){
+
+                                    ?>
+
+                                    <div class="ibox-content">
+
+                                        <div class="row text-center">
+
+                                            <h1>
+                                                Terjadi error pada API Pulang
+                                            </h1><br/>
+                                            <h2>Error API : <?php echo $rdpulang;?></h2><br/>
+                                            <h2>Lakukan Pencarian Jadwal Keberangkatan Kembali</h2><br/>
+                                            <a href="<?php echo base_url('pelni')?>"><button class="btn btn-danger">Kembali ke form pencarian</button></a>
+
+                                        </div>
+
+                                    </div>
+
+                                    <?php
+
+                                }else{
+
+                                    $jumlahjadwalpulang = count($jadwal['pulang']->data);
+
+                                    if($jumlahjadwalpulang == 0){
+
+                                        ?>
+
+                                        <div class="ibox-content">
+
+                                            <div class="row text-center">
+
+                                                <h1>
+                                                    JADWAL KEBERANGKATAN PULANG TIDAK DITEMUKAN
+                                                </h1><br/>
+                                                <h2>Lakukan Pencarian Jadwal Keberangkatan Kembali</h2><br/>
+                                                <a href="<?php echo base_url('pelni')?>"><button class="btn btn-danger">Kembali ke form pencarian</button></a>
+
+                                            </div>
+
+                                        </div>
+
+                                        <?php
+
+                                    }else{
+                                        
+                                        ?>
+
+                                        <!--form jadwal kapal-->
+                                        <input type="hidden" id="jumlahjadwalpulang" value="<?= $jumlahjadwalpulang;?>">
+
+                                        <?php
+                                        $depdatekurangpulang = 0;
+                                        for ($x = 0; $x < $jumlahjadwalpulang; $x++) {
+                                            $depdatepulang = $jadwal['pulang']->data[$x]->DEP_DATE;
+                                            $newdepdatepulang = date('Y-m-d',strtotime($depdatepulang));
+                                            $expnewdepdatepulang = explode('-', $newdepdatepulang);
+                                            $newdepdatepulangindo = hari($newdepdatepulang).', '.$expnewdepdatepulang[2] . ' ' . bulan($expnewdepdatepulang[1]) . ' ' .$expnewdepdatepulang[0];
+                                            $deptimepulang = $jadwal['pulang']->data[$x]->DEP_TIME;
+                                            $chunkspulang = str_split($deptimepulang, 2);
+                                            $deptimepulang = implode(':', $chunkspulang);
+
+                                            $arvdatepulang = $jadwal['pulang']->data[$x]->ARV_DATE;
+                                            $newarvdatepulang = date('Y-m-d',strtotime($arvdatepulang));
+                                            $expnewarvdatepulang = explode('-', $newarvdatepulang);
+                                            $newarvdatepulangindo = hari($newarvdatepulang).', '.$expnewarvdatepulang[2] . ' ' . bulan($expnewarvdatepulang[1]) . ' ' .$expnewarvdatepulang[0];
+                                            $arvtimepulang = $jadwal['pulang']->data[$x]->ARV_TIME;
+                                            $chunkspulang = str_split($arvtimepulang, 2);
+                                            $arvtimepulang = implode(':', $chunkspulang);
+
+                                            $shipnopulang = $jadwal['pulang']->data[$x]->SHIP_NO;
+                                            $shipnamepulang = $jadwal['pulang']->data[$x]->SHIP_NAME;
+
+                                            $routepulang = $jadwal['pulang']->data[$x]->ROUTE;
+                                            $exproutepulang = explode('-',$routepulang);
+                                            $jmlroutepulang = count($exproutepulang);
+
+                                            if($newdepdatepulang >= $tglpulangdb) {
+
+                                                $depdatekurangpulang = $depdatekurangpulang + 1;
+
+                                                $labelrutepulang = array();
+
+                                                for($y = 0; $y < $jmlroutepulang; $y++){
+                                                    $rutepulang = $exproutepulang[$y];
+                                                    $exprutepulang = explode('/',$rutepulang);
+                                                    $coderutepulang = $exprutepulang[0];
+                                                    $tiperutepulang = $exprutepulang[1];
+
+                                                    for($z = 0; $z<count($kode->data); $z++){
+                                                        $namarutepulang = $kode->data[$z]->NAME;
+                                                        $koderutepulang = $kode->data[$z]->CODE;
+                                                        if($y==0){
+                                                            $namarute = '<b>'.$namarutepulang.'</b>';
+                                                        }
+                                                        if($y==($jmlroutepulang-1)){
+                                                            $namarute = '<b>'.$namarutepulang.'</b>';
+                                                        }
+                                                        if($coderutepulang == $koderutepulang){
+                                                            array_push($labelrutepulang,$namarutepulang);
                                                         }
                                                     }
+                                                }
 
-                                                    $labelpergi = implode(" <i class='fa fa-arrow-right'></i> ",$labelrutepergi);
+                                                $labelpulang = implode(" <i class='fa fa-arrow-right'></i> ",$labelrutepulang);
+                                                $idibox = 'iboxpulang'.$x;
 
-                                                    ?>
-                                                    <div class="ibox float-e-margins">
-                                                        <div class="ibox-title red-bg">
-                                                            <?php echo 'Berangkat : '.$newdepdatepergiindo.' ('.$deptimepergi.') - Tiba : '.$newarvdatepergiindo.' ('.$arvtimepergi.')';?>
-                                                        </div>
-                                                        <div class="ibox-content" style="margin-bottom: 10px; padding-top: 10px;">
-                                                            <h2><?= $shipnopergi.' - '.$shipnamepergi;?></h2>
-                                                            <hr/>
-                                                            <div style="text-align: justify">
-                                                                <Text style="font-size: 14px;"><?= 'Rute : '.$labelpergi;?></Text>
+                                                ?>
+                                                <div class="ibox float-e-margins">
+                                                    <div class="ibox-title red-bg">
+                                                        <div class="row">
+                                                            <div class="col-xs-10">
+                                                                <?php echo 'Berangkat : '.$newdepdatepulangindo.' ('.$deptimepulang.') - Tiba : '.$newarvdatepulangindo.' ('.$arvtimepulang.')';?>
                                                             </div>
-                                                            <hr/>
-                                                            <form class="form-horizontal">
-                                                                <div class="form-group">
-                                                                    <label class="control-label col-sm-2"> Pilih Kelas </label>
-                                                                    <div class="col-sm-5">
-                                                                        <?php
-                                                                        $farespergi= $jadwal['pergi']->data[$x]->fares;
-                                                                        $idselectpergi = 'kelas'.$x;
-                                                                        $jmlfarespergi = count($farespergi);
-                                                                        ?>
-                                                                        <select class="form-control" name="kelas" id="<?= $idselectpergi;?>" onchange="showhargakelaspergi(this)">
-                                                                            <?php
-                                                                            for($i=0; $i<$jmlfarespergi; $i++){
-                                                                                $subclasspergi = $farespergi[$i]->SUBCLASS;
-                                                                                $classpergi = $farespergi[$i]->CLASS;
-                                                                                $availabilityfpergi = $farespergi[$i]->AVAILABILITY->F;
-                                                                                $availabilitympergi = $farespergi[$i]->AVAILABILITY->M;
-                                                                                $valuepergi = $x.'/'.$farespergi[$i]->CLASS.' - '.$farespergi[$i]->SUBCLASS.'/'.$jmlfarespergi.'/'.$i;
-                                                                                $labelclasspergi = 'KELAS '.$classpergi.' - '.$subclasspergi.', Sisa Kursi (W = '. $availabilityfpergi .', P = '.$availabilitympergi.')';
-                                                                                ?>
-                                                                                <option value="<?= $valuepergi;?>"><?= $labelclasspergi;?></option>
-                                                                                <?php
-                                                                            }
-                                                                            ?>
-                                                                        </select>
-                                                                    </div>
-                                                                    <div class="col-sm-5"></div>
+                                                            <div class="col-xs-2">
+                                                                <div class="ibox-tools">
+                                                                    <a data-toggle="collapse" data-target="#<?php echo $idibox; ?>"
+                                                                       class="collapse-link">
+                                                                        <i class="fa fa-chevron-down" style="color: white;"></i>
+                                                                    </a>
                                                                 </div>
-                                                                <hr>
-                                                                <?php
-                                                                $namakelaspergi = $farespergi[0]->CLASS.' - '.$farespergi[0]->SUBCLASS;
-                                                                $namaspanpergi = 'spanpergi'.$x;
-                                                                ?>
-                                                                <h3>Harga sesuai kelas : KELAS <span id="<?=$namaspanpergi;?>"><?= $namakelaspergi;?></span></h3>
-                                                                <?php
-                                                                for($i=0; $i<$jmlfarespergi; $i++) {
-                                                                    $portpasspergi = $farespergi[$i]->FARE_DETAIL->A->PORT_PASS;
-                                                                    $arvporttransportfeeepergi = $farespergi[$i]->FARE_DETAIL->A->ARV_PORT_TRANSPORT_FEE;
-                                                                    $depporttransportfeeepergi = $farespergi[$i]->FARE_DETAIL->A->DEP_PORT_TRANSPORT_FEE;
-                                                                    $insurancepergi = $farespergi[$i]->FARE_DETAIL->A->INSURANCE;
-                                                                    $farepergi = $farespergi[$i]->FARE_DETAIL->A->FARE;
-                                                                    $totalpergi = $farespergi[$i]->FARE_DETAIL->A->TOTAL;
-
-                                                                    $portpassbayipergi = $farespergi[$i]->FARE_DETAIL->I->PORT_PASS;
-                                                                    $arvporttransportfeeebayipergi = $farespergi[$i]->FARE_DETAIL->I->ARV_PORT_TRANSPORT_FEE;
-                                                                    $depporttransportfeeebayipergi = $farespergi[$i]->FARE_DETAIL->I->DEP_PORT_TRANSPORT_FEE;
-                                                                    $insurancebayipergi = $farespergi[$i]->FARE_DETAIL->I->INSURANCE;
-                                                                    $farebayipergi = $farespergi[$i]->FARE_DETAIL->I->FARE;
-                                                                    $totalbayipergi = $farespergi[$i]->FARE_DETAIL->I->TOTAL;
-
-                                                                    $idtablepergi = 'tablepergi'.$x.''.$i;
-
-                                                                    if ($i == 0) {
-                                                                        $display = 'block';
-                                                                    } else {
-                                                                        $display = 'none';
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div id="<?php echo $idibox; ?>" class="ibox-content collapse" style="margin-bottom: 10px; padding-top: 10px;">
+                                                        <h2><?= $shipnopulang.' - '.$shipnamepulang;?></h2>
+                                                        <hr/>
+                                                        <div style="text-align: justify">
+                                                            <Text style="font-size: 14px;"><?= 'Rute : '.$labelpulang;?></Text>
+                                                        </div>
+                                                        <hr/>
+                                                        <form class="form-horizontal">
+                                                            <div class="form-group">
+                                                                <label class="control-label col-sm-2"> Pilih Kelas </label>
+                                                                <div class="col-sm-5">
+                                                                    <?php
+                                                                    $farespulang= $jadwal['pulang']->data[$x]->fares;
+                                                                    $idselectpulang = 'kelas'.$x;
+                                                                    $jmlfarespulang = count($farespulang);
+                                                                    ?>
+                                                                    <select class="form-control" name="kelas" id="<?= $idselectpulang;?>" onchange="showhargakelaspulang(this)">
+                                                                        <?php
+                                                                        for($i=0; $i<$jmlfarespulang; $i++){
+                                                                            $subclasspulang = $farespulang[$i]->SUBCLASS;
+                                                                            $classpulang = $farespulang[$i]->CLASS;
+                                                                            $availabilityfpulang = $farespulang[$i]->AVAILABILITY->F;
+                                                                            $availabilitympulang = $farespulang[$i]->AVAILABILITY->M;
+                                                                            $valuepulang = $x.'/'.$farespulang[$i]->CLASS.' - '.$farespulang[$i]->SUBCLASS.'/'.$jmlfarespulang.'/'.$i;
+                                                                            $labelclasspulang = 'KELAS '.$classpulang.' - '.$subclasspulang.', Sisa Kursi (W = '. $availabilityfpulang .', P = '.$availabilitympulang.')';
+                                                                            ?>
+                                                                            <option value="<?= $valuepulang;?>"><?= $labelclasspulang;?></option>
+                                                                            <?php
+                                                                        }
+                                                                        ?>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-sm-5 text-center">
+                                                                    <?php
+                                                                    for($i=0; $i<$jmlfarespulang; $i++){
+                                                                        $subclasspulang = $farespulang[$i]->SUBCLASS;
+                                                                        $classpulang = $farespulang[$i]->CLASS;
+                                                                        $adultpricepulang = $farespulang[$i]->FARE_DETAIL->A->TOTAL;
+                                                                        $infantpricepulang = $farespulang[$i]->FARE_DETAIL->I->TOTAL;
+                                                                        $idbtnpulang = 'btnkelaspulang'.$x.''.$i;
+                                                                        if($i==0){$displaypulang = 'block';}else{$displaypulang = 'none';}
+                                                                        echo $classpulang.'<br/>';
+                                                                        ?>
+                                                                        <button type="button"
+                                                                                id="<?=$idbtnpulang;?>"
+                                                                                class="btn btn-danger"
+                                                                                onclick="pilihkelaspulang(this)"
+                                                                                data-shipnamepulang = "<?= $shipnamepulang;?>"
+                                                                                data-shipnopulang = "<?= $shipnopulang;?>"
+                                                                                data-shipsubkelaspulang = "<?= $subclasspulang;?>"
+                                                                                data-shipkelaspulang = "<?= $classpulang;?>"
+                                                                                data-shipdepdatepulang = "<?= $newdepdatepulang;?>"
+                                                                                data-shipdeptimepulang = "<?= $deptimepulang;?>"
+                                                                                data-shiparvpulang = "<?= $newarvdatepulang;?>"
+                                                                                data-shiparvtimepulang = "<?= $arvtimepulang;?>"
+                                                                                data-shipadultpricepulang = "<?= $adultpricepulang;?>"
+                                                                                data-shipinfantpricepulang = "<?= $infantpricepulang;?>"
+                                                                                style="display: <?= $displaypulang;?>">
+                                                                            PILIH KAPAL PULANG
+                                                                        </button>
+                                                                        <?php
                                                                     }
                                                                     ?>
+                                                                </div>
+                                                            </div>
+                                                            <hr>
+                                                            <?php
+                                                            $namakelaspulang = $farespulang[0]->CLASS.' - '.$farespulang[0]->SUBCLASS;
+                                                            $namaspanpulang = 'spanpulang'.$x;
+                                                            ?>
+                                                            <h3>Harga sesuai kelas : KELAS <span id="<?=$namaspanpulang;?>"><?= $namakelaspulang;?></span></h3>
+                                                            <?php
+                                                            for($i=0; $i<$jmlfarespulang; $i++) {
+                                                                $portpasspulang = $farespulang[$i]->FARE_DETAIL->A->PORT_PASS;
+                                                                $arvporttransportfeeepulang = $farespulang[$i]->FARE_DETAIL->A->ARV_PORT_TRANSPORT_FEE;
+                                                                $depporttransportfeeepulang = $farespulang[$i]->FARE_DETAIL->A->DEP_PORT_TRANSPORT_FEE;
+                                                                $insurancepulang = $farespulang[$i]->FARE_DETAIL->A->INSURANCE;
+                                                                $farepulang = $farespulang[$i]->FARE_DETAIL->A->FARE;
+                                                                $totalpulang = $farespulang[$i]->FARE_DETAIL->A->TOTAL;
 
-                                                                    <div id="<?= $idtablepergi;?>" class="<?= $idtablepergi;?> form-group" style="display: <?= $display;?>">
-                                                                        <div class="col-sm-6 text-center">
-                                                                            <text class="text-center" style="font-weight: bold;"> Tarif Tiket Dewasa </text>
-                                                                            <div class="table-responsive">
-                                                                                <table class="table table-bordered table-hover" style="font-size: 12px;">
-                                                                                    <tr class="text-right">
-                                                                                        <th class="text-right">PORT PASS</th>
-                                                                                        <td><?= nominalcomma($portpasspergi);?></td>
-                                                                                    </tr>
-                                                                                    <tr class="text-right">
-                                                                                        <th class="text-right">DEPARTURE PORT TRANSPORT FEE</th>
-                                                                                        <td><?= nominalcomma($depporttransportfeeepergi);?></td>
-                                                                                    </tr>
-                                                                                    <tr class="text-right">
-                                                                                        <th class="text-right">ARRRIVAL PORT TRANSPORT FEE</th>
-                                                                                        <td><?= nominalcomma($arvporttransportfeeepergi);?></td>
-                                                                                    </tr>
-                                                                                    <tr class="text-right">
-                                                                                        <th class="text-right">ASURANSI</th>
-                                                                                        <td><?= nominalcomma($insurancepergi);?></td>
-                                                                                    </tr>
-                                                                                    <tr class="text-right">
-                                                                                        <th class="text-right">HARGA</th>
-                                                                                        <td><?= nominalcomma($farepergi);?></td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <th class="text-right">TOTAL HARGA</th>
-                                                                                        <th class="text-right"><?= rupiah($totalpergi);?></th>
-                                                                                    </tr>
-                                                                                </table>
+                                                                $portpassbayipulang = $farespulang[$i]->FARE_DETAIL->I->PORT_PASS;
+                                                                $arvporttransportfeeebayipulang = $farespulang[$i]->FARE_DETAIL->I->ARV_PORT_TRANSPORT_FEE;
+                                                                $depporttransportfeeebayipulang = $farespulang[$i]->FARE_DETAIL->I->DEP_PORT_TRANSPORT_FEE;
+                                                                $insurancebayipulang = $farespulang[$i]->FARE_DETAIL->I->INSURANCE;
+                                                                $farebayipulang = $farespulang[$i]->FARE_DETAIL->I->FARE;
+                                                                $totalbayipulang = $farespulang[$i]->FARE_DETAIL->I->TOTAL;
 
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-sm-6 text-center">
-                                                                            <text class="text-center" style="font-weight: bold;"> Tarif Tiket Bayi </text>
-                                                                            <div class="table-responsive">
-                                                                                <table class="table table-bordered table-hover" style="font-size: 12px;">
-                                                                                    <tr class="text-right">
-                                                                                        <th class="text-right">PORT PASS</th>
-                                                                                        <td><?= nominalcomma($portpassbayipergi);?></td>
-                                                                                    </tr>
-                                                                                    <tr class="text-right">
-                                                                                        <th class="text-right">DEPARTURE PORT TRANSPORT FEE</th>
-                                                                                        <td><?= nominalcomma($depporttransportfeeebayipergi);?></td>
-                                                                                    </tr>
-                                                                                    <tr class="text-right">
-                                                                                        <th class="text-right">ARRRIVAL PORT TRANSPORT FEE</th>
-                                                                                        <td><?= nominalcomma($arvporttransportfeeebayipergi);?></td>
-                                                                                    </tr>
-                                                                                    <tr class="text-right">
-                                                                                        <th class="text-right">ASURANSI</th>
-                                                                                        <td><?= nominalcomma($insurancebayipergi);?></td>
-                                                                                    </tr>
-                                                                                    <tr class="text-right">
-                                                                                        <th class="text-right">HARGA</th>
-                                                                                        <td><?= nominalcomma($farebayipergi);?></td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <th class="text-right">TOTAL HARGA</th>
-                                                                                        <th class="text-right"><?= rupiah($totalbayipergi);?></th>
-                                                                                    </tr>
-                                                                                </table>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
+                                                                $idtablepulang = 'tablepulang'.$x.''.$i;
 
-                                                                    <?php
+                                                                if ($i == 0) {
+                                                                    $display = 'block';
+                                                                } else {
+                                                                    $display = 'none';
                                                                 }
                                                                 ?>
-                                                            </form>
 
-                                                        </div>
+                                                                <div id="<?= $idtablepulang;?>" class="<?= $idtablepulang;?> form-group" style="display: <?= $display;?>">
+                                                                    <div class="col-sm-6 text-center">
+                                                                        <text class="text-center" style="font-weight: bold;"> Tarif Tiket Dewasa </text>
+                                                                        <div class="table-responsive">
+                                                                            <table class="table table-bordered table-hover" style="font-size: 12px;">
+                                                                                <tr class="text-right">
+                                                                                    <th class="text-right">PORT PASS</th>
+                                                                                    <td><?= nominalcomma($portpasspulang);?></td>
+                                                                                </tr>
+                                                                                <tr class="text-right">
+                                                                                    <th class="text-right">DEPARTURE PORT TRANSPORT FEE</th>
+                                                                                    <td><?= nominalcomma($depporttransportfeeepulang);?></td>
+                                                                                </tr>
+                                                                                <tr class="text-right">
+                                                                                    <th class="text-right">ARRRIVAL PORT TRANSPORT FEE</th>
+                                                                                    <td><?= nominalcomma($arvporttransportfeeepulang);?></td>
+                                                                                </tr>
+                                                                                <tr class="text-right">
+                                                                                    <th class="text-right">ASURANSI</th>
+                                                                                    <td><?= nominalcomma($insurancepulang);?></td>
+                                                                                </tr>
+                                                                                <tr class="text-right">
+                                                                                    <th class="text-right">HARGA</th>
+                                                                                    <td><?= nominalcomma($farepulang);?></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th class="text-right">TOTAL HARGA</th>
+                                                                                    <th class="text-right"><?= rupiah($totalpulang);?></th>
+                                                                                </tr>
+                                                                            </table>
 
-                                                    </div>
-                                                    <?php
-                                                }
-                                            }
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-6 text-center">
+                                                                        <text class="text-center" style="font-weight: bold;"> Tarif Tiket Bayi </text>
+                                                                        <div class="table-responsive">
+                                                                            <table class="table table-bordered table-hover" style="font-size: 12px;">
+                                                                                <tr class="text-right">
+                                                                                    <th class="text-right">PORT PASS</th>
+                                                                                    <td><?= nominalcomma($portpassbayipulang);?></td>
+                                                                                </tr>
+                                                                                <tr class="text-right">
+                                                                                    <th class="text-right">DEPARTURE PORT TRANSPORT FEE</th>
+                                                                                    <td><?= nominalcomma($depporttransportfeeebayipulang);?></td>
+                                                                                </tr>
+                                                                                <tr class="text-right">
+                                                                                    <th class="text-right">ARRRIVAL PORT TRANSPORT FEE</th>
+                                                                                    <td><?= nominalcomma($arvporttransportfeeebayipulang);?></td>
+                                                                                </tr>
+                                                                                <tr class="text-right">
+                                                                                    <th class="text-right">ASURANSI</th>
+                                                                                    <td><?= nominalcomma($insurancebayipulang);?></td>
+                                                                                </tr>
+                                                                                <tr class="text-right">
+                                                                                    <th class="text-right">HARGA</th>
+                                                                                    <td><?= nominalcomma($farebayipulang);?></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th class="text-right">TOTAL HARGA</th>
+                                                                                    <th class="text-right"><?= rupiah($totalbayipulang);?></th>
+                                                                                </tr>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
 
-                                            if($depdatekurangpergi == 0){
-                                                ?>
-
-                                                <div class="ibox-content">
-
-                                                    <div class="row text-center">
-
-                                                        <h1>
-                                                            JADWAL KEBERANGKATAN PERGI TIDAK DITEMUKAN SETELAH TANGGAL INI
-                                                        </h1><br/>
-                                                        <h2>Lakukan Pencarian Jadwal Keberangkatan Pergi Kembali sebelum tanggal ini</h2><br/>
-                                                        <a href="<?php echo base_url('pelni')?>"><button class="btn btn-danger">Kembali ke form pencarian</button></a>
+                                                                <?php
+                                                            }
+                                                            ?>
+                                                        </form>
 
                                                     </div>
 
                                                 </div>
-
                                                 <?php
                                             }
-
                                         }
 
+                                        if($depdatekurangpulang == 0){
+                                            ?>
 
+                                            <div class="ibox-content">
+
+                                                <div class="row text-center">
+
+                                                    <h1>
+                                                        JADWAL KEBERANGKATAN PULANG TIDAK DITEMUKAN SETELAH TANGGAL INI
+                                                    </h1><br/>
+                                                    <h2>Lakukan Pencarian Jadwal Keberangkatan pulang Kembali sebelum tanggal ini</h2><br/>
+                                                    <a href="<?php echo base_url('pelni')?>"><button class="btn btn-danger">Kembali ke form pencarian</button></a>
+
+                                                </div>
+
+                                            </div>
+
+                                            <?php
+                                        }
+                                        
                                     }
 
                                 }
-                                ?>
 
-
-                            </div>
-
-                            <!-- Jadwal Pulang-->
-                            <div id="tab-2" class="tab-pane">
-
-
-                            </div>
+                            }
+                            ?>
 
                         </div>
 
@@ -797,150 +1248,174 @@ if($cekpp == 'on') {
                                         }
 
                                         $label = implode(" <i class='fa fa-arrow-right'></i> ",$labelrute);
+                                        $idibox = 'iboxpergi'.$x;
 
                                         ?>
                                         <div class="ibox float-e-margins">
 
                                             <div class="ibox-title red-bg">
-                                            <?php echo 'Berangkat : '.$newdepdateindo.' ('.$deptime.') - Tiba : '.$newarvdateindo.' ('.$arvtime.')';?>
-                                        </div>
-                                            <div class="ibox-content" style="margin-bottom: 10px; padding-top: 10px;">
-                                            <h2><?= $shipno.' - '.$shipname;?></h2>
-                                            <hr/>
-                                            <div style="text-align: justify">
-                                                <Text style="font-size: 14px;"><?= 'Rute : '.$label;?></Text>
-                                            </div>
-                                            <hr/>
-                                            <form class="form-horizontal">
-                                                <div class="form-group">
-                                                    <label class="control-label col-sm-2"> Pilih Kelas </label>
-                                                    <div class="col-sm-5">
-                                                        <?php
-                                                        $fares= $jadwal['pergi']->data[$x]->fares;
-                                                        $idselect = 'kelas'.$x;
-                                                        $jmlfares = count($fares);
-                                                        ?>
-                                                        <select class="form-control" name="kelas" id="<?= $idselect;?>" onchange="showhargakelas(this)">
-                                                            <?php
-                                                            for($i=0; $i<$jmlfares; $i++){
-                                                                $subclass = $fares[$i]->SUBCLASS;
-                                                                $class = $fares[$i]->CLASS;
-                                                                $availabilityf = $fares[$i]->AVAILABILITY->F;
-                                                                $availabilitym = $fares[$i]->AVAILABILITY->M;
-                                                                $value = $x.'/'.$fares[$i]->CLASS.' - '.$fares[$i]->SUBCLASS.'/'.$jmlfares.'/'.$i;
-                                                                $labelclass = 'KELAS '.$class.' - '.$subclass.', Sisa Kursi (W = '. $availabilityf .', P = '.$availabilitym.')';
-                                                                ?>
-                                                                <option value="<?= $value;?>"><?= $labelclass;?></option>
-                                                                <?php
-                                                            }
-                                                            ?>
-                                                        </select>
+                                                <div class="row">
+                                                    <div class="col-xs-10">
+                                                        <?php echo 'Berangkat : '.$newdepdateindo.' ('.$deptime.') - Tiba : '.$newarvdateindo.' ('.$arvtime.')';?>
                                                     </div>
-                                                    <div class="col-sm-5"></div>
+                                                    <div class="col-xs-2">
+                                                        <div class="ibox-tools">
+                                                            <a data-toggle="collapse" data-target="#<?php echo $idibox; ?>"
+                                                               class="collapse-link">
+                                                                <i class="fa fa-chevron-down" style="color: white;"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <hr>
-                                                <?php
-                                                $namakelas = $fares[0]->CLASS.' - '.$fares[0]->SUBCLASS;
-                                                $namaspan = 'span'.$x;
-                                                ?>
-                                                <h3>Harga sesuai kelas : KELAS <span id="<?=$namaspan;?>"><?= $namakelas;?></span></h3>
-                                                <?php
-                                                for($i=0; $i<$jmlfares; $i++) {
-                                                    $portpass = $fares[$i]->FARE_DETAIL->A->PORT_PASS;
-                                                    $arvporttransportfeee = $fares[$i]->FARE_DETAIL->A->ARV_PORT_TRANSPORT_FEE;
-                                                    $depporttransportfeee = $fares[$i]->FARE_DETAIL->A->DEP_PORT_TRANSPORT_FEE;
-                                                    $insurance = $fares[$i]->FARE_DETAIL->A->INSURANCE;
-                                                    $fare = $fares[$i]->FARE_DETAIL->A->FARE;
-                                                    $total = $fares[$i]->FARE_DETAIL->A->TOTAL;
+                                            </div>
+                                            <div id="<?php echo $idibox; ?>" class="ibox-content collapse" style="margin-bottom: 10px; padding-top: 10px;">
+                                                <h2><?= $shipno.' - '.$shipname;?></h2>
+                                                <hr/>
+                                                <div style="text-align: justify">
+                                                    <Text style="font-size: 14px;"><?= 'Rute : '.$label;?></Text>
+                                                </div>
+                                                <hr/>
+                                                <form class="form-horizontal">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-sm-2"> Pilih Kelas </label>
+                                                        <div class="col-sm-5">
+                                                            <?php
+                                                            $fares= $jadwal['pergi']->data[$x]->fares;
+                                                            $idselect = 'kelas'.$x;
+                                                            $jmlfares = count($fares);
+                                                            ?>
+                                                            <select class="form-control" name="kelas" id="<?= $idselect;?>" onchange="showhargakelas(this)">
+                                                                <?php
+                                                                for($i=0; $i<$jmlfares; $i++){
+                                                                    $subclass = $fares[$i]->SUBCLASS;
+                                                                    $class = $fares[$i]->CLASS;
+                                                                    $availabilityf = $fares[$i]->AVAILABILITY->F;
+                                                                    $availabilitym = $fares[$i]->AVAILABILITY->M;
+                                                                    $value = $x.'/'.$fares[$i]->CLASS.' - '.$fares[$i]->SUBCLASS.'/'.$jmlfares.'/'.$i;
+                                                                    $labelclass = 'KELAS '.$class.' - '.$subclass.', Sisa Kursi (W = '. $availabilityf .', P = '.$availabilitym.')';
+                                                                    ?>
+                                                                    <option value="<?= $value;?>"><?= $labelclass;?></option>
+                                                                    <?php
+                                                                }
+                                                                ?>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-sm-5 text-center">
+                                                            <?php
+                                                            $idbtnpergi = 'btnkelaspergi'.$x;
+                                                            ?>
+                                                            <button type="button"
+                                                                    id="<?=$idbtnpergi;?>"
+                                                                    class="btn btn-danger"
+                                                                    onclick="submitkelas(this)">
+                                                                CEK KETERSEDIAAN
+                                                            </button>
 
-                                                    $portpassbayi = $fares[$i]->FARE_DETAIL->I->PORT_PASS;
-                                                    $arvporttransportfeeebayi = $fares[$i]->FARE_DETAIL->I->ARV_PORT_TRANSPORT_FEE;
-                                                    $depporttransportfeeebayi = $fares[$i]->FARE_DETAIL->I->DEP_PORT_TRANSPORT_FEE;
-                                                    $insurancebayi = $fares[$i]->FARE_DETAIL->I->INSURANCE;
-                                                    $farebayi = $fares[$i]->FARE_DETAIL->I->FARE;
-                                                    $totalbayi = $fares[$i]->FARE_DETAIL->I->TOTAL;
+                                                        </div>
+                                                    </div>
+                                                    <hr>
+                                                    <?php
+                                                    $namakelas = $fares[0]->CLASS.' - '.$fares[0]->SUBCLASS;
+                                                    $namaspan = 'span'.$x;
+                                                    ?>
+                                                    <h3>Harga sesuai kelas : KELAS <span id="<?=$namaspan;?>"><?= $namakelas;?></span></h3>
+                                                    <?php
+                                                    for($i=0; $i<$jmlfares; $i++) {
+                                                        $portpass = $fares[$i]->FARE_DETAIL->A->PORT_PASS;
+                                                        $arvporttransportfeee = $fares[$i]->FARE_DETAIL->A->ARV_PORT_TRANSPORT_FEE;
+                                                        $depporttransportfeee = $fares[$i]->FARE_DETAIL->A->DEP_PORT_TRANSPORT_FEE;
+                                                        $insurance = $fares[$i]->FARE_DETAIL->A->INSURANCE;
+                                                        $fare = $fares[$i]->FARE_DETAIL->A->FARE;
+                                                        $total = $fares[$i]->FARE_DETAIL->A->TOTAL;
 
-                                                    $idtable = 'table'.$x.''.$i;
+                                                        $portpassbayi = $fares[$i]->FARE_DETAIL->I->PORT_PASS;
+                                                        $arvporttransportfeeebayi = $fares[$i]->FARE_DETAIL->I->ARV_PORT_TRANSPORT_FEE;
+                                                        $depporttransportfeeebayi = $fares[$i]->FARE_DETAIL->I->DEP_PORT_TRANSPORT_FEE;
+                                                        $insurancebayi = $fares[$i]->FARE_DETAIL->I->INSURANCE;
+                                                        $farebayi = $fares[$i]->FARE_DETAIL->I->FARE;
+                                                        $totalbayi = $fares[$i]->FARE_DETAIL->I->TOTAL;
 
-                                                    if ($i == 0) {
-                                                        $display = 'block';
-                                                    } else {
-                                                        $display = 'none';
+                                                        $idtable = 'table'.$x.''.$i;
+
+                                                        if ($i == 0) {
+                                                            $display = 'block';
+                                                        } else {
+                                                            $display = 'none';
+                                                        }
+                                                        ?>
+
+                                                        <div id="<?= $idtable;?>" class="<?= $idtable;?> form-group" style="display: <?= $display;?>">
+                                                            <div class="col-sm-6 text-center">
+                                                                <text class="text-center" style="font-weight: bold;"> Tarif Tiket Dewasa </text>
+                                                                <div class="table-responsive">
+                                                                    <table class="table table-bordered table-hover" style="font-size: 12px;">
+                                                                        <tr class="text-right">
+                                                                            <th class="text-right">PORT PASS</th>
+                                                                            <td><?= nominalcomma($portpass);?></td>
+                                                                        </tr>
+                                                                        <tr class="text-right">
+                                                                            <th class="text-right">DEPARTURE PORT TRANSPORT FEE</th>
+                                                                            <td><?= nominalcomma($depporttransportfeee);?></td>
+                                                                        </tr>
+                                                                        <tr class="text-right">
+                                                                            <th class="text-right">ARRRIVAL PORT TRANSPORT FEE</th>
+                                                                            <td><?= nominalcomma($arvporttransportfeee);?></td>
+                                                                        </tr>
+                                                                        <tr class="text-right">
+                                                                            <th class="text-right">ASURANSI</th>
+                                                                            <td><?= nominalcomma($insurance);?></td>
+                                                                        </tr>
+                                                                        <tr class="text-right">
+                                                                            <th class="text-right">HARGA</th>
+                                                                            <td><?= nominalcomma($fare);?></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th class="text-right">TOTAL HARGA</th>
+                                                                            <th class="text-right"><?= rupiah($total);?></th>
+                                                                        </tr>
+                                                                    </table>
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-6 text-center">
+                                                                <text class="text-center" style="font-weight: bold;"> Tarif Tiket Bayi </text>
+                                                                <div class="table-responsive">
+                                                                    <table class="table table-bordered table-hover" style="font-size: 12px;">
+                                                                        <tr class="text-right">
+                                                                            <th class="text-right">PORT PASS</th>
+                                                                            <td><?= nominalcomma($portpassbayi);?></td>
+                                                                        </tr>
+                                                                        <tr class="text-right">
+                                                                            <th class="text-right">DEPARTURE PORT TRANSPORT FEE</th>
+                                                                            <td><?= nominalcomma($depporttransportfeeebayi);?></td>
+                                                                        </tr>
+                                                                        <tr class="text-right">
+                                                                            <th class="text-right">ARRRIVAL PORT TRANSPORT FEE</th>
+                                                                            <td><?= nominalcomma($arvporttransportfeeebayi);?></td>
+                                                                        </tr>
+                                                                        <tr class="text-right">
+                                                                            <th class="text-right">ASURANSI</th>
+                                                                            <td><?= nominalcomma($insurancebayi);?></td>
+                                                                        </tr>
+                                                                        <tr class="text-right">
+                                                                            <th class="text-right">HARGA</th>
+                                                                            <td><?= nominalcomma($farebayi);?></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th class="text-right">TOTAL HARGA</th>
+                                                                            <th class="text-right"><?= rupiah($totalbayi);?></th>
+                                                                        </tr>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <?php
                                                     }
                                                     ?>
+                                                </form>
 
-                                                    <div id="<?= $idtable;?>" class="<?= $idtable;?> form-group" style="display: <?= $display;?>">
-                                                        <div class="col-sm-6 text-center">
-                                                            <text class="text-center" style="font-weight: bold;"> Tarif Tiket Dewasa </text>
-                                                            <div class="table-responsive">
-                                                                <table class="table table-bordered table-hover" style="font-size: 12px;">
-                                                                    <tr class="text-right">
-                                                                        <th class="text-right">PORT PASS</th>
-                                                                        <td><?= nominalcomma($portpass);?></td>
-                                                                    </tr>
-                                                                    <tr class="text-right">
-                                                                        <th class="text-right">DEPARTURE PORT TRANSPORT FEE</th>
-                                                                        <td><?= nominalcomma($depporttransportfeee);?></td>
-                                                                    </tr>
-                                                                    <tr class="text-right">
-                                                                        <th class="text-right">ARRRIVAL PORT TRANSPORT FEE</th>
-                                                                        <td><?= nominalcomma($arvporttransportfeee);?></td>
-                                                                    </tr>
-                                                                    <tr class="text-right">
-                                                                        <th class="text-right">ASURANSI</th>
-                                                                        <td><?= nominalcomma($insurance);?></td>
-                                                                    </tr>
-                                                                    <tr class="text-right">
-                                                                        <th class="text-right">HARGA</th>
-                                                                        <td><?= nominalcomma($fare);?></td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <th class="text-right">TOTAL HARGA</th>
-                                                                        <th class="text-right"><?= rupiah($total);?></th>
-                                                                    </tr>
-                                                                </table>
-
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-6 text-center">
-                                                            <text class="text-center" style="font-weight: bold;"> Tarif Tiket Bayi </text>
-                                                            <div class="table-responsive">
-                                                                <table class="table table-bordered table-hover" style="font-size: 12px;">
-                                                                    <tr class="text-right">
-                                                                        <th class="text-right">PORT PASS</th>
-                                                                        <td><?= nominalcomma($portpassbayi);?></td>
-                                                                    </tr>
-                                                                    <tr class="text-right">
-                                                                        <th class="text-right">DEPARTURE PORT TRANSPORT FEE</th>
-                                                                        <td><?= nominalcomma($depporttransportfeeebayi);?></td>
-                                                                    </tr>
-                                                                    <tr class="text-right">
-                                                                        <th class="text-right">ARRRIVAL PORT TRANSPORT FEE</th>
-                                                                        <td><?= nominalcomma($arvporttransportfeeebayi);?></td>
-                                                                    </tr>
-                                                                    <tr class="text-right">
-                                                                        <th class="text-right">ASURANSI</th>
-                                                                        <td><?= nominalcomma($insurancebayi);?></td>
-                                                                    </tr>
-                                                                    <tr class="text-right">
-                                                                        <th class="text-right">HARGA</th>
-                                                                        <td><?= nominalcomma($farebayi);?></td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <th class="text-right">TOTAL HARGA</th>
-                                                                        <th class="text-right"><?= rupiah($totalbayi);?></th>
-                                                                    </tr>
-                                                                </table>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <?php
-                                                }
-                                                ?>
-                                            </form>
-
-                                        </div>
+                                            </div>
 
                                         </div>
                                         <?php

@@ -68,3 +68,19 @@ function dateindowithyear(date){
     return _tanggal+' '+bulan+' '+_tahun;
 
 }
+
+function dateindowithslash(date){
+    var splitdate = date.split('-');
+    var _tahun = splitdate[0];
+    var _bulan = splitdate[1];
+    var _tanggal = splitdate[2];
+
+    return _tanggal+'/'+_bulan+'/'+_tahun;
+
+}
+
+function getDayName(dateStr, locale)
+{
+    var date = new Date(dateStr);
+    return date.toLocaleDateString(locale, { weekday: 'long' });
+}
