@@ -198,6 +198,35 @@ if($cekpp == 'on') {
 
                                 <form method="post" id="formpilihpulangpergi" target="_blank">
 
+                                    <input type="text" name="cekpp" value="<?= $cekpp;?>">
+                                    <input type="text" name="tglpergi" value="<?= $tglpergi;?>">
+                                    <input type="text" name="tglpulang" value="<?= $tglpulang;?>">
+                                    <input type="text" name="jmlpria" value="<?= $pria;?>">
+                                    <input type="text" name="jmlwanita" value="<?= $wanita;?>">
+                                    <input type="text" name="jmlbayi" value="<?= $bayi;?>">
+                                    <input type="text" name="origin" value="<?= $origin;?>">
+                                    <input type="text" name="destination" value="<?= $destination;?>">
+
+                                    <input type="text" id="txborigincallpergi" name="origincallpergi">
+                                    <input type="text" id="txbdestinationcallpergi" name="destinationcallpergi">
+                                    <input type="text" id="txbdeparturedatepergi" name="departuredatepergi">
+                                    <input type="text" id="txbdeparturetimepergi" name="departuretimepergi">
+                                    <input type="text" id="txbarrivaldatepergi" name="arrivaldatepergi">
+                                    <input type="text" id="txbarrivaltimepergi" name="arrivaltimepergi">
+                                    <input type="text" id="txbshipnumberpergi" name="shipnumberpergi">
+                                    <input type="text" id="txbshipnamapergi" name="shipnamapergi">
+                                    <input type="text" id="txbrutepergi" name="rutepergi">
+                                    
+                                    <input type="text" id="txborigincallpulang" name="origincallpulang">
+                                    <input type="text" id="txbdestinationcallpulang" name="destinationcallpulang">
+                                    <input type="text" id="txbdeparturedatepulang" name="departuredatepulang">
+                                    <input type="text" id="txbdeparturetimepulang" name="departuretimepulang">
+                                    <input type="text" id="txbarrivaldatepulang" name="arrivaldatepulang">
+                                    <input type="text" id="txbarrivaltimepulang" name="arrivaltimepulang">
+                                    <input type="text" id="txbshipnumberpulang" name="shipnumberpulang">
+                                    <input type="text" id="txbshipnamapulang" name="shipnamapulang">
+                                    <input type="text" id="txbrutepulang" name="rutepulang">
+
                                     <div class="text-center"
                                          style="border-left: solid 1px #eeeeee;">
                                         <h2 id="shiptotalhargapp" style="color: <?php echo $warna_lembaga?>">Rp 0</h2>
@@ -508,6 +537,9 @@ if($cekpp == 'on') {
                                                 $exproutepergi = explode('-',$routepergi);
                                                 $jmlroutepergi = count($exproutepergi);
 
+                                                $orgcallpergi = $jadwal['pergi']->data[$x]->ORG_CALL;
+                                                $descallpergi = $jadwal['pergi']->data[$x]->DES_CALL;
+
                                                 if($newdepdatepergi >= $tglpergidb) {
 
                                                     $depdatekurangpergi = $depdatekurangpergi + 1;
@@ -610,6 +642,9 @@ if($cekpp == 'on') {
                                                                                     data-shiparvtimepergi = "<?= $arvtimepergi;?>"
                                                                                     data-shipadultpricepergi = "<?= $adultpricepergi;?>"
                                                                                     data-shipinfantpricepergi = "<?= $infantpricepergi;?>"
+                                                                                    data-shiporigincallpergi = "<?= $orgcallpergi;?>"
+                                                                                    data-shipdestinationcallpergi = "<?= $descallpergi;?>"
+                                                                                    data-shiprutepergi = "<?= $labelpergi;?>"
                                                                                     style="display: <?= $displaypergi;?>">
                                                                                 PILIH KAPAL PERGI
                                                                             </button>
