@@ -213,4 +213,27 @@ class PELNI extends CI_Controller
 
     }
 
+    public function penumpang()
+    {
+        if($this->session->userdata('status') == '') {
+            $this->session->set_flashdata('belumlogin','Anda belum login');
+            redirect(base_url());
+        }else{
+            $id = $this->session->userdata('iduser');
+            $level = $this->session->userdata('user_level');
+            if($level == 0){
+                $data['datasaldo'] = $this->cek_saldo_mobipay();
+            }else{
+                $data['datasaldo'] = $this->M_user->load_data_user_whereid($id);
+            }
+            $data['jskereta_to_load']= 'js_penumpangpelni.js';
+            $data['data_lembaga'] = $this->M_login->get_datadomain($this->domain);
+
+            $this->load->view('layout/v_header',$data);
+            $this->load->view('pelni/penumpang',$data);
+            $this->load->view('layout/v_footer',$data);
+        }
+
+    }
+
 }

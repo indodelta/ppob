@@ -65,7 +65,7 @@ class Bus extends CI_Controller
 
         $param = json_encode($params);
 
-        $APIurl = 'https://api-dev.fastravel.co.id/travelbus/origin';
+        $APIurl = 'https://api.fastravel.co.id/travelbus/origin';
 
         $data = json_decode($this->curl->simple_post($APIurl, $param, array(CURLOPT_BUFFERSIZE => 10)));
 

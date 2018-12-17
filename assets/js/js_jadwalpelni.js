@@ -367,8 +367,6 @@ function pilihkelaspulang(button) {
     var shipadultpricepulang = $(button).attr('data-shipadultpricepulang');
     var shipinfantpricepulang = $(button).attr('data-shipinfantpricepulang');
 
-    alert(shipkelaspulang);
-
     var subtotalpricepulang = (jmlpria*shipadultpricepulang)+(jmlwanita*shipadultpricepulang)+(jmlbayi*shipinfantpricepulang);
 
     document.getElementById("shipnamepulang").innerHTML= shipnopulang +' / ' + shipnamepulang;
@@ -383,5 +381,70 @@ function pilihkelaspulang(button) {
     totalharga += parseInt(subtotalpricepulang);
 
     document.getElementById("shiptotalhargapp").innerHTML= toRp(totalharga);
+
+}
+
+function submitkapal(button) {
+    var warnalembaga = document.getElementById("txbwarnalembaga").value;
+    var idform= $(button).attr('data-idform');
+
+    var nokelas= $(button).attr('data-nokelas');
+    var idselect = 'kelas'+nokelas;
+
+    var e = document.getElementById(idselect);
+    var value = e.options[e.selectedIndex].value;
+
+    var splitvalue = value.split("/");
+    var namakelas = splitvalue[1];
+    var nokapal = splitvalue[4];
+    var namakapal = splitvalue[5];
+    var avaf = splitvalue[6];
+    var avam = splitvalue[7];
+
+    var jmlpria = parseInt(document.getElementById("jmlpria").value);
+    var jmlwanita = parseInt(document.getElementById("jmlwanita").value);
+
+    if(jmlpria > 0 && avaf == 0 && jmlwanita > 0 && avam == 0){
+
+        swal({
+            title: "WARNING",
+            text: "Maaf, Kursi pada kelas dan kapal yang dipilih tidak tersedia!",
+            type: "warning",
+            confirmButtonColor: warnalembaga
+        });
+
+    }else if(jmlpria > 0 && avaf == 0){
+
+        swal({
+            title: "WARNING",
+            text: "Maaf, Kursi untuk pria pada kelas dan kapal yang dipilih tidak tersedia!",
+            type: "warning",
+            confirmButtonColor: warnalembaga
+        });
+
+    }else if(jmlwanita > 0 && avam == 0){
+
+        swal({
+            title: "WARNING",
+            text: "Maaf, Kursi untuk wanita pada kelas dan kapal yang dipilih tidak tersedia!",
+            type: "warning",
+            confirmButtonColor: warnalembaga
+        });
+
+    }else{
+
+        swal({
+            title: "Anda Yakin?",
+            text: "Anda akan memilih Kapal "+nokapal+" - "+namakapal+" Kelas "+namakelas+"?",
+            showCancelButton: true,
+            confirmButtonColor: warnalembaga,
+            confirmButtonText: "Ya",
+            closeOnConfirm: true
+        }, function () {
+            document.getElementById(idform).action = "penumpang";
+            document.getElementById(idform).submit();
+        });
+
+    }
 
 }
