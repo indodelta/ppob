@@ -301,16 +301,11 @@ function pilihtabpulang() {
 var totalharga = 0;
 
 function pilihkelaspergi(button) {
-    document.getElementById("formpilihpergi").style.display = "block";
-    document.getElementById("formsebelumpilihpergi").style.display = "none";
+    var warnalembaga = document.getElementById("txbwarnalembaga").value;
 
     var jmlpria = parseInt(document.getElementById("jmlpria").value);
     var jmlwanita = parseInt(document.getElementById("jmlwanita").value);
     var jmlbayi = parseInt(document.getElementById("jmlbayi").value);
-
-    var shipsubtotalpergi = document.getElementById("shipsubtotalpergi").value;
-
-    totalharga = totalharga - parseInt(shipsubtotalpergi);
 
     var shipnamepergi = $(button).attr('data-shipnamepergi');
     var shipnopergi = $(button).attr('data-shipnopergi');
@@ -324,35 +319,93 @@ function pilihkelaspergi(button) {
     var shiparvtimepergi = $(button).attr('data-shiparvtimepergi');
     var shipadultpricepergi = $(button).attr('data-shipadultpricepergi');
     var shipinfantpricepergi = $(button).attr('data-shipinfantpricepergi');
+    var shiporigincallpergi  = $(button).attr('data-shiporigincallpergi');
+    var shipdestinationcallpergi  = $(button).attr('data-shipdestinationcallpergi');
+    var shiprutepergi  = $(button).attr('data-shiprutepergi');
+    var idselectpergi  = $(button).attr('data-idselectpergi');
 
-    var subtotalpricepergi = (jmlpria*shipadultpricepergi)+(jmlwanita*shipadultpricepergi)+(jmlbayi*shipinfantpricepergi);
+    var e = document.getElementById(idselectpergi);
+    var kelaspergi = e.options[e.selectedIndex].value;
 
-    document.getElementById("shipnamepergi").innerHTML= shipnopergi +' / ' + shipnamepergi;
-    document.getElementById("shipclasspergi").innerHTML= shipkelaspergi +' - ' + shipsubkelaspergi;
-    document.getElementById("shipdatedeppergi").innerHTML= daydep +', ' + dateindowithslash(shipdepdatepergi);
-    document.getElementById("shiptimedeppergi").innerHTML= shipdeptimepergi;
-    document.getElementById("shipdatearvpergi").innerHTML= dayarv +', ' + dateindowithslash(shiparvdatepergi);
-    document.getElementById("shiptimearvpergi").innerHTML= shiparvtimepergi;
+    var splitkelaspergi = kelaspergi.split("/");
+    var avaf = splitkelaspergi[6];
+    var avam = splitkelaspergi[7];
 
-    document.getElementById("shipsubtotalpergi").value = subtotalpricepergi;
+    if(jmlpria > 0 && avaf == 0 && jmlwanita > 0 && avam == 0){
 
-    totalharga += parseInt(subtotalpricepergi);
+        swal({
+            title: "WARNING",
+            text: "Maaf, Kursi pada kelas dan kapal yang dipilih tidak tersedia!",
+            type: "warning",
+            confirmButtonColor: warnalembaga
+        });
 
-    document.getElementById("shiptotalhargapp").innerHTML= toRp(totalharga);
+    }else if(jmlpria > 0 && avaf == 0){
+
+        swal({
+            title: "WARNING",
+            text: "Maaf, Kursi untuk pria pada kelas dan kapal yang dipilih tidak tersedia!",
+            type: "warning",
+            confirmButtonColor: warnalembaga
+        });
+
+    }else if(jmlwanita > 0 && avam == 0){
+
+        swal({
+            title: "WARNING",
+            text: "Maaf, Kursi untuk wanita pada kelas dan kapal yang dipilih tidak tersedia!",
+            type: "warning",
+            confirmButtonColor: warnalembaga
+        });
+
+    }else{
+
+        document.getElementById("formpilihpergi").style.display = "block";
+        document.getElementById("formsebelumpilihpergi").style.display = "none";
+
+        var shipsubtotalpergi = document.getElementById("shipsubtotalpergi").value;
+
+        totalharga = totalharga - parseInt(shipsubtotalpergi);
+
+        var subtotalpricepergi = (jmlpria*shipadultpricepergi)+(jmlwanita*shipadultpricepergi)+(jmlbayi*shipinfantpricepergi);
+
+        document.getElementById("shipnamepergi").innerHTML= shipnopergi +' / ' + shipnamepergi;
+        document.getElementById("shipclasspergi").innerHTML= shipkelaspergi +' - ' + shipsubkelaspergi;
+        document.getElementById("shipdatedeppergi").innerHTML= daydep +', ' + dateindowithslash(shipdepdatepergi);
+        document.getElementById("shiptimedeppergi").innerHTML= shipdeptimepergi;
+        document.getElementById("shipdatearvpergi").innerHTML= dayarv +', ' + dateindowithslash(shiparvdatepergi);
+        document.getElementById("shiptimearvpergi").innerHTML= shiparvtimepergi;
+
+        document.getElementById("txborigincallpergi").value = shiporigincallpergi;
+        document.getElementById("txbdestinationcallpergi").value = shipdestinationcallpergi;
+        document.getElementById("txbdeparturedatepergi").value = shipdepdatepergi;
+        document.getElementById("txbdeparturetimepergi").value = shipdeptimepergi;
+        document.getElementById("txbarrivaldatepergi").value = shiparvdatepergi;
+        document.getElementById("txbarrivaltimepergi").value = shiparvtimepergi;
+        document.getElementById("txbshipnumberpergi").value = shipnopergi;
+        document.getElementById("txbshipnamapergi").value = shipnamepergi;
+        document.getElementById("txbrutepergi").value = shiprutepergi;
+        document.getElementById("txbkelaspergi").value = kelaspergi;
+        
+        document.getElementById("txbsubtotaltiketdewasapergi").value = shipadultpricepergi;
+        document.getElementById("txbsubtotaltiketbayipergi").value = shipinfantpricepergi;
+
+        document.getElementById("shipsubtotalpergi").value = subtotalpricepergi;
+
+        totalharga += parseInt(subtotalpricepergi);
+
+        document.getElementById("shiptotalhargapp").innerHTML= toRp(totalharga);
+
+    }
 
 }
 
 function pilihkelaspulang(button) {
-    document.getElementById("formpilihpulang").style.display = "block";
-    document.getElementById("formsebelumpilihpulang").style.display = "none";
+    var warnalembaga = document.getElementById("txbwarnalembaga").value;
 
     var jmlpria = parseInt(document.getElementById("jmlpria").value);
     var jmlwanita = parseInt(document.getElementById("jmlwanita").value);
     var jmlbayi = parseInt(document.getElementById("jmlbayi").value);
-
-    var shipsubtotalpulang = document.getElementById("shipsubtotalpulang").value;
-
-    totalharga = totalharga - parseInt(shipsubtotalpulang);
 
     var shipnamepulang = $(button).attr('data-shipnamepulang');
     var shipnopulang = $(button).attr('data-shipnopulang');
@@ -366,21 +419,84 @@ function pilihkelaspulang(button) {
     var shiparvtimepulang = $(button).attr('data-shiparvtimepulang');
     var shipadultpricepulang = $(button).attr('data-shipadultpricepulang');
     var shipinfantpricepulang = $(button).attr('data-shipinfantpricepulang');
+    var shiporigincallpulang  = $(button).attr('data-shiporigincallpulang');
+    var shipdestinationcallpulang  = $(button).attr('data-shipdestinationcallpulang');
+    var shiprutepulang  = $(button).attr('data-shiprutepulang');
+    var idselectpulang  = $(button).attr('data-idselectpulang');
 
-    var subtotalpricepulang = (jmlpria*shipadultpricepulang)+(jmlwanita*shipadultpricepulang)+(jmlbayi*shipinfantpricepulang);
+    var e = document.getElementById(idselectpulang);
+    var kelaspulang = e.options[e.selectedIndex].value;
 
-    document.getElementById("shipnamepulang").innerHTML= shipnopulang +' / ' + shipnamepulang;
-    document.getElementById("shipclasspulang").innerHTML= shipkelaspulang +' - ' + shipsubkelaspulang;
-    document.getElementById("shipdatedeppulang").innerHTML= daydep +', ' + dateindowithslash(shipdepdatepulang);
-    document.getElementById("shiptimedeppulang").innerHTML= shipdeptimepulang;
-    document.getElementById("shipdatearvpulang").innerHTML= dayarv +', ' + dateindowithslash(shiparvdatepulang);
-    document.getElementById("shiptimearvpulang").innerHTML= shiparvtimepulang;
+    var splitkelaspergi = kelaspulang.split("/");
+    var avaf = splitkelaspergi[6];
+    var avam = splitkelaspergi[7];
 
-    document.getElementById("shipsubtotalpulang").value = subtotalpricepulang;
+    if(jmlpria > 0 && avaf == 0 && jmlwanita > 0 && avam == 0){
 
-    totalharga += parseInt(subtotalpricepulang);
+        swal({
+            title: "WARNING",
+            text: "Maaf, Kursi pada kelas dan kapal yang dipilih tidak tersedia!",
+            type: "warning",
+            confirmButtonColor: warnalembaga
+        });
 
-    document.getElementById("shiptotalhargapp").innerHTML= toRp(totalharga);
+    }else if(jmlpria > 0 && avaf == 0){
+
+        swal({
+            title: "WARNING",
+            text: "Maaf, Kursi untuk pria pada kelas dan kapal yang dipilih tidak tersedia!",
+            type: "warning",
+            confirmButtonColor: warnalembaga
+        });
+
+    }else if(jmlwanita > 0 && avam == 0){
+
+        swal({
+            title: "WARNING",
+            text: "Maaf, Kursi untuk wanita pada kelas dan kapal yang dipilih tidak tersedia!",
+            type: "warning",
+            confirmButtonColor: warnalembaga
+        });
+
+    }else{
+
+        document.getElementById("formpilihpulang").style.display = "block";
+        document.getElementById("formsebelumpilihpulang").style.display = "none";
+
+        var shipsubtotalpulang = document.getElementById("shipsubtotalpulang").value;
+
+        totalharga = totalharga - parseInt(shipsubtotalpulang);
+
+        var subtotalpricepulang = (jmlpria*shipadultpricepulang)+(jmlwanita*shipadultpricepulang)+(jmlbayi*shipinfantpricepulang);
+
+        document.getElementById("shipnamepulang").innerHTML= shipnopulang +' / ' + shipnamepulang;
+        document.getElementById("shipclasspulang").innerHTML= shipkelaspulang +' - ' + shipsubkelaspulang;
+        document.getElementById("shipdatedeppulang").innerHTML= daydep +', ' + dateindowithslash(shipdepdatepulang);
+        document.getElementById("shiptimedeppulang").innerHTML= shipdeptimepulang;
+        document.getElementById("shipdatearvpulang").innerHTML= dayarv +', ' + dateindowithslash(shiparvdatepulang);
+        document.getElementById("shiptimearvpulang").innerHTML= shiparvtimepulang;
+
+        document.getElementById("txborigincallpulang").value = shiporigincallpulang;
+        document.getElementById("txbdestinationcallpulang").value = shipdestinationcallpulang;
+        document.getElementById("txbdeparturedatepulang").value = shipdepdatepulang;
+        document.getElementById("txbdeparturetimepulang").value = shipdeptimepulang;
+        document.getElementById("txbarrivaldatepulang").value = shiparvdatepulang;
+        document.getElementById("txbarrivaltimepulang").value = shiparvtimepulang;
+        document.getElementById("txbshipnumberpulang").value = shipnopulang;
+        document.getElementById("txbshipnamapulang").value = shipnamepulang;
+        document.getElementById("txbrutepulang").value = shiprutepulang;
+        document.getElementById("txbkelaspulang").value = kelaspulang;
+
+        document.getElementById("txbsubtotaltiketdewasapulang").value = shipadultpricepulang;
+        document.getElementById("txbsubtotaltiketbayipulang").value = shipinfantpricepulang;
+
+        document.getElementById("shipsubtotalpulang").value = subtotalpricepulang;
+
+        totalharga += parseInt(subtotalpricepulang);
+
+        document.getElementById("shiptotalhargapp").innerHTML= toRp(totalharga);
+
+    }
 
 }
 
@@ -447,4 +563,44 @@ function submitkapal(button) {
 
     }
 
+}
+
+function submitpulangpergi() {
+    var warnalembaga = document.getElementById("txbwarnalembaga").value;
+    var shipnamapergi = document.getElementById("txbshipnamapergi").value;
+    var shipnamapulang = document.getElementById("txbshipnamapulang").value;
+
+    if(shipnamapergi == ''){
+
+        swal({
+            title: "WARNING",
+            text: "Maaf, Anda belum memilih kapal dan kelas untuk perjalanan pergi!",
+            type: "warning",
+            confirmButtonColor: warnalembaga
+        });
+
+    }else if(shipnamapulang == ''){
+
+        swal({
+            title: "WARNING",
+            text: "Maaf, Anda belum memilih kapal dan kelas untuk perjalanan pulang!",
+            type: "warning",
+            confirmButtonColor: warnalembaga
+        });
+
+    }else{
+
+        swal({
+            title: "Anda Yakin?",
+            text: "Telah memilih kapal yang benar",
+            showCancelButton: true,
+            confirmButtonColor: warnalembaga,
+            confirmButtonText: "Ya",
+            closeOnConfirm: true
+        }, function () {
+            document.getElementById('formpilihpulangpergi').action = "penumpang";
+            document.getElementById('formpilihpulangpergi').submit();
+        });
+
+    }
 }

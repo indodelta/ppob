@@ -236,4 +236,144 @@ class PELNI extends CI_Controller
 
     }
 
+    public function booking()
+    {
+        if($this->session->userdata('status') == '') {
+            $this->session->set_flashdata('belumlogin','Anda belum login');
+            redirect(base_url());
+        }else{
+
+            $data['booking'] = $this->get_booking();
+
+            var_dump($data);
+
+        }
+    }
+
+    public function get_booking()
+    {
+        $data = array();
+
+        $token = $this->session->userdata('tokenft');
+
+        $origin = $this->input->post('origin',true);
+        $exporigin = explode('-', $origin);
+        $origincode = str_replace(' ', '', $exporigin[0]);
+
+        $destination = $this->input->post('destination',true);
+        $expdest = explode('-', $destination);
+        $destcode = str_replace(' ', '', $expdest[0]);
+
+        $origincallpergi = $this->input->post('origincallpergi',true);
+        $destinationcallpergi = $this->input->post('destinationcallpergi',true);
+        $departuredatepergi = $this->input->post('departuredatepergi',true);
+        $shipnumberpergi = $this->input->post('shipnumberpergi',true);
+
+        $kelaspergi = $this->input->post('kelaspergi',true);
+        $expkelaspergi = explode('-', $kelaspergi);
+        $subkelaspergi = str_replace(' ', '', $expkelaspergi[1]);
+
+        $male = $this->input->post('jmlpria',true);
+        $female = $this->input->post('jmlwanita',true);
+        $adult = $male + $female;
+        $infant = $this->input->post('jmlbayi',true);
+
+        $isfamily = 'N';
+        $txbisfamily = $this->input->post('isfamily',true);
+        if($txbisfamily == 'on'){
+            $isfamily = 'Y';
+        }
+
+        $emailkontak = $this->input->post('txbemailkontak',true);
+        $notelpkontak = $this->input->post('txbnotelpkontak',true);
+
+        $arrcontact = array(
+            "email" => $emailkontak,
+            "phone" => $notelpkontak
+        );
+
+        $arraypenumpang = array();
+
+        $arraypenumpangdewasa = array();
+
+        for ($a = 1; $a <= $adult; $a++) {
+
+            $txbnamedewasa = 'txbnamedewasa' . $a;
+            $txbiddewasa = 'txbiddewasa' . $a;
+            $txbtgllahirdewasa = 'txbtgllahirdewasa' . $a;
+            $slgenderdewasa = 'slgenderdewasa'.$a;
+
+            $namadewasa = $this->input->post($txbnamedewasa,true);
+            $iddewasa = $this->input->post($txbiddewasa,true);
+            $tgllahirdewasa = $this->input->post($txbtgllahirdewasa,true);
+            $exptgllahirdewasa = explode('/', $tgllahirdewasa);
+            $tgllahirdewasa = $exptgllahirdewasa[2].'-'.$exptgllahirdewasa[1].'-'.$exptgllahirdewasa[0];
+            $genderdewasa = $this->input->post($slgenderdewasa,true);
+
+            $arraydewasa = array(
+              "name" => $namadewasa,
+              "birthDate" => $tgllahirdewasa,
+              "identityNumber" => $iddewasa,
+              "gender" => $genderdewasa,
+            );
+
+            array_push($arraypenumpangdewasa,$arraydewasa);
+
+        }
+
+        $arraypenumpang['adults'] = $arraypenumpangdewasa;
+
+        $arraypenumpangbayi = array();
+
+        if($infant > 0){
+
+            for ($a = 1; $a <= $infant; $a++) {
+
+                $txbnamabayi = 'txbnamebayi' . $a;
+                $txbtgllahirbayi = 'txbtgllahirbayi' . $a;
+                $slgenderdbayi = 'slgenderdbayi'.$a;
+
+                $namabayi = $this->input->post($txbnamabayi,true);
+                $tgllahirbayi = $this->input->post($txbtgllahirbayi,true);
+                $exptgllahirbayi = explode('/', $tgllahirbayi);
+                $tgllahirbayi = $exptgllahirbayi[2].'-'.$exptgllahirbayi[1].'-'.$exptgllahirbayi[0];
+                $genderdbayi = $this->input->post($slgenderdbayi,true);
+
+                $arraybayi = array(
+                    "name" => $namabayi,
+                    "birthDate" => $tgllahirbayi,
+                    "gender" => $genderdbayi,
+                );
+
+                array_push($arraypenumpangbayi,$arraybayi);
+
+            }
+
+            $arraypenumpang['infants'] = $arraypenumpangbayi;
+
+        }
+
+        $parampergi = array(
+            "origin" => $origincode,
+            "originCall" => $origincallpergi,
+            "destination" => $destcode,
+            "destinationCall" => $destinationcallpergi,
+            "departureDate" => $departuredatepergi,
+            "shipNumber" => $shipnumberpergi,
+            "subClass" => $subkelaspergi,
+            "male" => $male,
+            "female" => $female,
+            "adult" => $adult,
+            "child" => 0,
+            "infant" => $infant,
+            "isFamily" => $isfamily,
+            "contact" => $arrcontact,
+            "passengers" => $arraypenumpang,
+            "token" => $token);
+
+        return $parampergi;
+
+    }
+
+
 }

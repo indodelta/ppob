@@ -198,34 +198,42 @@ if($cekpp == 'on') {
 
                                 <form method="post" id="formpilihpulangpergi" target="_blank">
 
-                                    <input type="text" name="cekpp" value="<?= $cekpp;?>">
-                                    <input type="text" name="tglpergi" value="<?= $tglpergi;?>">
-                                    <input type="text" name="tglpulang" value="<?= $tglpulang;?>">
-                                    <input type="text" name="jmlpria" value="<?= $pria;?>">
-                                    <input type="text" name="jmlwanita" value="<?= $wanita;?>">
-                                    <input type="text" name="jmlbayi" value="<?= $bayi;?>">
-                                    <input type="text" name="origin" value="<?= $origin;?>">
-                                    <input type="text" name="destination" value="<?= $destination;?>">
+                                    <input type="hidden" name="cekpp" value="<?= $cekpp;?>">
+                                    <input type="hidden" name="tglpergi" value="<?= $tglpergi;?>">
+                                    <input type="hidden" name="tglpulang" value="<?= $tglpulang;?>">
+                                    <input type="hidden" name="jmlpria" value="<?= $pria;?>">
+                                    <input type="hidden" name="jmlwanita" value="<?= $wanita;?>">
+                                    <input type="hidden" name="jmlbayi" value="<?= $bayi;?>">
+                                    <input type="hidden" name="origin" value="<?= $origin;?>">
+                                    <input type="hidden" name="destination" value="<?= $destination;?>">
 
-                                    <input type="text" id="txborigincallpergi" name="origincallpergi">
-                                    <input type="text" id="txbdestinationcallpergi" name="destinationcallpergi">
-                                    <input type="text" id="txbdeparturedatepergi" name="departuredatepergi">
-                                    <input type="text" id="txbdeparturetimepergi" name="departuretimepergi">
-                                    <input type="text" id="txbarrivaldatepergi" name="arrivaldatepergi">
-                                    <input type="text" id="txbarrivaltimepergi" name="arrivaltimepergi">
-                                    <input type="text" id="txbshipnumberpergi" name="shipnumberpergi">
-                                    <input type="text" id="txbshipnamapergi" name="shipnamapergi">
-                                    <input type="text" id="txbrutepergi" name="rutepergi">
-                                    
-                                    <input type="text" id="txborigincallpulang" name="origincallpulang">
-                                    <input type="text" id="txbdestinationcallpulang" name="destinationcallpulang">
-                                    <input type="text" id="txbdeparturedatepulang" name="departuredatepulang">
-                                    <input type="text" id="txbdeparturetimepulang" name="departuretimepulang">
-                                    <input type="text" id="txbarrivaldatepulang" name="arrivaldatepulang">
-                                    <input type="text" id="txbarrivaltimepulang" name="arrivaltimepulang">
-                                    <input type="text" id="txbshipnumberpulang" name="shipnumberpulang">
-                                    <input type="text" id="txbshipnamapulang" name="shipnamapulang">
-                                    <input type="text" id="txbrutepulang" name="rutepulang">
+                                    <input type="hidden" id="txborigincallpergi" name="origincallpergi">
+                                    <input type="hidden" id="txbdestinationcallpergi" name="destinationcallpergi">
+                                    <input type="hidden" id="txbdeparturedatepergi" name="departuredatepergi">
+                                    <input type="hidden" id="txbdeparturetimepergi" name="departuretimepergi">
+                                    <input type="hidden" id="txbarrivaldatepergi" name="arrivaldatepergi">
+                                    <input type="hidden" id="txbarrivaltimepergi" name="arrivaltimepergi">
+                                    <input type="hidden" id="txbshipnumberpergi" name="shipnumberpergi">
+                                    <input type="hidden" id="txbshipnamapergi" name="shipnamapergi">
+                                    <input type="hidden" id="txbrutepergi" name="rutepergi">
+                                    <input type="hidden" id="txbkelaspergi" name="kelaspergi">
+
+                                    <input type="hidden" id="txborigincallpulang" name="origincallpulang">
+                                    <input type="hidden" id="txbdestinationcallpulang" name="destinationcallpulang">
+                                    <input type="hidden" id="txbdeparturedatepulang" name="departuredatepulang">
+                                    <input type="hidden" id="txbdeparturetimepulang" name="departuretimepulang">
+                                    <input type="hidden" id="txbarrivaldatepulang" name="arrivaldatepulang">
+                                    <input type="hidden" id="txbarrivaltimepulang" name="arrivaltimepulang">
+                                    <input type="hidden" id="txbshipnumberpulang" name="shipnumberpulang">
+                                    <input type="hidden" id="txbshipnamapulang" name="shipnamapulang">
+                                    <input type="hidden" id="txbrutepulang" name="rutepulang">
+                                    <input type="hidden" id="txbkelaspulang" name="kelaspulang">
+
+                                    <input type="hidden" id="txbsubtotaltiketdewasapergi" name="subtotaltiketdewasapergi">
+                                    <input type="hidden" id="txbsubtotaltiketbayipergi" name="subtotaltiketbayipergi">
+
+                                    <input type="hidden" id="txbsubtotaltiketdewasapulang" name="subtotaltiketdewasapulang">
+                                    <input type="hidden" id="txbsubtotaltiketbayipulang" name="subtotaltiketbayipulang">
 
                                     <div class="text-center"
                                          style="border-left: solid 1px #eeeeee;">
@@ -233,7 +241,10 @@ if($cekpp == 'on') {
                                         <input type="hidden" id="shipsubtotalpergi" value="0">
                                         <input type="hidden" id="shipsubtotalpulang" value="0">
 
-                                        <button type="button" class="btn btn-danger" id="btnsubmitpulangpergi" onclick="submitpulangpergi()"> PESAN SEKARANG
+                                        <button type="button"
+                                                class="btn btn-danger"
+                                                id="btnsubmitpulangpergi"
+                                                onclick="submitpulangpergi()"> PESAN SEKARANG
                                         </button>
                                     </div>
 
@@ -599,16 +610,16 @@ if($cekpp == 'on') {
                                                                     <label class="control-label col-sm-2"> Pilih Kelas </label>
                                                                     <div class="col-sm-5">
                                                                         <?php
-                                                                        $idselectpergi = 'kelas'.$x;
+                                                                        $idselectpergi = 'kelaspergi'.$x;
                                                                         ?>
-                                                                        <select class="form-control" name="kelas" id="<?= $idselectpergi;?>" onchange="showhargakelaspergi(this)">
+                                                                        <select class="form-control" name="<?= $idselectpergi;?>" id="<?= $idselectpergi;?>" onchange="showhargakelaspergi(this)">
                                                                             <?php
                                                                             for($i=0; $i<$jmlfarespergi; $i++){
                                                                                 $subclasspergi = $farespergi[$i]->SUBCLASS;
                                                                                 $classpergi = $farespergi[$i]->CLASS;
                                                                                 $availabilityfpergi = $farespergi[$i]->AVAILABILITY->F;
                                                                                 $availabilitympergi = $farespergi[$i]->AVAILABILITY->M;
-                                                                                $valuepergi = $x.'/'.$farespergi[$i]->CLASS.' - '.$farespergi[$i]->SUBCLASS.'/'.$jmlfarespergi.'/'.$i;
+                                                                                $valuepergi = $x.'/'.$farespergi[$i]->CLASS.' - '.$farespergi[$i]->SUBCLASS.'/'.$jmlfarespergi.'/'.$i.'/'.$shipnopergi.'/'.$shipnamepergi.'/'.$availabilitympergi.'/'.$availabilityfpergi;
                                                                                 $labelclasspergi = 'KELAS '.$classpergi.' - '.$subclasspergi.', Sisa Kursi (P = '. $availabilitympergi .', W = '.$availabilityfpergi.')';
                                                                                 ?>
                                                                                 <option value="<?= $valuepergi;?>"><?= $labelclasspergi;?></option>
@@ -645,6 +656,7 @@ if($cekpp == 'on') {
                                                                                     data-shiporigincallpergi = "<?= $orgcallpergi;?>"
                                                                                     data-shipdestinationcallpergi = "<?= $descallpergi;?>"
                                                                                     data-shiprutepergi = "<?= $labelpergi;?>"
+                                                                                    data-idselectpergi = "<?= $idselectpergi;?>"
                                                                                     style="display: <?= $displaypergi;?>">
                                                                                 PILIH KAPAL PERGI
                                                                             </button>
@@ -909,6 +921,9 @@ if($cekpp == 'on') {
                                                 $exproutepulang = explode('-',$routepulang);
                                                 $jmlroutepulang = count($exproutepulang);
 
+                                                $orgcallpulang = $jadwal['pulang']->data[$x]->ORG_CALL;
+                                                $descallpulang = $jadwal['pulang']->data[$x]->DES_CALL;
+
                                                 if($newdepdatepulang >= $tglpulangdb) {
 
                                                     $depdatekurangpulang = $depdatekurangpulang + 1;
@@ -968,16 +983,16 @@ if($cekpp == 'on') {
                                                                     <label class="control-label col-sm-2"> Pilih Kelas </label>
                                                                     <div class="col-sm-5">
                                                                         <?php
-                                                                        $idselectpulang = 'kelas'.$x;
+                                                                        $idselectpulang = 'kelaspulang'.$x;
                                                                         ?>
-                                                                        <select class="form-control" name="kelas" id="<?= $idselectpulang;?>" onchange="showhargakelaspulang(this)">
+                                                                        <select class="form-control" name="<?= $idselectpulang;?>" id="<?= $idselectpulang;?>" onchange="showhargakelaspulang(this)">
                                                                             <?php
                                                                             for($i=0; $i<$jmlfarespulang; $i++){
                                                                                 $subclasspulang = $farespulang[$i]->SUBCLASS;
                                                                                 $classpulang = $farespulang[$i]->CLASS;
                                                                                 $availabilityfpulang = $farespulang[$i]->AVAILABILITY->F;
                                                                                 $availabilitympulang = $farespulang[$i]->AVAILABILITY->M;
-                                                                                $valuepulang = $x.'/'.$farespulang[$i]->CLASS.' - '.$farespulang[$i]->SUBCLASS.'/'.$jmlfarespulang.'/'.$i;
+                                                                                $valuepulang = $x.'/'.$farespulang[$i]->CLASS.' - '.$farespulang[$i]->SUBCLASS.'/'.$jmlfarespulang.'/'.$i.'/'.$shipnopulang.'/'.$shipnamepulang.'/'.$availabilitympulang.'/'.$availabilityfpulang;
                                                                                 $labelclasspulang = 'KELAS '.$classpulang.' - '.$subclasspulang.', Sisa Kursi (P = '. $availabilitympulang .', W = '.$availabilityfpulang.')';
                                                                                 ?>
                                                                                 <option value="<?= $valuepulang;?>"><?= $labelclasspulang;?></option>
@@ -1011,6 +1026,10 @@ if($cekpp == 'on') {
                                                                                     data-shiparvtimepulang = "<?= $arvtimepulang;?>"
                                                                                     data-shipadultpricepulang = "<?= $adultpricepulang;?>"
                                                                                     data-shipinfantpricepulang = "<?= $infantpricepulang;?>"
+                                                                                    data-shiporigincallpulang = "<?= $orgcallpulang;?>"
+                                                                                    data-shipdestinationcallpulang = "<?= $descallpulang;?>"
+                                                                                    data-shiprutepulang = "<?= $labelpulang;?>"
+                                                                                    data-idselectpulang = "<?= $idselectpulang;?>"
                                                                                     style="display: <?= $displaypulang;?>">
                                                                                 PILIH KAPAL PULANG
                                                                             </button>
@@ -1575,6 +1594,3 @@ if($cekpp == 'on') {
 </div>
 
 <!-- /content -->
-
-
-</div>
